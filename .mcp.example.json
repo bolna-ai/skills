@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "bolna-composio": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.composio.dev/bolna"]
+    }
+  }
+}
