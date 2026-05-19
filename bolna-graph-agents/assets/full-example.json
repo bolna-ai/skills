@@ -1,0 +1,185 @@
+{
+  "_comment": "Complete graph agent example covering: mixed edge types, expression routing, inline extraction, static nodes, event injection, per-node RAG, and call transfer. Replace PLACEHOLDER values before deploying.",
+  "agent_config": {
+    "agent_name": "Demo Graph Agent",
+    "agent_type": "other",
+    "agent_welcome_message": "Hello, my name is Neha.",
+    "tasks": [
+      {
+        "task_type": "conversation",
+        "toolchain": {
+          "execution": "parallel",
+          "pipelines": [["transcriber", "llm", "synthesizer"]]
+        },
+        "task_config": {
+          "optimize_latency": true,
+          "call_terminate": 600,
+          "hangup_after_LLMCall": true,
+          "hangup_after_silence": 10,
+          "incremental_delay": 400,
+          "number_of_words_for_interruption": 2
+        },
+        "tools_config": {
+          "input":  { "format": "wav", "provider": "plivo" },
+          "output": { "format": "wav", "provider": "plivo" },
+          "api_tools": {
+            "tools": [
+              {
+                "key": "transfer_call",
+                "name": "transfer_call_main",
+                "parameters": {
+                  "type": "object",
+                  "required": ["call_sid"],
+                  "properties": {
+                    "call_sid": { "type": "string", "description": "unique call id" }
+                  }
+                },
+                "description": "Transfer call to a human agent.",
+                "pre_call_message": "Please hold while I transfer your call..."
+              }
+            ],
+            "tools_params": {
+              "transfer_call_main": {
+                "url": null,
+                "param": {
+                  "call_sid": "%(call_sid)s",
+                  "call_transfer_number": "+91XXXXXXXXXX"
+                },
+                "method": "POST",
+                "headers": {}
+              }
+            }
+          },
+          "llm_agent": {
+            "agent_type": "graph_agent",
+            "agent_flow_type": "streaming",
+            "llm_config": {
+              "model": "gpt-4.1-mini",
+              "max_tokens": 200,
+              "temperature": 0.2,
+              "provider": "openai",
+
+              "routing_model": "gpt-4.1-mini",
+              "routing_max_tokens": 250,
+              "routing_instructions": "You are the Routing System. Analyze the user's input and the available edges. Select the edge whose condition best matches the user's reply. If no edge matches, return stay_on_current_node.",
+
+              "agent_information": "You are Neha, a friendly assistant for Acme. Speak warmly and concisely. Use at most two sentences per turn. Never quote prices.",
+              "current_node_id": "welcome",
+              "nodes": [
+                {
+                  "id": "welcome",
+                  "prompt": "Greet the customer and identify their intent.",
+                  "edges": [
+                    {
+                      "to_node_id": "collect_order",
+                      "condition": "Customer wants order status",
+                      "parameters": { "order_id": "string" }
+                    },
+                    {
+                      "to_node_id": "transfer_call",
+                      "condition": "Customer asks for a human",
+                      "condition_type": "expression",
+                      "priority": 0,
+                      "expression": {
+                        "logic": "and",
+                        "conditions": [
+                          { "variable": "recipient_data.current_hour", "operator": "gte", "value": 10 },
+                          { "variable": "recipient_data.current_hour", "operator": "lt",  "value": 18 }
+                        ]
+                      }
+                    },
+                    {
+                      "to_node_id": "closing",
+                      "condition": "Outside working hours",
+                      "condition_type": "expression",
+                      "priority": 1,
+                      "expression": {
+                        "logic": "or",
+                        "conditions": [
+                          { "variable": "recipient_data.current_hour", "operator": "lt",  "value": 10 },
+                          { "variable": "recipient_data.current_hour", "operator": "gte", "value": 18 }
+                        ]
+                      }
+                    },
+                    {
+                      "to_node_id": "payment_confirmed",
+                      "condition_type": "event",
+                      "event_name": "payment_completed"
+                    }
+                  ]
+                },
+                {
+                  "id": "collect_order",
+                  "prompt": "Confirm the order id and look up its status using @fetch_order_status.",
+                  "repeat_after_silence_seconds": 10,
+                  "rag_config": {
+                    "vector_store": {
+                      "provider_config": { "vector_id": "PLACEHOLDER_collection_id" }
+                    },
+                    "similarity_top_k": 8
+                  },
+                  "edges": [
+                    { "to_node_id": "closing", "condition": "Status delivered to customer" },
+                    {
+                      "to_node_id": "transfer_call",
+                      "condition_type": "expression",
+                      "expression": {
+                        "conditions": [
+                          { "variable": "_silence_repeats", "operator": "gte", "value": 3 }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "payment_confirmed",
+                  "node_type": "static",
+                  "static_message": "Your payment is confirmed. Thank you!",
+                  "edges": [
+                    { "to_node_id": "closing", "condition_type": "unconditional" }
+                  ]
+                },
+                {
+                  "id": "transfer_call",
+                  "prompt": "Transfer the call to a human agent.",
+                  "function_call": "transfer_call_main",
+                  "edges": []
+                },
+                {
+                  "id": "closing",
+                  "node_type": "static",
+                  "static_message": "Thank you for calling. Have a wonderful day. Goodbye!",
+                  "edges": []
+                }
+              ]
+            }
+          },
+          "transcriber": {
+            "model": "nova-3",
+            "language": "multi-hi",
+            "provider": "deepgram",
+            "stream": true,
+            "encoding": "linear16",
+            "sampling_rate": 16000,
+            "endpointing": 700
+          },
+          "synthesizer": {
+            "provider": "elevenlabs",
+            "stream": true,
+            "caching": true,
+            "buffer_size": 220,
+            "audio_format": "wav",
+            "provider_config": {
+              "model": "eleven_turbo_v2_5",
+              "voice": "PLACEHOLDER_voice_name",
+              "voice_id": "PLACEHOLDER_voice_id",
+              "temperature": 0.2,
+              "similarity_boost": 0.6,
+              "speed": 0.9
+            }
+          }
+        }
+      }
+    ]
+  }
+}

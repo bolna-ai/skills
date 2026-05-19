@@ -2,6 +2,13 @@
 name: get-executions
 description: "Fetch and analyze Bolna call execution data, raw logs, transcripts, recordings, costs, statuses, hangup details, extracted data, agent history, and batch executions. Use for debugging failed calls, analytics export, CRM sync, webhook reconciliation, and call monitoring."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Get Bolna Executions
@@ -69,5 +76,22 @@ Use `has_more` to fetch the next page. `page_size` max is 50.
 - Long pauses: check transcriber endpointing, LLM latency, synthesizer latency, and `incremental_delay`.
 - Users cut off: increase `number_of_words_for_interruption` or adjust endpointing.
 - Silent hangups: check `hangup_after_silence`, `call_terminate`, and hangup code.
-- No webhook received: compare execution status through this skill and then use `setup-webhook`.
+- No webhook received: pull execution status here, then check `setup-webhook` configuration.
 - Cost spike: inspect `conversation_time`, retry history, and `cost_breakdown`.
+
+For the full triage runbook, see `debug-bolna-calls/SKILL.md` and `debug-bolna-calls/references/latency-metrics.md`.
+
+## Script
+
+```bash
+# Paginate through all executions for an agent
+python3 get-executions/scripts/fetch_executions_paginated.py --agent-id $AGENT_ID
+```
+
+## See also
+
+- `../references/execution-payload.md` — every field on the execution object, in one place.
+- `../references/call-statuses.md` — full lifecycle and terminal-status patterns.
+- `../references/hangup-codes.md` — `hangup_by` + `hangup_code` + `hangup_reason` interpretation.
+- `setup-webhook` — same payload shape, pushed in real time.
+- `debug-bolna-calls` — symptom-to-fix table built on top of execution + raw logs.

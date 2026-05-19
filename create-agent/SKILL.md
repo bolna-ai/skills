@@ -2,6 +2,13 @@
 name: create-agent
 description: "Create a Bolna Voice AI agent with the current v2 API, including system prompt, welcome message, LLM, voice, transcriber, telephony input and output, latency tuning, guardrails, knowledge bases, and function tools. Use when the user wants to build, deploy, or clone a Bolna voice agent."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Create Bolna Agent
@@ -97,3 +104,119 @@ python3 create-agent/scripts/create_minimal_agent.py \
   --welcome "Hi {customer_name}, how can I help?" \
   --prompt "You are a helpful support agent. Keep answers brief."
 ```
+
+## Hindi / Indian-language agent
+
+For an agent serving Indian callers in Hindi:
+
+```json
+{
+  "agent_config": {
+    "agent_name": "Hindi Support Agent",
+    "agent_welcome_message": "नमस्ते {customer_name}, मैं Acme से तारा बोल रही हूँ।",
+    "tasks": [{
+      "task_type": "conversation",
+      "tools_config": {
+        "llm_agent": {
+          "agent_type": "simple_llm_agent",
+          "agent_flow_type": "streaming",
+          "llm_config": {
+            "provider": "openai", "family": "openai", "model": "gpt-4.1-mini",
+            "max_tokens": 200, "temperature": 0.2
+          }
+        },
+        "synthesizer": {
+          "provider": "sarvam",
+          "provider_config": { "voice": "meera", "model": "bulbul-v2" },
+          "stream": true, "audio_format": "wav"
+        },
+        "transcriber": {
+          "provider": "deepgram", "model": "nova-3",
+          "language": "multi-hi", "stream": true,
+          "encoding": "linear16", "sampling_rate": 16000, "endpointing": 700
+        },
+        "input":  { "provider": "plivo", "format": "wav" },
+        "output": { "provider": "plivo", "format": "wav" }
+      },
+      "toolchain": { "execution": "parallel", "pipelines": [["transcriber","llm","synthesizer"]] }
+    }]
+  },
+  "agent_prompts": { "task_1": { "system_prompt": "आप तारा हैं, Acme की Voice AI सहायक। एक बार में 2 से अधिक वाक्य न बोलें। ग्राहक की भाषा में जवाब दें।" } }
+}
+```
+
+Key choices:
+- **Deepgram `multi-hi`** STT handles Hindi-English code-switching (Hinglish) cleanly.
+- **Sarvam** TTS for native Hindi pronunciation.
+- **Plivo** telephony for Indian 160-series numbers (160 = transactional). Use Vobiz for 140-series promotional.
+- **Native Devanagari** in the system prompt — never phonetic English.
+- `endpointing: 700` accommodates the longer pauses common in Hindi calls.
+
+See `../write-bolna-prompts/references/multilingual.md` for the full multilingual playbook.
+
+## Knowledge-base agent (RAG)
+
+When the agent must answer from documents (FAQs, policies, product docs):
+
+```json
+{
+  "tools_config": {
+    "llm_agent": {
+      "agent_type": "knowledgebase_agent",
+      "agent_flow_type": "streaming",
+      "llm_config": { "provider": "openai", "model": "gpt-4o", "max_tokens": 200, "temperature": 0.3 },
+      "vector_store": {
+        "provider": "lancedb",
+        "provider_config": {
+          "vector_ids": ["<rag_id_1>", "<rag_id_2>"],
+          "similarity_top_k": 8
+        }
+      }
+    }
+  }
+}
+```
+
+- Create the knowledge base first via `create-knowledgebase` and wait for `status == "processed"`.
+- Use `vector_ids[]` (array) to attach **multiple** knowledge bases to one agent.
+- `gpt-4o` is recommended for KB agents — better at synthesising across retrieved chunks than `gpt-4.1-mini`.
+
+## Semantic routes (FAQ short-circuits)
+
+For high-volume FAQs and policy refusals, `llm_agent.routes` short-circuits common questions with a pre-defined answer — zero LLM cost, near-zero latency:
+
+```json
+{
+  "llm_agent": {
+    "agent_type": "simple_llm_agent",
+    "agent_flow_type": "streaming",
+    "llm_config": { "provider": "openai", "model": "gpt-4.1-mini", "max_tokens": 200 },
+    "routes": [
+      {
+        "name": "refund_policy",
+        "utterances": ["what's your refund policy", "can I get a refund", "how do returns work"],
+        "response": "We offer full refunds within 30 days of purchase. I can email you the policy document — want that?",
+        "similarity_threshold": 0.85
+      },
+      {
+        "name": "business_hours",
+        "utterances": ["what are your hours", "when are you open", "operating hours"],
+        "response": "We're open 9 AM to 7 PM IST, Monday through Saturday.",
+        "similarity_threshold": 0.85
+      }
+    ]
+  }
+}
+```
+
+Routes fire **before** the LLM runs. Use for FAQs, hard refusals (pricing, competitor questions), and stable policy answers. Don't use for anything that needs to be dynamic per caller.
+
+## See also
+
+- `references/agent-config-fields.md` — full field reference.
+- `make-call` — how to actually dial after creation.
+- `bolna-graph-agents` — switch from a single prompt to a node-based flow.
+- `setup-tools` — add `transfer_call`, custom HTTP, Cal.com booking.
+- `create-knowledgebase` — generate the `vector_id` used by knowledgebase agents.
+- `../references/providers-matrix.md` — picking LLM × STT × TTS × telephony combos.
+- `../write-bolna-prompts` — how to write the `system_prompt`.

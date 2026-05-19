@@ -2,6 +2,13 @@
 name: setup-api-key
 description: "Generate, store, and verify a Bolna API key for BOLNA_API_KEY. Use when starting a Bolna project, configuring authentication, seeing 401 or 403 errors, or checking wallet and concurrency with the user API."
 license: MIT
+compatibility: Requires internet access. This skill helps you generate and verify BOLNA_API_KEY itself.
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Setup Bolna API Key
@@ -74,3 +81,8 @@ Run the included smoke test:
 ```bash
 python3 setup-api-key/scripts/verify_key.py
 ```
+
+## See also
+
+- `../references/bolna-core.md` — base URL, headers, pagination, rate limits in one place.
+- `manage-subaccounts` — the `sa-` prefix and the difference between parent vs sub-account keys.

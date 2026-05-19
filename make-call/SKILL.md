@@ -2,6 +2,13 @@
 name: make-call
 description: "Initiate, schedule, personalize, retry, and stop outbound Bolna Voice AI calls. Use when the user wants to test an agent, call a recipient, schedule a callback, pass user_data dynamic variables, override a same-provider voice, or cancel a queued or scheduled call."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Make Bolna Calls
@@ -101,8 +108,28 @@ This cannot stop a call already in progress.
 ## Script
 
 ```bash
+# One-off call
 python3 make-call/scripts/make_call.py \
   --agent-id "$AGENT_ID" \
   --recipient "+919876543210" \
   --user-data '{"customer_name":"Amitesh"}'
+
+# Scheduled call (timezone-aware)
+python3 make-call/scripts/schedule_call.py \
+  --agent-id "$AGENT_ID" \
+  --recipient "+919876543210" \
+  --at "2026-05-22T15:30:00+05:30"
+
+# Bulk one-off calls from a CSV (for ad-hoc fan-outs; use `create-batch` for proper campaigns)
+python3 make-call/scripts/bulk_make_calls.py \
+  --agent-id "$AGENT_ID" \
+  --file recipients.csv
 ```
+
+## See also
+
+- `create-batch` — proper CSV-based campaigns with monitoring, retry, and stop endpoints.
+- `get-executions` — fetch the result of a queued call via the returned `execution_id`.
+- `setup-webhook` — receive call updates in real time instead of polling.
+- `../references/call-statuses.md` — interpreting status transitions.
+- `bolna-graph-agents/scripts/inject_event.py` — for graph agents, push real-time events into a live call.

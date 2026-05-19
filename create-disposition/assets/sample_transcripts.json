@@ -1,0 +1,16 @@
+{
+  "sales_call": {
+    "call_date": "2026-05-19T10:00:00+05:30",
+    "transcript": "Agent: Hi Priya, this is Tara from Acme. Did I catch you at a good time?\nCustomer: Yes, go ahead.\nAgent: I'm calling because you signed up for a demo of our enterprise plan last week. Is that something you're still exploring?\nCustomer: Yes, very much. We're a team of about 80 and we're outgrowing our current vendor.\nAgent: Got it. What's the timeline you're working with?\nCustomer: Looking to switch within the next 30 days.\nAgent: Perfect, I can set up a demo with our enterprise team. Could you confirm the best email to send the invite to?\nCustomer: Priya at acme dash inc dot com — that's p-r-i-y-a at acme-inc.com.\nAgent: Great. Let me get you on the calendar. Are you the final decision-maker on this?\nCustomer: I'm leading the eval. The CTO signs off, but I'm driving it.\nAgent: Understood. I'll send a calendar invite for Tuesday at 11. Thanks Priya!\nCustomer: Thanks!"
+  },
+
+  "support_call": {
+    "call_date": "2026-05-19T14:00:00+05:30",
+    "transcript": "Agent: Hi, this is Sam from Acme support. How can I help you today?\nCustomer: My order ORD-78234 was supposed to arrive yesterday and there's no update.\nAgent: I'm sorry to hear that. Let me check the status. ... I can see it's stuck at the distribution center in Mumbai. I'll escalate this to our logistics team right now.\nCustomer: Honestly this has happened twice already, I'd really like to speak to a manager.\nAgent: I completely understand. I'll get someone from our customer success team on the line.\nCustomer: Thank you.\nAgent: One moment."
+  },
+
+  "appointment_call": {
+    "call_date": "2026-05-19T16:00:00+05:30",
+    "transcript": "Agent: Hi! This is Tara from Acme Dental. Are you calling to book a new appointment?\nCustomer: Yes, I need a cleaning.\nAgent: Sure. What day works best for you?\nCustomer: Thursday?\nAgent: Let me check our availability... On Thursday I have 10 AM, 2 PM, or 4:30 PM. Which works for you?\nCustomer: 2 PM is great.\nAgent: Great, 2 PM Thursday. Could you confirm your full name?\nCustomer: Priya Sharma.\nAgent: And the best email for the calendar invite?\nCustomer: priya at example dot com.\nAgent: Booking that now. You're all set for Thursday at 2 PM. The invite is on its way."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "_comment": "Two-step collect flow: account number then PIN. Falls through to a single bank agent that uses {account_number} and {pin} from recipient_data.",
+  "agent_id": "REPLACE_WITH_BANK_AGENT_UUID",
+  "phone_number_id": "REPLACE_WITH_PHONE_NUMBER_UUID",
+  "ivr_config": {
+    "enabled": true,
+    "voice": "Polly.Joanna",
+    "welcome_message": "Welcome to your bank.",
+    "timeout": 8,
+    "max_retries": 2,
+    "default_agent_id": "REPLACE_WITH_BANK_AGENT_UUID",
+    "steps": [
+      {
+        "step_id": "account",
+        "type": "collect",
+        "prompt": "Please enter your 10-digit account number, followed by the hash key.",
+        "field_name": "account_number",
+        "num_digits": 10,
+        "next_step": "pin"
+      },
+      {
+        "step_id": "pin",
+        "type": "collect",
+        "prompt": "Enter your 4-digit PIN.",
+        "field_name": "pin",
+        "num_digits": 4
+      }
+    ]
+  }
+}

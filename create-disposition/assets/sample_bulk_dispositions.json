@@ -1,0 +1,70 @@
+{
+  "agent_id": "REPLACE_WITH_YOUR_AGENT_UUID",
+  "dispositions": [
+    {
+      "name": "Call Outcome",
+      "category": "Lead Quality",
+      "question": "What was the outcome of the call?",
+      "is_subjective": true,
+      "is_objective": true,
+      "subjective_type": "text",
+      "objective_options": [
+        { "value": "interested",     "condition": "Customer expressed genuine interest and agreed to a next step" },
+        { "value": "not_interested", "condition": "Customer declined all proposals" },
+        { "value": "follow_up",      "condition": "Customer asked to be contacted later, no specific date" },
+        { "value": "wrong_number",   "condition": "Reached someone who is not the intended recipient" }
+      ]
+    },
+    {
+      "name": "Customer Sentiment",
+      "category": "Lead Quality",
+      "question": "What was the overall sentiment of the customer during the call?",
+      "is_subjective": false,
+      "is_objective": true,
+      "objective_options": [
+        { "value": "positive", "condition": "Customer was friendly, engaged, and cooperative" },
+        { "value": "neutral",  "condition": "Customer was polite but uninvested" },
+        { "value": "negative", "condition": "Customer was irritated, dismissive, or hostile" }
+      ]
+    },
+    {
+      "name": "Budget Mentioned",
+      "category": "Lead Quality",
+      "question": "Did the customer mention a budget? Capture the numeric value if stated.",
+      "is_subjective": true,
+      "is_objective": false,
+      "subjective_type": "text"
+    },
+    {
+      "name": "Decision Maker",
+      "category": "Lead Quality",
+      "question": "Is the person on the call the decision-maker or do they need to involve others?",
+      "is_subjective": false,
+      "is_objective": true,
+      "objective_options": [
+        { "value": "decision_maker",  "condition": "Customer is the final decision-maker for this purchase" },
+        { "value": "influencer",      "condition": "Customer is involved but needs to consult others" },
+        { "value": "gatekeeper",      "condition": "Customer cannot decide; they will forward to the decision-maker" }
+      ]
+    },
+    {
+      "name": "Handover Needed",
+      "category": "Agent Handover",
+      "question": "Does this conversation require handover to a human agent? Look for explicit requests, complex technical issues, escalations, or repeated misunderstandings.",
+      "is_subjective": false,
+      "is_objective": true,
+      "objective_options": [
+        { "value": "Yes", "condition": "One of the handover triggers is satisfied (explicit request, escalation, complaint, repeated confusion, legal/compliance issue)" },
+        { "value": "No",  "condition": "None of the handover triggers were satisfied; the agent handled the conversation end-to-end" }
+      ]
+    },
+    {
+      "name": "Customer Email",
+      "category": "Contact Info",
+      "question": "Did the customer provide their email address during the call? Capture the email if they did.",
+      "is_subjective": true,
+      "is_objective": false,
+      "subjective_type": "email"
+    }
+  ]
+}

@@ -2,6 +2,13 @@
 name: setup-webhook
 description: "Configure Bolna webhooks for real-time call status and execution updates, validate webhook URLs, receive payloads, reconcile execution IDs, and build a local receiver. Use for CRM sync, dashboards, post-call automation, Make, Zapier, n8n, or custom backend integrations."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Setup Bolna Webhooks
@@ -61,3 +68,28 @@ Expose with a tunnel such as ngrok or Cloudflare Tunnel, then configure the publ
 - Create a support ticket after failed handoff.
 - Send WhatsApp, SMS, or email through Make, Zapier, n8n, or custom code.
 - Build live dashboard cards from `queued`, `ringing`, `in-progress`, and `completed`.
+
+## Source IP to whitelist
+
+Bolna delivers webhooks from a single source IP:
+
+```
+13.203.39.153
+```
+
+Add this to your server's firewall allow-list. Reject anything else if your endpoint is sensitive.
+
+## Payload shape
+
+The webhook body is identical to `GET /executions/{execution_id}`. See `../references/execution-payload.md` for the full field list, and `../references/call-statuses.md` for the order in which statuses fire.
+
+## Idempotency
+
+The same execution can produce multiple webhook deliveries as `status` transitions (`scheduled` → `queued` → `in-progress` → `completed`). Dedupe by `(execution_id, status)` — never by `execution_id` alone, or you'll discard later updates.
+
+## See also
+
+- `../references/execution-payload.md` — every field in the payload.
+- `../references/call-statuses.md` — status order, terminal-status filter.
+- `get-executions` — pull historical data for executions where the webhook failed.
+- `debug-bolna-calls` — diagnose missed deliveries.

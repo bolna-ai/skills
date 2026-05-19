@@ -1,0 +1,46 @@
+{
+  "_comment": "Language selection followed by department menu. Each language has its own pair of department agents.",
+  "agent_id": "REPLACE_WITH_DEFAULT_AGENT_UUID",
+  "phone_number_id": "REPLACE_WITH_PHONE_NUMBER_UUID",
+  "ivr_config": {
+    "enabled": true,
+    "voice": "Polly.Aditi",
+    "welcome_message": "Welcome. Swagat hai.",
+    "timeout": 6,
+    "max_retries": 2,
+    "default_agent_id": "REPLACE_WITH_DEFAULT_AGENT_UUID",
+    "steps": [
+      {
+        "step_id": "language",
+        "type": "menu",
+        "prompt": "For English press 1. Hindi ke liye 2 dabayein.",
+        "field_name": "language",
+        "options": [
+          { "digit": "1", "label": "English" },
+          { "digit": "2", "label": "Hindi" }
+        ],
+        "conditional_next": { "1": "menu_en", "2": "menu_hi" }
+      },
+      {
+        "step_id": "menu_en",
+        "type": "menu",
+        "prompt": "Press 1 for Sales. Press 2 for Support.",
+        "field_name": "department",
+        "options": [
+          { "digit": "1", "label": "Sales",   "agent_id": "REPLACE_WITH_EN_SALES_AGENT_UUID" },
+          { "digit": "2", "label": "Support", "agent_id": "REPLACE_WITH_EN_SUPPORT_AGENT_UUID" }
+        ]
+      },
+      {
+        "step_id": "menu_hi",
+        "type": "menu",
+        "prompt": "Sales ke liye 1 dabayein. Support ke liye 2 dabayein.",
+        "field_name": "department",
+        "options": [
+          { "digit": "1", "label": "Sales",   "agent_id": "REPLACE_WITH_HI_SALES_AGENT_UUID" },
+          { "digit": "2", "label": "Support", "agent_id": "REPLACE_WITH_HI_SUPPORT_AGENT_UUID" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "_comment": "Plain department-routing IVR. Caller presses 1/2/3 and is routed to the matching department's agent.",
+  "agent_id": "REPLACE_WITH_DEFAULT_AGENT_UUID",
+  "phone_number_id": "REPLACE_WITH_PHONE_NUMBER_UUID",
+  "ivr_config": {
+    "enabled": true,
+    "voice": "Polly.Aditi",
+    "welcome_message": "Welcome to Acme Corp.",
+    "timeout": 5,
+    "max_retries": 2,
+    "default_agent_id": "REPLACE_WITH_DEFAULT_AGENT_UUID",
+    "steps": [
+      {
+        "step_id": "department",
+        "type": "menu",
+        "prompt": "Press 1 for Sales. Press 2 for Support. Press 3 for Billing.",
+        "field_name": "department",
+        "options": [
+          { "digit": "1", "label": "Sales",   "agent_id": "REPLACE_WITH_SALES_AGENT_UUID" },
+          { "digit": "2", "label": "Support", "agent_id": "REPLACE_WITH_SUPPORT_AGENT_UUID" },
+          { "digit": "3", "label": "Billing", "agent_id": "REPLACE_WITH_BILLING_AGENT_UUID" }
+        ]
+      }
+    ]
+  }
+}

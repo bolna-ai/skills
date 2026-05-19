@@ -2,6 +2,13 @@
 name: manage-agents
 description: "List, fetch, patch, fully update, delete, and stop queued calls for Bolna v2 voice agents. Use when the user wants to inspect agent configuration, change prompts or voices, back up an agent, decommission an agent, or cancel all queued calls for one agent."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Manage Bolna Agents
@@ -83,3 +90,19 @@ curl --request DELETE \
   --url "https://api.bolna.ai/v2/agent/$AGENT_ID" \
   --header "Authorization: Bearer $BOLNA_API_KEY"
 ```
+
+## PUT vs PATCH
+
+| When | Use |
+|---|---|
+| Renaming, swapping voice, updating webhook URL, changing the system prompt, toggling `task_config` flags | `PATCH` |
+| Wholesale replacement of `agent_config` from a backed-up document | `PUT` |
+
+`PUT` requires the **full** `agent_config` body — anything you omit is dropped. Common bug: PUT-ing a partial body loses `tools_config.api_tools` or `ingest_source_config`. Prefer `PATCH` when you only know a subset of fields.
+
+## See also
+
+- `create-agent` — initial creation; same shape `PUT` expects.
+- `make-call` — `POST /v2/agent/{id}/stop` cancels queued calls for one agent without deleting it.
+- `bolna-graph-agents` — for editing `llm_agent.nodes` and edge structures.
+- `../references/bolna-core.md` — auth, headers, pagination defaults.

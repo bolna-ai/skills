@@ -24,6 +24,10 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
     for line in text[4:end].splitlines():
         if not line.strip() or line.strip().startswith("#"):
             continue
+        # Skip indented / nested lines (lists, sub-keys under metadata, etc.).
+        # The validator only cares about top-level scalar keys (name, description, license, compatibility).
+        if line[0] in (" ", "\t", "-"):
+            continue
         if ":" not in line:
             raise ValueError(f"invalid frontmatter line: {line}")
         key, value = line.split(":", 1)

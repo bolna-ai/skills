@@ -2,6 +2,13 @@
 name: add-provider
 description: "Add, list, and remove Bolna providers for telephony, LLM, speech-to-text, and text-to-speech services such as Twilio, Plivo, Exotel, OpenAI, Anthropic, Azure, ElevenLabs, Deepgram, Sarvam, Cartesia, Polly, and others. Use when the user wants to bring their own credentials."
 license: MIT
+compatibility: Requires internet access and a Bolna API key (BOLNA_API_KEY).
+metadata:
+  openclaw:
+    requires:
+      env:
+        - BOLNA_API_KEY
+    primaryEnv: BOLNA_API_KEY
 ---
 
 # Add Bolna Providers
@@ -39,7 +46,7 @@ Bolna stores provider credentials as named keys. Use the provider key name expec
 
 ```json
 {
-  "provider_name": "OPENAI_API_KEY",
+  "provider_name": "OPENAI",
   "provider_value": "sk-0123456789az"
 }
 ```
@@ -52,7 +59,7 @@ curl --request POST \
   --header "Authorization: Bearer $BOLNA_API_KEY" \
   --header "Content-Type: application/json" \
   --data '{
-    "provider_name": "OPENAI_API_KEY",
+    "provider_name": "OPENAI",
     "provider_value": "sk-0123456789az"
   }'
 ```
@@ -74,3 +81,30 @@ curl --request DELETE \
 ```
 
 Confirm removal first. Existing agents may fail if their configured provider key is removed.
+
+## Common credential key names
+
+| Provider | Property |
+|---|---|
+| OpenAI | `OPENAI` |
+| OpenRouter | `OPENROUTER` |
+| Google Gemini | `GOOGLE` |
+| Azure OpenAI | `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_MODEL`, `AZURE_OPENAI_API_BASE`, `AZURE_OPENAI_API_VERSION` |
+| ElevenLabs | `ELEVENLABS` |
+| Cartesia | `CARTESIA` |
+| Sarvam | `SARVAM` |
+| Smallest | `SMALLEST` |
+| Deepgram | `DEEPGRAM` |
+| Twilio | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER` |
+| Plivo | `PLIVO_AUTH_ID`, `PLIVO_AUTH_TOKEN`, `PLIVO_PHONE_NUMBER` |
+| Vobiz | `VOBIZ_AUTH_ID`, `VOBIZ_AUTH_TOKEN`, `VOBIZ_PHONE_NUMBER` |
+| Exotel | `EXOTEL_API_KEY`, `EXOTEL_API_TOKEN`, `EXOTEL_ACCOUNT_SID`, `EXOTEL_DOMAIN`, `EXOTEL_PHONE_NUMBER`, `EXOTEL_OUTBOUND_APP_ID`, `EXOTEL_INBOUND_APP_ID` |
+| Custom LLM | Use `provider: "custom"` in the agent's `llm_agent` with an OpenAI-compatible `base_url`, then `POST /user/model/custom` to register the model name. |
+
+Full per-provider matrix (including which language/use case each suits) is in `../references/providers-matrix.md`.
+
+## See also
+
+- `../references/providers-matrix.md` — latency rules-of-thumb, language coverage, common pairings.
+- `setup-sip-trunk` — SIP trunk providers (different endpoints, not the credential vault).
+- `create-agent` — wiring provider names into `llm_agent`, `synthesizer`, `transcriber`.

@@ -1,96 +1,99 @@
 # Bolna Skills
 
-Agent skills for building and operating Bolna Voice AI agents. The folders in this repo follow the Agent Skills layout used by `npx skills add`: each skill is a self-contained directory with a `SKILL.md` file and optional scripts, references, or assets.
+Official Agent Skills for [Bolna Voice AI](https://bolna.ai). Teach your AI coding assistant — Claude Code, Cursor, Codex, or any tool that supports the Agent Skills format — to build, deploy, and operate production voice agents in one command.
 
-## Local Install
-
-From this machine, install all skills into a compatible agent with:
+## Install
 
 ```bash
-npx skills add "/Users/amitesh/Projects/Bolna-Skills "
+npx skills add bolna-ai/skills
 ```
 
-Install one skill:
+For a specific tool:
 
 ```bash
-npx skills add "/Users/amitesh/Projects/Bolna-Skills " --skill create-agent
+npx skills add bolna-ai/skills -a claude-code
+npx skills add bolna-ai/skills -a cursor
+npx skills add bolna-ai/skills -a codex
 ```
 
-Install for a specific agent when supported by the installer:
+Just one skill:
 
 ```bash
-npx skills add "/Users/amitesh/Projects/Bolna-Skills " -a codex
-npx skills add "/Users/amitesh/Projects/Bolna-Skills " -a claude-code
-npx skills add "/Users/amitesh/Projects/Bolna-Skills " -a cursor
+npx skills add bolna-ai/skills --skill create-agent
 ```
 
-When this repo is later pushed to GitHub, the command becomes:
+## Setup
+
+Get your API key from the [Bolna Dashboard → Developers](https://platform.bolna.ai) and export it:
 
 ```bash
-npx skills add YourOrg/bolna-skills
-npx skills add YourOrg/bolna-skills --skill make-call
+export BOLNA_API_KEY="..."
 ```
 
-No npm package publish is needed. `npx skills` is the installer; this repo is the install source.
+That's it. Your AI assistant now knows how to use Bolna.
+
+## What you can do
+
+Once installed, ask your AI assistant things like:
+
+- *"Create a Hindi voice agent for appointment booking using Plivo and Sarvam."*
+- *"Place a test call to +91… and pass `customer_name: Priya` as user_data."*
+- *"Upload `leads.csv` as a Bolna batch campaign and monitor it until done."*
+- *"My Bolna call has a long silence before each response — debug it."*
+- *"Build a graph agent for payment confirmation with real-time event injection."*
+- *"Add post-call dispositions for lead quality and customer sentiment to my agent."*
+- *"Set up an inbound IVR that routes sales / support / billing to three different agents."*
+- *"Bring my Twilio Elastic SIP trunk to Bolna for outbound calling on my own numbers."*
+
+The right skill loads automatically based on what you ask.
 
 ## Skills
 
-| Skill | Use it for |
-| --- | --- |
-| `setup-api-key` | Generate, store, and verify `BOLNA_API_KEY`. |
-| `create-agent` | Create a Bolna v2 voice agent with prompts, LLM, voice, transcriber, telephony, guardrails, and optional RAG or tools. |
-| `manage-agents` | List, fetch, patch, fully update, delete, and stop queued calls for agents. |
-| `make-call` | Start, schedule, personalize, retry, and stop outbound calls. |
-| `setup-inbound` | Attach or unlink an agent from an inbound phone number and configure caller matching. |
-| `manage-phone-numbers` | Search, buy, list, and delete Bolna phone numbers. |
-| `create-batch` | Upload CSV campaign recipients, schedule batches, monitor batch status, and stop/delete batches. |
-| `get-executions` | Fetch execution details, raw logs, transcripts, recordings, costs, statuses, and paginated call history. |
-| `setup-webhook` | Configure webhook delivery and build a receiver for call status and execution payloads. |
-| `create-knowledgebase` | Ingest PDFs or URLs as Bolna knowledge bases and wire vector IDs into agents. |
-| `setup-tools` | Add function tools, transfer calls, custom HTTP APIs, and Cal.com booking patterns. |
-| `add-provider` | Register and manage third-party telephony, LLM, TTS, and STT providers. |
-| `create-disposition` | Create, update, test, and delete post-call extraction and classification templates. |
-| `setup-sip-trunk` | Create and manage BYOT SIP trunks, gateways, and trunk phone numbers. |
-| `manage-subaccounts` | Create, update, delete, list, and inspect enterprise sub-accounts and usage. |
-| `manage-violations` | List call violations and submit evidence files for review. |
-| `bolna-graph-agents` | Design node-based graph agents, routing edges, static nodes, and event injection. |
-| `write-bolna-prompts` | Write production voice prompts, multilingual prompts, hangup rules, and context variables. |
-| `debug-bolna-calls` | Diagnose latency, interruptions, silence, webhook, transcript, and provider issues. |
+### Build agents
 
-## Bolna API Defaults
+| Skill | What it does |
+|---|---|
+| `setup-api-key` | Generate, store, and verify your `BOLNA_API_KEY`. |
+| `add-provider` | Bring your own OpenAI, Anthropic, Azure, ElevenLabs, Cartesia, Sarvam, Deepgram, Twilio, Plivo, Vobiz, or Exotel credentials. |
+| `create-agent` | Create a voice agent end-to-end: LLM + voice + transcriber + telephony, with knowledge bases, function tools, and semantic routes. |
+| `manage-agents` | List, update, delete, or stop queued calls for an agent. |
+| `write-bolna-prompts` | Write production voice prompts. Includes vertical templates (sales, support, appointment, BFSI reminder, recruitment) and a full multilingual native-script guide. |
 
-- Base URL: `https://api.bolna.ai`
-- Auth header: `Authorization: Bearer $BOLNA_API_KEY`
-- API key smoke test: `GET /user/me`
-- Current agent API: `/v2/agent`
-- Deprecated agent v1 API: `/agent`; do not use it for new skills.
-- Docs index: `https://www.bolna.ai/docs/llms.txt`
-- OpenAPI spec: `https://www.bolna.ai/docs/api-reference/openapi.yml`
+### Make calls
 
-## Reference Repo Patterns Applied
+| Skill | What it does |
+|---|---|
+| `make-call` | Place a single outbound call — immediate or scheduled, with dynamic variables, voice overrides, and auto-retry. |
+| `create-batch` | Run CSV-driven outbound campaigns at scale. Schedule, monitor, stop. |
+| `setup-inbound` | Wire phone numbers to agents. Includes IVR menus, caller identification, and multilingual auto-switching. |
+| `manage-phone-numbers` | Search and buy US (Twilio) or India (Plivo, Vobiz) numbers. |
+| `setup-sip-trunk` | Bring your own SIP trunk — Twilio Elastic, Plivo Zentrunk, Telnyx, Vonage, and any standards-compliant carrier. |
 
-- ElevenLabs pattern: each skill folder is self-contained, with quick starts and optional references/scripts.
-- Vapi pattern: workflow-specific skills, explicit install commands, and clear API-key setup.
-- Firecrawl pattern: separate operational skills from build/debug/workflow skills so agents load only what they need.
-- Bolna-specific decision: no first-party Bolna MCP is assumed. `.mcp.example.json` is optional and points at a third-party Composio router only when the user deliberately configures it.
+### Monitor and improve
 
-## Validate Locally
+| Skill | What it does |
+|---|---|
+| `get-executions` | Pull transcripts, recordings, costs, hangup codes, and raw logs from any call. |
+| `setup-webhook` | Stream call updates to your backend in real time for CRM sync and dashboards. |
+| `create-disposition` | Extract structured data from every transcript: lead quality, appointment times, sentiment, consent captured. |
+| `manage-violations` | List compliance flags and submit evidence files for review. |
+| `debug-bolna-calls` | Symptom-to-fix runbook for slow responses, robot voice, interruptions, missed webhooks, SIP no-audio, batch failures, and more. |
 
-```bash
-python3 scripts/validate_skills.py
-python3 evals/run_all.py
-```
+### Advanced
 
-The validator checks folder names, required frontmatter, description length, and accidental deprecated agent v1 usage. The eval script checks trigger coverage and a few repo-specific invariants.
+| Skill | What it does |
+|---|---|
+| `bolna-graph-agents` | Build deterministic, node-based call flows with LLM, expression, and event-driven transitions. Push real-time events into live calls. |
+| `setup-tools` | Give agents function-calling tools: live transfer, Cal.com booking, any HTTP API, and DTMF keypad input. |
+| `create-knowledgebase` | Add RAG over PDFs or URLs, including multilingual document support. |
+| `manage-subaccounts` | Multi-tenant workspaces for agencies and enterprise teams (auto-provisioned API keys). |
 
-## Git
+## Resources
 
-This repo is intended to stay local until you decide to publish it. Do normal local tracking:
-
-```bash
-git status
-git log --oneline
-```
+- [Bolna docs](https://docs.bolna.ai)
+- [Dashboard](https://platform.bolna.ai)
+- [API reference](https://docs.bolna.ai/api-reference/introduction)
+- Issues and questions → [github.com/bolna-ai/skills/issues](https://github.com/bolna-ai/skills/issues)
 
 ## License
 

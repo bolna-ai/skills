@@ -1,0 +1,5977 @@
+openapi: 3.1.0
+info:
+  title: Bolna API
+  description: Use and leverage Bolna Voice AI using APIs through HTTP requests from any language in your applications and workflows.
+  license:
+    name: MIT
+  version: 1.0.0
+servers:
+  - url: https://api.bolna.ai
+    description: Production server
+security:
+  - bearerAuth: []
+paths:
+  /agent:
+    post:
+      description: Creates a new agent
+      requestBody:
+        description: Creates a new agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequest'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentCreateStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /agent/all:
+    get:
+      description: List all agents
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /agent/{agent_id}:
+    get:
+      description: Retrieve an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      responses:
+        '200':
+          description: Agent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      description: Update an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      requestBody:
+        description: Update an agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequest'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentUpdateStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      description: Patch update an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      requestBody:
+        description: Update an agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentPatchRequest'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              example:
+                message: success
+                state: updated
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent:
+    post:
+      description: Creates a new agent
+      requestBody:
+        description: Creates a new agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequestV2'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentCreateStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent/all:
+    get:
+      description: List all agents
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentListV2'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent/{agent_id}/stop:
+    post:
+      description: Stop all queued calls for a given agent_id
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      responses:
+        '200':
+          description: agent execution stopped response
+          content:
+            application/json:
+              example:
+                stopped_executions : ["c8098ad0-29f6-456d-1234-7b93ad224059"]
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent/{agent_id}:
+    get:
+      description: Retrieve an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      responses:
+        '200':
+          description: Agent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentV2'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      description: Update an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      requestBody:
+        description: Update an agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequestV2'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentUpdateStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      description: Patch update an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      requestBody:
+        description: Update an agent
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentPatchRequest'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              example:
+                message: success
+                state: updated
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      description: Delete an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      responses:
+        '200':
+          description: agent deleted response
+          content:
+            application/json:
+              example:
+                message: success
+                state: deleted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent/{agent_id}/executions:
+    get:
+      description: Retrieve all executions by an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `id` of the agent
+
+        - in: "query"
+          name: "page_number"
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+          description: The page number to retrieve (starts from `1`)
+
+        - in: "query"
+          name: "page_size"
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: Number of results per page. Maximum allowed is `50`.
+
+        - in: "query"
+          name: "status"
+          required: false
+          schema:
+            type: string
+            enum:
+              - scheduled
+              - queued
+              - rescheduled
+              - ringing
+              - initiated
+              - in-progress
+              - call-disconnected
+              - completed
+              - balance-low
+              - busy
+              - no-answer
+              - canceled
+              - failed
+              - stopped
+              - error
+            description: Fetch executions filtered by call status. [List of all call statuses](/list-phone-call-status).
+
+        - in: "query"
+          name: "call_type"
+          required: false
+          schema:
+            type: string
+            enum:
+              - inbound
+              - outbound
+            description: Filter `inbound` calls or `outbound` calls.
+
+        - in: "query"
+          name: "provider"
+          required: false
+          schema:
+            type: string
+            enum:
+              - plivo
+              - twilio
+              - websocket
+              - web-call
+            description: Filter by conversation provider.
+
+        - in: "query"
+          name: "answered_by_voice_mail"
+          required: false
+          schema:
+            type: boolean
+            default: false
+            description: Filter by voicemail.
+
+        - in: "query"
+          name: "batch_id"
+          required: false
+          schema:
+            type: string
+            default: null
+            description: Filter executions by a specific `batch_id`.
+
+        - in: "query"
+          name: "from"
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: "2025-05-07T00:00:00.000Z"
+            description: Fetch executions where the `created_at` timestamp is greater than or equal to this UTC datetime in ISO 8601 format with UTC indication.
+
+        - in: "query"
+          name: "to"
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: "2025-05-14T00:00:00.000Z"
+            description: Fetch executions where the `created_at` timestamp is less than or equal to this UTC datetime in ISO 8601 format with UTC indication.
+
+      responses:
+        '200':
+          description: List of all executions by an agent sorted by last run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionV2List'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /agent/{agent_id}/executions:
+    get:
+      description: Retrieve all executions by an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `id` of the agent
+      responses:
+        '200':
+          description: List of all executions by an agent sorted by last run
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /agent/{agent_id}/execution/{execution_id}:
+    get:
+      description: Retrieve specific execution by an agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `id` of the agent
+        - in: "path"
+          name: "execution_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `execution_id` by the agent
+      responses:
+        '200':
+          description: Retrieve specific execution by an agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecution'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /executions/{execution_id}:
+    get:
+      description: Retrieve specific execution by `execution_id`
+      parameters:
+        - in: "path"
+          name: "execution_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `execution_id`
+      responses:
+        '200':
+          description: Retrieve specific execution by an agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecution'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /executions/{execution_id}/log:
+    get:
+      description: Retrieve raw logs of specific `execution_id`
+      parameters:
+        - in: "path"
+          name: "execution_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique `execution_id`
+      responses:
+        '200':
+          description: Retrieve specific execution raw logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionLogList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches:
+    post:
+      description: Create batch for agent
+      requestBody:
+        content:
+          text/csv:
+            schema:
+              type: object
+              properties:
+                agent_id:
+                  type: string
+                  format: uuid
+                  description: The ID of the agent
+                file:
+                  type: string
+                  format: binary
+                  description: CSV file to upload
+                from_phone_numbers:
+                  type: array
+                  items:
+                    type: string
+                  description: List of phone numbers from which the batch calls will be made. Each number must include the country code in [E.164](https://en.wikipedia.org/wiki/E.164) format. Pass multiple values to use multiple originating numbers.
+                  example: ["+919876543210", "+919876543211"]
+                retry_config:
+                  type: string
+                  description: JSON string containing retry configuration for failed calls. See [auto-retry documentation](/auto-retry) for details. Example - `{"enabled":true,"max_retries":2,"retry_intervals_minutes":[15,30]}`
+              required:
+                - agent_id
+                - file
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  batch_id:
+                    type: string
+                    description: The ID of the batch
+                    format: ^[0-9a-fA-F]{32}$
+                    example: 3c90c3cc0d444b5088888dd25736052a
+                  state:
+                    type: string
+                    description: Status of the request
+                    enum:
+                      - created
+                required:
+                  - batch_id
+                  - state
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches/{agent_id}/all:
+    get:
+      description: List all batches for agent
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          description: The ID of the agent
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: list batches response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches/{batch_id}:
+    get:
+      description: Retrieve a batch
+      parameters:
+        - in: "path"
+          name: "batch_id"
+          required: true
+          description: The ID of the batch
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      description: Delete a batch
+      parameters:
+        - in: "path"
+          name: "batch_id"
+          required: true
+          description: The ID of the batch
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: batch deleted response
+          content:
+            application/json:
+              example:
+                message: success
+                state: deleted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches/{batch_id}/executions:
+    get:
+      description: Retrieve all executions from a batch
+      parameters:
+        - in: "path"
+          name: "batch_id"
+          required: true
+          description: The ID of the batch
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches/{batch_id}/stop:
+    post:
+      description: Stop a running batch
+      parameters:
+        - in: "path"
+          name: "batch_id"
+          required: true
+          description: The ID of the batch
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: batch status response
+          content:
+            application/json:
+              example:
+                message: success
+                state: stopped
+        '404':
+          description: batch status response
+          content:
+            application/json:
+              example:
+                message: Batch is not queued or running
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /batches/{batch_id}/schedule:
+    post:
+      description: Schedule a batch for calling via agent
+      parameters:
+        - in: "path"
+          name: "batch_id"
+          required: true
+          description: The ID of the batch
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                scheduled_at:
+                  type: string
+                  example: 2024-06-05T04:10:00+05:30
+                  description: The scheduled date and time in ISO 8601 format with time zone
+                bypass_call_guardrails:
+                  type: boolean
+                  default: false
+                  description: Skip time validation for all calls in this batch
+              required:
+                - batch_id
+                - scheduled_at
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: success
+                state: scheduled
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /call:
+    post:
+      description: Initiate calls
+      requestBody:
+        description: Make a phone call from agent
+        content:
+          application/json:
+            schema:
+              required:
+                - agent_id
+                - recipient_phone_number
+              properties:
+                agent_id:
+                  type: string
+                  format: uuid
+                  description: Agent `id` which will initiate the outbound call
+                recipient_phone_number:
+                  type: string
+                  description: Phone number of the recipient alongwith country code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+                from_phone_number:
+                  type: string
+                  description: Phone number of the sender alongwith country code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+                scheduled_at:
+                  type: string
+                  example: "2024-06-05T16:35:00.000+05:30"
+                  description: The scheduled date and time in ISO 8601 format with time zone
+                user_data:
+                  type: object
+                  description: Additional user dynamic variables as defined in the agent prompt
+                  additionalProperties: true
+                agent_data:
+                  type: object
+                  description: Agent configuration to override the default configuration. Currently, only `voice_id` for the same provider is supported.
+                retry_config:
+                  type: object
+                  description: Configuration for auto-retry of failed calls. See [auto-retry documentation](/auto-retry) for details.
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: false
+                      description: Enable auto-retry for this call
+                    max_retries:
+                      type: integer
+                      minimum: 1
+                      maximum: 3
+                      default: 3
+                      description: Maximum retry attempts (1-3)
+                    retry_on_statuses:
+                      type: array
+                      items:
+                        type: string
+                        enum: [no-answer, busy, failed, error]
+                      default: [no-answer, busy, failed]
+                      description: Call statuses that trigger a retry
+                    retry_on_voicemail:
+                      type: boolean
+                      default: false
+                      description: Whether to retry if call reaches voicemail
+                    retry_intervals_minutes:
+                      type: array
+                      items:
+                        type: integer
+                      default: [30, 60, 120]
+                      description: Delay in minutes before each retry attempt
+                bypass_call_guardrails:
+                  type: boolean
+                  default: false
+                  description: Skip time validation checks and make call immediately regardless of agent's calling_guardrails configuration
+            examples:
+              example-1:
+                summary: Example of initiating a call
+                value:
+                  agent_id: "123e4567-e89b-12d3-a456-426655440000"
+                  recipient_phone_number: "+10123456789"
+                  from_phone_number: "+19876543007"
+                  scheduled_at": "2025-08-21T10:35:00"
+                  user_data:
+                    variable1: "value1"
+                    variable2: "value2"
+                    variable3: "some phrase as value"
+                  agent_data:
+                    voice_id: "Sam"
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MakeCallStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /call/{execution_id}/stop:
+    post:
+      description: Stop a queued or scheduled call
+      parameters:
+        - in: "path"
+          name: "execution_id"
+          required: true
+          description: The ID of the call
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: call status response
+          content:
+            application/json:
+              example:
+                message: done
+                status: stopped
+                execution_id: 123e4567-e89b-12d3-a456-426655440000
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /providers:
+    get:
+      description: List all providers
+      responses:
+        '200':
+          description: providers status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      description: Add provider
+      requestBody:
+        description: Add a new provider
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderRequest'
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAddedStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /providers/{provider_key_name}:
+    delete:
+      description: Remove provider
+      parameters:
+        - in: "path"
+          name: "provider_key_name"
+          required: true
+          description: Name of the provider
+          schema:
+            type: "string"
+            example: OPENAI_API_KEY
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRemoveStatus'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /inbound/setup:
+    post:
+      description: Add agent for inbound calls with optional IVR configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - agent_id
+                - phone_number_id
+              properties:
+                agent_id:
+                  type: string
+                  format: uuid
+                  description: Agent `id` which will handle inbound calls. Used as default if no IVR option-level agent is set.
+                  example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+                phone_number_id:
+                  type: string
+                  format: uuid
+                  pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+                  example: '123e4567-e89b-12d3-a456-426614174000'
+                  description: Telephone number `id` from [Phone number list API](/docs/api-reference/phone-numbers/get_all)
+                allow_multiple:
+                  type: boolean
+                  default: false
+                  example: true
+                  description: Allow this phone number to be linked to multiple phone numbers for the same agent. Only applicable for Plivo phone numbers.
+                ivr_config:
+                  type: object
+                  description: Optional IVR configuration for Plivo phone numbers. See [IVR documentation](/ivr-inbound-calls) for details.
+                  properties:
+                    enabled:
+                      type: boolean
+                      description: Enable or disable IVR
+                      example: true
+                    voice:
+                      type: string
+                      description: Text-to-speech voice (e.g., Polly.Aditi, Polly.Joanna)
+                      example: "Polly.Aditi"
+                    welcome_message:
+                      type: string
+                      description: Message played when call connects
+                      example: "Welcome to Acme Corp."
+                    timeout:
+                      type: integer
+                      description: Seconds to wait for input
+                      example: 7
+                    max_retries:
+                      type: integer
+                      description: Retry attempts on invalid input
+                      example: 2
+                    steps:
+                      type: array
+                      description: IVR flow steps (menu or collect)
+                      items:
+                        type: object
+                        properties:
+                          step_id:
+                            type: string
+                          type:
+                            type: string
+                            enum: [menu, collect]
+                          prompt:
+                            type: string
+                          field_name:
+                            type: string
+                          options:
+                            type: array
+                            items:
+                              type: object
+                          next_step:
+                            type: string
+                          conditional_next:
+                            type: object
+                    default_agent_id:
+                      type: string
+                      format: uuid
+                      description: Fallback agent if no option-level agent is set
+        required: true
+      responses:
+        '200':
+          description: providers status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundAgentResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /inbound/unlink:
+    post:
+      description: Remove agent for inbound calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - phone_number_id
+              properties:
+                phone_number_id:
+                  type: string
+                  format: uuid
+                  pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+                  example: '123e4567-e89b-12d3-a456-426614174000'
+                  description: Telephone number `id` from [Phone number list API](/docs/api-reference/phone-numbers/get_all)
+        required: true
+      responses:
+        '200':
+          description: Unlink inbound agent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundUnlinkAgentResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /me/voices:
+    get:
+      description: Get all user voices
+      responses:
+        '200':
+          description: List of voices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessDenied'
+
+  /user/model/custom:
+    post:
+      description: Add a custom LLM Model
+      requestBody:
+        description: Add a custom LLM Model
+        content:
+          application/json:
+            schema:
+              required:
+                - custom_model_name
+                - custom_model_url
+              properties:
+                custom_model_name:
+                  type: string
+                  description: Human readable name for your custom model
+                custom_model_url:
+                  type: string
+                  format: uri
+                  description: URL endpoint for the custom LLM model
+            examples:
+              example-1:
+                summary: Example of adding a custom LLM model
+                value:
+                  custom_model_name: "Customer-care Model"
+                  custom_model_url: "https://custom.llm.model/v1"
+        required: true
+      responses:
+        '200':
+          description: agent status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddModelResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /user/me:
+    get:
+      description: Get user information
+      responses:
+        '200':
+          description: Your user details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessDenied'
+
+
+  /sip-trunks/trunks:
+    post:
+      description: Create a new SIP trunk and register it with Bolna's media layer
+      requestBody:
+        description: SIP trunk configuration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SIPTrunkCreateRequest'
+            examples:
+              userpass-example:
+                summary: Username/Password authentication
+                value:
+                  name: "Zadarma Production"
+                  provider: "zadarma"
+                  description: "Main trunk for outbound sales"
+                  auth_type: "userpass"
+                  auth_username: "<your-sip-username>"
+                  auth_password: "<your-sip-password>"
+                  gateways:
+                    - gateway_address: "sip.zadarma.com"
+                      port: 5060
+                      priority: 1
+                  allow: "ulaw,alaw"
+                  disallow: "all"
+                  inbound_enabled: true
+                  outbound_leading_plus_enabled: true
+              ip-based-example:
+                summary: IP-Based authentication
+                value:
+                  name: "Plivo Elastic Trunk"
+                  provider: "plivo"
+                  auth_type: "ip-based"
+                  gateways:
+                    - gateway_address: "21467306465797919.zt.plivo.com"
+                      port: 5060
+                      priority: 1
+                  ip_identifiers:
+                    - ip_address: "15.207.90.192/31"
+                    - ip_address: "204.89.151.128/27"
+                  inbound_enabled: true
+        required: true
+      responses:
+        '201':
+          description: SIP trunk created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPTrunkResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      description: List all SIP trunks for your account
+      parameters:
+        - in: "query"
+          name: "is_active"
+          required: false
+          schema:
+            type: boolean
+          description: Filter by active status. Omit to return all trunks.
+      responses:
+        '200':
+          description: List of SIP trunks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SIPTrunkResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sip-trunks/trunks/{trunk_id}:
+    get:
+      description: Get a single SIP trunk with full details including gateways, IP identifiers, and phone numbers
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+      responses:
+        '200':
+          description: SIP trunk details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPTrunkResponse'
+        '404':
+          description: trunk not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Partially update an existing SIP trunk. Only included fields are changed. Gateways and ip_identifiers arrays are fully replaced when provided.
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+      requestBody:
+        description: Fields to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SIPTrunkUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Updated SIP trunk
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPTrunkResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: Permanently delete a SIP trunk and all associated resources (gateways, IP identifiers, phone numbers)
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+      responses:
+        '200':
+          description: Trunk deleted
+          content:
+            application/json:
+              example:
+                message: "Trunk deleted successfully. 3 phone number(s) removed."
+        '404':
+          description: trunk not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sip-trunks/trunks/{trunk_id}/numbers:
+    post:
+      description: Add a DID phone number to a SIP trunk
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+      requestBody:
+        description: Phone number to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SIPTrunkPhoneNumberRequest'
+            examples:
+              example-1:
+                summary: Add a phone number
+                value:
+                  phone_number: "919876543210"
+                  name: "Mumbai Support Line"
+                  e164_check_enabled: false
+        required: true
+      responses:
+        '201':
+          description: Phone number added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SIPTrunkPhoneNumberResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      description: List all phone numbers associated with a SIP trunk
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+      responses:
+        '200':
+          description: List of phone numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SIPTrunkPhoneNumberResponse'
+        '404':
+          description: trunk not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sip-trunks/trunks/{trunk_id}/numbers/{phone_number_id}:
+    delete:
+      description: Remove a phone number from a SIP trunk. If the number was mapped to an agent, the mapping is also removed.
+      parameters:
+        - in: "path"
+          name: "trunk_id"
+          required: true
+          schema:
+            type: "string"
+          description: The unique trunk ID
+        - in: "path"
+          name: "phone_number_id"
+          required: true
+          schema:
+            type: "string"
+          description: The phone number ID to remove
+      responses:
+        '200':
+          description: Phone number removed
+          content:
+            application/json:
+              example:
+                message: "Phone number removed successfully"
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /knowledgebase:
+    post:
+      description: Create knowledgebase from a PDF file or URL. Provide either `file` or `url`, not both.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: PDF file to upload (max 20 MB). Required if `url` is not provided.
+                url:
+                  type: string
+                  format: uri
+                  description: URL to scrape and ingest as knowledgebase. Required if `file` is not provided.
+                  example: https://example.com/docs
+                chunk_size:
+                  type: integer
+                  description: Chunk size for embedding model
+                  default: 512
+                  example: 512
+                similarity_top_k:
+                  type: integer
+                  description: Number of top similar nodes to return.
+                  default: 15
+                  example: 15
+                overlapping:
+                  type: integer
+                  description: Number of characters which overlap in between neighboring nodes.
+                  default: 128
+                  example: 128
+                language_support:
+                  type: string
+                  description: Enable multilingual support for the knowledgebase. When set to `multilingual`, enables cross-lingual retrieval across 100+ languages. This allows you to upload documents in any language and query them in any language. If not provided, the default English-optimized configuration is used.
+                  enum:
+                    - multilingual
+                  example: multilingual
+      responses:
+        '200':
+          description: knowledgebase create status response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rag_id:
+                    type: string
+                    description: The ID of the knowledgebase
+                    format: ^[0-9a-fA-F]{32}$
+                    example: 3c90c3xs0d444b5088228dd25736052a
+                  file_name:
+                    type: string
+                    description: File name of the PDF uploaded or URL ingested
+                    example: sample-rag.pdf
+                  source_type:
+                    type: string
+                    description: Type of source ingested
+                    enum:
+                      - pdf
+                      - url
+                    example: pdf
+                  status:
+                    type: string
+                    description: Status of the knowledgebase. Initially the status would be `processing`.
+                    enum:
+                      - processing
+                      - processed
+                      - error
+                    example: processing
+                  language_support:
+                    type: string
+                    description: Language support mode of the knowledgebase. `multilingual` if enabled, `null` otherwise.
+                    nullable: true
+                    enum:
+                      - multilingual
+                    example: multilingual
+                required:
+                  - rag_id
+                  - file_name
+                  - status
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /knowledgebase/all:
+    get:
+      description: List all knowledgebases for your account
+      responses:
+        '200':
+          description: list knowledgebases response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgebaseList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /extractions:
+    get:
+      description: List all extraction templates
+      responses:
+        '200':
+          description: list extraction templates response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ExtractionTemplate'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Create a new extraction template (Admin only)
+      requestBody:
+        description: Create a new extraction template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtractionTemplateCreate'
+        required: true
+      responses:
+        '201':
+          description: extraction template created response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExtractionTemplate'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /extractions/{template_id}:
+    get:
+      description: Get a specific extraction template
+      parameters:
+        - in: "path"
+          name: "template_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The ID of the extraction template
+      responses:
+        '200':
+          description: extraction template response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExtractionTemplate'
+        '404':
+          description: template not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      description: Update an extraction template (Admin only)
+      parameters:
+        - in: "path"
+          name: "template_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The ID of the extraction template
+      requestBody:
+        description: Update an extraction template
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtractionTemplateUpdate'
+        required: true
+      responses:
+        '200':
+          description: extraction template updated response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExtractionTemplate'
+        '404':
+          description: template not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: Delete an extraction template (Admin only)
+      parameters:
+        - in: "path"
+          name: "template_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The ID of the extraction template
+      responses:
+        '200':
+          description: extraction template deleted response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Template deleted successfully
+        '404':
+          description: template not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /phone-numbers/all:
+    get:
+      description: List all phone numbers for your account
+      responses:
+        '200':
+          description: list phone numbers response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumbersList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /phone-numbers/search:
+    get:
+      description: Search available phone numbers by country and pattern
+      parameters:
+        - in: "path"
+          name: "country"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - US
+              - IN
+          description: The country code for the phone number.
+
+        - in: "path"
+          name: "pattern"
+          required: false
+          schema:
+            type: "string"
+          description: 3-character prefix for the phone number to search with
+
+        - in: "path"
+          name: "provider"
+          required: false
+          schema:
+            type: "string"
+            enum:
+              - twilio
+              - plivo
+              - vobiz
+          description: The telephony provider for the phone number.
+
+      responses:
+        '200':
+          description: list phone numbers response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailablePhoneNumbersList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /phone-numbers/buy:
+    post:
+      description: Buy a phone number
+      requestBody:
+        description: Purchase a phone number
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchasePhoneNumberRequest'
+        required: true
+      responses:
+        '200':
+          description: Sub-account create response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchasePhoneNumberResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /phone-numbers/{phone_number_id}:
+    delete:
+      description: Delete a batch
+      parameters:
+        - in: "path"
+          name: "phone_number_id"
+          required: true
+          description: The ID of the `phone_number` to be deleted
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: phone number deleted response
+          content:
+            application/json:
+              example:
+                message: The phone number has been removed from your account
+                state: deleted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /knowledgebase/{rag_id}:
+    get:
+      description: Retrieve a knowledgebase
+      parameters:
+        - in: "path"
+          name: "rag_id"
+          required: true
+          description: The ID of the knowledgebase
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: list knowledgebase response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Knowledgebase'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      description: Delete a knowledgebase
+      parameters:
+        - in: "path"
+          name: "rag_id"
+          required: true
+          description: The ID of the knowledgebase
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: knowledgebase status response
+          content:
+            application/json:
+              example:
+                message: success
+                state: deleted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sub-accounts/create:
+    post:
+      description: Creates a new sub-account
+      requestBody:
+        description: Payload for creating a new sub-account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubAccountRequest'
+        required: true
+      responses:
+        '200':
+          description: Sub-account create response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubAccountResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sub-accounts/{sub_account_id}:
+    patch:
+      description: Patch update a sub-account
+      parameters:
+        - in: "path"
+          name: "sub_account_id"
+          description: The sub-account ID (UUID).
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+      requestBody:
+        description: Fields to patch on the sub-account.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubAccountPatch'
+        required: true
+      responses:
+        '200':
+          description: Updated sub-account
+          content:
+            application/json:
+              example:
+                message: success
+                state: updated
+        '400':
+          description: Bad request (e.g., concurrency limit exceeded or invalid fields)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Concurrency Limit Exceeded:
+                  summary: Concurrency limit exceeded
+                  value:
+                    message: "Concurrency limit exceeded"
+                    details:
+                      requested: 50
+                      available: 15
+                      account_limit: 50
+                      subaccount_usage: 35
+                Invalid Fields:
+                  summary: No valid fields provided
+                  value:
+                    error: "No valid fields provided"
+                    status: "failure"
+    delete:
+      description: Delete a sub-account
+      parameters:
+        - in: "path"
+          name: "sub_account_id"
+          required: true
+          description: The ID of the sub-account
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: sub-account deleted response
+          content:
+            application/json:
+              example:
+                message: success
+                state: deleted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /sub-accounts/all:
+    get:
+      description: List all sub-accounts
+      responses:
+        '200':
+          description: List of all sub-accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubAccountList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sub-accounts/{sub_account_id}/usage:
+    get:
+      description: Track usage for the sub-account upto 32 days
+      parameters:
+        - in: "path"
+          name: "sub_account_id"
+          required: true
+          schema:
+            type: "string"
+            format: uuid
+          description: The unique identifier of the sub-account.
+        - in: "query"
+          name: "from"
+          required: false
+          schema:
+            type: "string"
+            format: date-time
+          description: The start timestamp (in ISO 8601 UTC format) from which to calculate usage.
+                        If not provided, the start of the current month (UTC) is used by default.
+        - in: "query"
+          name: "to"
+          required: false
+          schema:
+            type: "string"
+            format: date-time
+          description: The end timestamp in ISO 8601 UTC format up to which usage is calculated. If not provided, the end of the current date (in UTC) will be used.
+      responses:
+        '200':
+          description: Get all usage details for the sub-account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubAccountUsage'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              
+  /sub-accounts/all/usage:
+    get:
+      description: Retrieve usage details for all sub-accounts under the authenticated organization for up to 32 days.
+      parameters:
+        - in: "query"
+          name: "from"
+          required: false
+          schema:
+            type: "string"
+            format: date-time
+          description: The start timestamp (in ISO 8601 UTC format) from which to calculate usage.
+                        If not provided, the start of the current month (UTC) is used by default.
+        - in: "query"
+          name: "to"
+          required: false
+          schema:
+            type: "string"
+            format: date-time
+          description: The end timestamp in ISO 8601 UTC format up to which usage is calculated. If not provided, the end of the current date (in UTC) will be used.
+      responses:
+        '200':
+          description: Get usage details for all sub-accounts, including cost breakdown.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllSubAccountUsage'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /violations/list:
+    get:
+      description: Retrieve a paginated list of violations, optionally filtered by status.
+      parameters:
+        - in: "query"
+          name: "status"
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - accepted
+              - rejected
+              - submitted
+          description: Filter violations by their current status.
+
+        - in: "query"
+          name: "page_number"
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+          description: The page of results to retrieve (starts from `1`).
+
+        - in: "query"
+          name: "page_size"
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: Number of results per page.
+
+      responses:
+        '200':
+          description: Paginated list of violations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViolationList'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /violations/submit:
+    post:
+      description: Submit a violation with an associated file (e.g., screenshot or evidence image).
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                violation_id:
+                  type: string
+                  description: The unique identifier of the violation to submit.
+                  example: "ce23f363-131a-47fc-8a33-258141a575b0"
+                violation_file:
+                  type: string
+                  format: binary
+                  description: The evidence file to attach to the violation (e.g., an image or document).
+              required:
+                - violation_id
+                - violation_file
+      responses:
+        '200':
+          description: Violation submitted successfully
+          content:
+            application/json:
+              example:
+                message: success
+                state: submitted
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /dispositions/:
+    get:
+      description: List dispositions accessible to your account. When `agent_id` is provided, only dispositions linked to that agent are returned; otherwise all dispositions you own are returned.
+      parameters:
+        - in: "query"
+          name: "agent_id"
+          required: false
+          schema:
+            type: string
+            format: uuid
+          description: If provided, returns only dispositions linked to this agent.
+      responses:
+        '200':
+          description: List of dispositions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Disposition'
+        '403':
+          description: Access denied — `agent_id` does not belong to your account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Create a new disposition. If `agent_id` is provided, the disposition is automatically linked to that agent upon creation.
+      requestBody:
+        description: Disposition to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DispositionCreate'
+        required: true
+      responses:
+        '201':
+          description: Disposition created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionCreateResponse'
+        '403':
+          description: Access denied for the given `agent_id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error — e.g., `is_objective` is `true` but `objective_options` is missing or empty
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /dispositions/bulk:
+    post:
+      description: Atomically create and link multiple dispositions to an agent in a single request. Either all dispositions are created and linked, or none are.
+      requestBody:
+        description: Bulk-create dispositions for an agent.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DispositionBulkCreate'
+        required: true
+      responses:
+        '201':
+          description: Dispositions created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionBulkCreateResponse'
+        '403':
+          description: Access denied — `agent_id` does not belong to your account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error — empty `dispositions` array or `is_objective` without `objective_options`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Failed to create dispositions — transaction rolled back, no dispositions were created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /dispositions/{disposition_id}:
+    get:
+      description: Retrieve a single disposition by ID, optionally scoped to a specific agent.
+      parameters:
+        - in: "path"
+          name: "disposition_id"
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the disposition to retrieve.
+        - in: "query"
+          name: "agent_id"
+          required: false
+          schema:
+            type: string
+            format: uuid
+          description: If provided, returns the disposition only if it is linked to this agent.
+      responses:
+        '200':
+          description: Disposition found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disposition'
+        '403':
+          description: Access denied — disposition or agent does not belong to your account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Disposition not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      description: |
+        Update an existing disposition. All fields in the request body are optional — only fields you include are changed.
+
+        When `agent_id` is provided (scoped mode), the API checks whether the disposition is exclusive to that agent:
+        - If exclusive, it is edited in place and `200 OK` is returned.
+        - If shared, a new private copy is created for this agent and the agent is re-linked to the copy; the original disposition is unchanged and `201 Created` is returned with the new ID.
+
+        When `agent_id` is not provided (unscoped mode), admins can update any disposition; non-admin users can only update dispositions they own.
+      parameters:
+        - in: "path"
+          name: "disposition_id"
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the disposition to update.
+      requestBody:
+        description: Fields to update on the disposition.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DispositionUpdate'
+        required: true
+      responses:
+        '200':
+          description: Disposition updated in place
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionCreateResponse'
+              example:
+                message: Disposition updated successfully
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        '201':
+          description: Copy-on-write — a new disposition copy was created and linked to the agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionCreateResponse'
+              example:
+                message: Disposition copy created and linked to agent
+                id: "9ab12c34-5678-4321-b3fc-7d852f33caf1"
+        '400':
+          description: No valid fields provided to update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Disposition not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: |
+        Permanently delete a disposition and remove its link to any associated agents.
+
+        Regular users can only delete dispositions they own (`created_by` matches their user ID). Admins can delete any disposition. Historical call execution results already containing this disposition's output are not affected — only future calls will stop evaluating it.
+      parameters:
+        - in: "path"
+          name: "disposition_id"
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the disposition to delete.
+      responses:
+        '200':
+          description: Disposition deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionCreateResponse'
+              example:
+                message: Disposition deleted successfully
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        '403':
+          description: Access denied — you do not own this disposition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Disposition not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /v2/agent/{agent_id}/dispositions/test:
+    post:
+      description: Run all dispositions linked to the specified agent against a provided transcript and return the grouped results. Useful for validating your disposition setup before going live.
+      parameters:
+        - in: "path"
+          name: "agent_id"
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The agent whose dispositions will be evaluated.
+      requestBody:
+        description: Transcript to evaluate against the agent's dispositions.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DispositionTestRequest'
+        required: true
+      responses:
+        '200':
+          description: Grouped disposition results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DispositionTestResponse'
+        '403':
+          description: Access denied — agent does not belong to your account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Invalid or unknown `agent_id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  schemas:
+    Agent:
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the agent
+        agent_name:
+          description: Human-readable agent name
+          type: string
+          example: Alfred
+        agent_type:
+          description: Type of agent
+          type: string
+          example: other
+        agent_status:
+          description: Current status of the agent
+          type: string
+          enum:
+            - seeding
+            - processed
+          example: processed
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T01:14:37Z'
+          description: Timestamp of agent creation
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T18:31:22Z'
+          description: Timestamp of last update for the agent
+        tasks:
+          items:
+            $ref: '#/components/schemas/TasksConfig'
+          type: array
+          description: An array of tasks that the agent can perform
+        agent_prompts:
+          $ref: '#/components/schemas/AgentPrompt'
+          description: Prompts to be provided to the agent. It can have multiple tasks of the form `task_<task_id>`
+      type: object
+
+    AgentV2:
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the agent
+        agent_name:
+          description: Human-readable agent name
+          type: string
+          example: Alfred
+        agent_type:
+          description: Type of agent
+          type: string
+          example: other
+        agent_status:
+          description: Current status of the agent
+          type: string
+          enum:
+            - seeding
+            - processed
+          example: processed
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T01:14:37Z'
+          description: Timestamp of agent creation
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T18:31:22Z'
+          description: Timestamp of last update for the agent
+        tasks:
+          items:
+            $ref: '#/components/schemas/TasksConfigV2'
+          type: array
+          description: An array of tasks that the agent can perform
+        ingest_source_config:
+          $ref: '#/components/schemas/IngestSourceConfig'
+        agent_prompts:
+          $ref: '#/components/schemas/AgentPrompt'
+          description: Prompts to be provided to the agent. It can have multiple tasks of the form `task_<task_id>`
+      type: object
+
+    AgentList:
+      items:
+        $ref: '#/components/schemas/Agent'
+      type: array
+      title: Items
+
+    AgentListV2:
+      items:
+        $ref: '#/components/schemas/AgentV2'
+      type: array
+      title: Items
+
+    AgentExecution:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "4c06b4d1-4096-4561-919a-4f94539c8d4a"
+          description: Unique identifier for the execution
+        agent_id:
+          type: string
+          format: uuid
+          description: Unique `id` of the agent
+        batch_id:
+          type: string
+          pattern: ^[a-f0-9]{32}$
+          example: "baab7cdc833145bf8dd260ff1f0a3f21"
+          description: Unique `id` of the batch
+        conversation_duration:
+          type: number
+          format: float
+          description: Total time duration for the conversation (in seconds)
+        total_cost:
+          type: number
+          format: float
+          description: Total cost incurred by this execution in cents
+        status:
+          type: string
+          enum: ["scheduled", "queued", "rescheduled", "initiated", "ringing", "in-progress", "call-disconnected", "completed", "balance-low", "busy", "no-answer", "canceled", "failed", "stopped", "error"]
+          description: Current status of the call
+        error_message:
+          type: string
+          description: Associated error message (if any)
+        answered_by_voice_mail:
+          type: boolean
+          description: If the call was answered by voice mail
+        transcript:
+          type: string
+          description: Transcription of the execution
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T01:14:37Z'
+          description: Timestamp of agent execution
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T18:31:22Z'
+          description: Last updated timestamp for the execution
+        cost_breakdown:
+          $ref: '#/components/schemas/CostBreakdown'
+          description: Breakdown of the costs in cents
+        telephony_data:
+          $ref: '#/components/schemas/TelephonyData'
+          description: Telephony call data
+        transfer_call_data:
+          $ref: '#/components/schemas/TransferCallData'
+          description: Telephony call data
+        batch_run_details:
+          $ref: '#/components/schemas/BatchRunData'
+          description: Batch information
+        extracted_data:
+          type: object
+          nullable: true
+          description: Extracted data in JSON format which was mentioned in the agent `extraction_prompt`
+          example:
+            user_interested: true
+            callback_user: false
+            address: '42 world lane'
+            salary_expected: '42 bitcoins'
+        context_details:
+          type: object
+          description: Custom variable data injected in the call
+      type: object
+
+    AgentExecutionV2List:
+      properties:
+        page_number:
+          type: number
+          format: integer
+          description: The current page number returned in the response. Matches the `page_number` requested in the query.
+        page_size:
+          type: number
+          format: integer
+          description: The number of records returned per page. Matches the `page_size` specified in the request.
+        total:
+          type: number
+          format: integer
+          description: Number of total executions
+        has_more:
+          type: boolean
+          description: Whether there are more records or not
+        data:
+          items:
+            $ref: '#/components/schemas/AgentExecution'
+          type: array
+      title: Items
+
+    AgentExecutionList:
+      items:
+        $ref: '#/components/schemas/AgentExecution'
+      type: array
+      title: Items
+
+    BatchRunData:
+      properties:
+        status:
+          type: string
+          enum: ["scheduled", "queued", "rescheduled", "initiated", "ringing", "in-progress", "call-disconnected", "completed", "balance-low", "busy", "no-answer", "canceled", "failed", "stopped", "error"]
+          description: Status of the call initiated using batch
+          example: "completed"
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T01:14:37Z'
+          description: Timestamp of the execution created by the batch
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T18:31:22Z'
+          description: Last updated timestamp for the execution
+        retried:
+          type: number
+          format: integer
+          description: Number of retries made by the batch after initial attempt
+          example: 0
+
+    CostBreakdown:
+      properties:
+        llm:
+          type: number
+          format: float
+          description: Total cost incurred by the LLM in cents
+          example: 4.2
+        network:
+          type: number
+          format: float
+          description: Total telephony cost in cents
+          example: 1.2
+        platform:
+          type: number
+          format: float
+          description: Bolna platform cost in cents
+          example: 2.0
+        synthesizer:
+          type: number
+          format: float
+          description: Total cost incurred by the Synthesizer provider in cents
+          example: 6.8
+        transcriber:
+          type: number
+          format: float
+          description: Total cost incurred by the Transcriber provider in cents
+          example: 0.7
+
+
+    TelephonyData:
+      properties:
+        duration:
+          type: string
+          pattern: ^\d+$
+          description: Total duration of the call in seconds
+          example: 42
+        to_number:
+          type: string
+          example: "+10123456789"
+          description: Phone number of the recipient alongwith country code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        from_number:
+          type: string
+          example: "+19876543007"
+          description: Phone number of the sender
+        recording_url:
+          type: string
+          format: uri
+          description: Recording URL for the telephone call
+          example: "https://bolna-call-recordings.s3.us-east-1.amazonaws.com/AC1f3285e7c353c7d4036544f8dac36b98/REb1c182ccde4ddf7969a511a267d3c669"
+        hosted_telephony:
+          type: boolean
+          description: Whether the call was made using Bolna telephony
+        provider_call_id:
+          type: string
+          description: Unique ID of the call from the Telephony Provider (like Twilio, Plivo, Vonage, etc.)
+          example: "CA42fb13614bfcfeccd94cf33befe14s2f"
+        call_type:
+          type: string
+          enum: ["outbound", "inbound"]
+          description: The call was an incoming or outgoing call
+        provider:
+          type: string
+          enum: ["twilio", "plivo"]
+          description: The telephony call provider
+        hangup_by:
+          type: string
+          description: Source for call hungup
+          example: 'Caller'
+        hangup_reason:
+          type: string
+          example: 'Normal Hangup'
+          description: Reason of the hungup
+        hangup_provider_code:
+          type: integer
+          example: 4000
+          description: Provider specific code for hangup
+        ring_duration:
+          type: integer
+          description: Duration in seconds the phone rang before it was answered or the call ended
+          example: 17
+        post_dial_delay:
+          type: integer
+          description: Delay in seconds between dialing and the first ring
+          example: 1
+        to_number_carrier:
+          type: string
+          description: The telecom carrier of the recipient's phone number
+          example: "Reliance Jio Infocomm Ltd (RJIL)"
+
+
+    TransferCallData:
+      properties:
+        provider_call_id:
+          type: string
+          description: Unique ID of the call from the Telephony Provider (like Twilio, Plivo, Vonage, etc.)
+          example: "CA42fb13614bfcfeccd94cf33befe14s2f"
+        status:
+          type: string
+          description: Status of this transferred call
+          enum: ["completed", "call-disconnected", "no-answer", "busy", "failed", "in-progress", "canceled", "balance-low", "queued", "ringing", "initiated"]
+        duration:
+          type: string
+          description: Total duration of this transferred call in seconds
+          example: 42
+        cost:
+          type: number
+          format: float
+          description: Total cost incurred for this transferred call
+        to_number:
+          type: string
+          example: "+10123456789"
+          description: Phone number of the recipient alongwith country code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        from_number:
+          type: string
+          example: "+19876543007"
+          description: Phone number which is making the transfer call
+        recording_url:
+          type: string
+          format: uri
+          description: Recording URL for the transferred call
+          example: "https://bolna-call-recordings.s3.us-east-1.amazonaws.com/AC1f3285e7c353c7d4036544f8dac36b98/REb1c182ccde4ddf7969a511a267d3c669"
+        hangup_by:
+          type: string
+          description: Source for transfer call hungup
+          example: 'Caller'
+        hangup_reason:
+          type: string
+          example: 'Normal Hangup'
+          description: Reason of the transfer call hungup
+        hangup_provider_code:
+          type: integer
+          example: 4000
+          description: Provider specific code for transfer call hangup
+
+
+    ExecutionCostBreakdown:
+      properties:
+        synthesizer:
+          type: number
+          format: float
+          description: Total cost incurred by the synthesizer
+        llm:
+          type: number
+          format: float
+          description: Total cost incurred by the llm
+        transcriber:
+          type: number
+          format: float
+          description: Total cost incurred by the transcriber
+        network:
+          type: number
+          format: float
+          description: Total cost incurred by the network
+
+    ExecutionUsageBreakdown:
+      properties:
+        synthesizer_characters:
+          type: number
+          format: float
+          description: Total number of characters synthesized
+        synthesizer_model:
+          type: string
+          description: Synthesizer model used in the execution
+          example: polly
+        transcriber_duration:
+          type: number
+          format: float
+          description: Total time consumed by transcriber
+        transcriber_model:
+          type: string
+          example: deepgram
+          description: Transcriber model used in the execution
+        llm_tokens:
+          type: number
+          format: float
+          description: Total number of token generated by the llm
+        llm_model:
+          $ref: '#/components/schemas/LlmModelExecution'
+          description: Cost breakdown for the execution
+
+    LlmModelExecution:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          output:
+            type: number
+          input:
+            type: number
+      example:
+        gpt-3.5-turbo-16k:
+          output: 28.0
+          input: 1826.0
+        gpt-3.5-standard-8k:
+          output: 20.0
+          input: 1234.0
+
+    AgentRequest:
+      properties:
+        agent_config:
+          $ref: '#/components/schemas/AgentConfig'
+          description: Configuration of the agent
+        agent_prompts:
+          $ref: '#/components/schemas/AgentPrompt'
+          description: Prompts to be provided to the agent. It can have multiple tasks of the form `task_<task_id>`
+      type: object
+      required:
+        - agent_config
+        - agent_prompts
+
+    AgentRequestV2:
+      properties:
+        agent_config:
+          $ref: '#/components/schemas/AgentConfigV2'
+          description: Configuration of the agent
+        agent_prompts:
+          $ref: '#/components/schemas/AgentPrompt'
+          description: Prompts to be provided to the agent. It can have multiple tasks of the form `task_<task_id>`
+      type: object
+      required:
+        - agent_config
+        - agent_prompts
+
+    AgentPrompt:
+      properties:
+        task_1:
+          type: object
+          properties:
+            system_prompt:
+              description: The system prompt fed into the agent
+              type: string
+              example: What is the Ultimate Question of Life, the Universe, and Everything?
+          required:
+            - system_prompt
+      type: object
+
+    AgentPatchRequest:
+      properties:
+        agent_config:
+          $ref: '#/components/schemas/AgentConfigPatchRequest'
+          description: Configuration of the agent
+        agent_prompts:
+          $ref: '#/components/schemas/AgentPrompt'
+          description: Prompts to be provided to the agent. It can have multiple tasks of the form `task_<task_id>`
+      type: object
+
+
+    AgentConfigPatchRequest:
+      type: object
+      properties:
+        agent_name:
+          description: The name of the agent
+          type: string
+          example: Alfred
+        agent_welcome_message:
+          description: Initial welcome message by agent
+          type: string
+          example: "How are you doing Bruce?"
+        webhook_url:
+          description: Webhook URL to receive data for all conversations as [get_execution API](/api-reference/executions/get_execution)
+          type: string
+          example: null
+        synthesizer:
+          type: object
+          $ref: '#/components/schemas/Synthesizer'
+          description: Configuration of Synthesizer model for the agent task
+        ingest_source_config:
+          $ref: '#/components/schemas/IngestSourceConfig'
+        telephony_provider:
+          type: string
+          description: >-
+            The telephony provider to use for this agent. When changed, the agent's audio input/output format is
+            automatically updated to match the provider (e.g., `wav` for twilio/plivo/exotel/vobiz, `ulaw` for sip-trunk).
+          enum:
+            - twilio
+            - plivo
+            - exotel
+            - vobiz
+            - sip-trunk
+            - default
+          example: "sip-trunk"
+
+    AgentConfig:
+      required:
+        - agent_name
+        - tasks
+      type: object
+      properties:
+        agent_name:
+          description: The name of the agent
+          type: string
+          example: Alfred
+        agent_welcome_message:
+          description: Initial welcome message by agent
+          type: string
+          example: "How are you doing Bruce?"
+        webhook_url:
+          description: Webhook URL to receive data for all conversations as [get_execution API](/api-reference/executions/get_execution)
+          type: string
+          example: "https://my-webhook-url"
+        agent_type:
+          description: Agent type
+          type: string
+          example: other
+        tasks:
+          items:
+            $ref: '#/components/schemas/TasksConfig'
+          type: array
+          description: An array of tasks that the agent can perform
+
+    AgentConfigV2:
+      required:
+        - agent_name
+        - tasks
+      type: object
+      properties:
+        agent_name:
+          description: The name of the agent
+          type: string
+          example: Alfred
+        agent_welcome_message:
+          description: Initial welcome message by agent
+          type: string
+          example: "How are you doing Bruce?"
+        webhook_url:
+          description: Webhook URL to receive data for all conversations as [get_execution API](/api-reference/executions/get_execution)
+          type: string
+          example: null
+        agent_type:
+          description: Agent type
+          type: string
+          example: other
+        tasks:
+          items:
+            $ref: '#/components/schemas/TasksConfigV2'
+          type: array
+          description: An array of tasks that the agent can perform
+
+        ingest_source_config:
+          $ref: '#/components/schemas/IngestSourceConfig'
+
+        calling_guardrails:
+          type: object
+          description: Time-based restrictions for outbound calls
+          properties:
+            call_start_hour:
+              type: integer
+              minimum: 0
+              maximum: 23
+              description: Start of allowed calling window in 24-hour format (recipient's timezone)
+              example: 9
+            call_end_hour:
+              type: integer
+              minimum: 0
+              maximum: 23
+              description: End of allowed calling window in 24-hour format (recipient's timezone)
+              example: 17
+
+    IngestSourceConfig:
+      type: object
+      description: Configuration for ingestion source used for inbound agents. Required fields vary by `source_type`.
+      properties:
+        source_type:
+          type: string
+          enum: [api, csv, google_sheet]
+          description: Type of CRM ingestion source
+          example: api
+
+        source_url:
+          type: string
+          format: uri
+          nullable: true
+          description: API or Google Sheet URL
+          example: "https://example.com/api/data"
+
+        source_auth_token:
+          type: string
+          nullable: true
+          description: Bearer token for API authentication
+          example: "abc123"
+
+        source_name:
+          type: string
+          nullable: true
+          description: File or sheet name
+          example: "leads_sheet_june.csv"
+
+      allOf:
+        - if:
+            properties:
+              source_type:
+                const: api
+          then:
+            required: [source_url, source_auth_token]
+        - if:
+            properties:
+              source_type:
+                const: csv
+          then:
+            required: [source_name]
+        - if:
+            properties:
+              source_type:
+                const: google_sheet
+          then:
+            required: [source_name, source_url]
+
+    TasksConfig:
+      properties:
+        task_type:
+          type: string
+          description: Type of task
+          enum: ["conversation", "extraction", "summarization", "webhook"]
+        tools_config:
+          type: object
+          $ref: '#/components/schemas/ToolsConfig'
+          description: Configuration of multiple tools that form a task
+        toolchain:
+          type: object
+          $ref: '#/components/schemas/Toolchain'
+          description: Agent will execute these tools in the specified order
+        task_config:
+          type: object
+          $ref: '#/components/schemas/ConversationConfig'
+          description: Should be used onkly in conversation task for now and it consists of all the required configuration for conversational nuances
+      type: object
+
+    TasksConfigV2:
+      properties:
+        task_type:
+          type: string
+          description: Type of task
+          enum: ["conversation", "extraction", "summarization"]
+        tools_config:
+          type: object
+          $ref: '#/components/schemas/ToolsConfigV2'
+          description: Configuration of multiple tools that form a task
+        toolchain:
+          type: object
+          $ref: '#/components/schemas/Toolchain'
+          description: Agent will execute these tools in the specified order
+        task_config:
+          type: object
+          $ref: '#/components/schemas/ConversationConfig'
+          description: Should be used onkly in conversation task for now and it consists of all the required configuration for conversational nuances
+      type: object
+
+    ToolsConfig:
+      properties:
+        llm_agent:
+          type: object
+          $ref: '#/components/schemas/LlmAgent'
+          description: Configuration of LLM model for the agent task
+        synthesizer:
+          type: object
+          $ref: '#/components/schemas/Synthesizer'
+          description: Configuration of Synthesizer model for the agent task
+        transcriber:
+          type: object
+          $ref: '#/components/schemas/Transcriber'
+          description: Configuration of Transcriber model for the agent task
+        input:
+          type: object
+          $ref: '#/components/schemas/InputOutput'
+          description: Configuration of Input handler
+        output:
+          type: object
+          $ref: '#/components/schemas/InputOutput'
+          description: Configuration of Output handler
+        api_tools:
+          type: object
+          $ref: '#/components/schemas/ApiTools'
+          description: Api tools you'd like the agents to have access to
+          default: null
+          nullable: true
+
+    ToolsConfigV2:
+      properties:
+        llm_agent:
+          type: object
+          $ref: '#/components/schemas/LlmAgentV2'
+          description: Configuration of LLM model for the agent task
+        synthesizer:
+          type: object
+          $ref: '#/components/schemas/Synthesizer'
+          description: Configuration of Synthesizer model for the agent task
+        transcriber:
+          type: object
+          $ref: '#/components/schemas/Transcriber'
+          description: Configuration of Transcriber model for the agent task
+        input:
+          type: object
+          $ref: '#/components/schemas/InputOutput'
+          description: Configuration of Input handler
+        output:
+          type: object
+          $ref: '#/components/schemas/InputOutput'
+          description: Configuration of Output handler
+        api_tools:
+          type: object
+          $ref: '#/components/schemas/ApiTools'
+          description: Api tools you'd like the agents to have access to
+          default: null
+          nullable: true
+
+      type: object
+      required:
+        - llm_agent
+        - synthesizer
+        - transcriber
+        - input
+        - output
+
+    Tools:
+      properties:
+        name:
+          type: string
+          description: Name of the function tool
+        key:
+          type: string
+          enum:
+            - transfer_call
+            - book_appointment
+            - check_availability_of_slots
+            - custom_task
+          default: custom_task
+        description:
+          type: string
+          description: Prompt to be fed for the function tool
+        parameters:
+          type: object
+          description: Definition for the function tool
+      type: object
+      title: agentstatus
+
+    ApiTools:
+      type: object
+      properties:
+        tools:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/TransferCallTools'
+          description: Description of all the tools you'd like to add to the agent. It needs to be a JSON string as this will be passed to LLM.
+        tools_params:
+          type: object
+          description: Parameters for each tool, where keys must match the `name` field in the `tools` array.
+          $ref: '#/components/schemas/TransferCallToolParams'
+      default: null
+
+    TransferCallToolParams:
+      type: object
+      properties:
+        transfer_call_support:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+                - POST
+                - GET
+              default: GET
+              description: Type of request
+              example: "POST"
+            url:
+              type: string
+              format: uri
+              description: Link of the URL to control the transferring of call
+              example: null
+              nullable: true
+            api_token:
+              type: string
+              example: null
+              nullable: true
+              description: API Token in case the URL needs authentication
+            param:
+              description: Stringified JSON of the tool schema
+              type: string
+              example: "{\"call_transfer_number\": \"+19876543210\",\"call_sid\": \"%(call_sid)s\"}"
+
+    TransferCallTools:
+      title: "transfer_call"
+      properties:
+        name:
+          type: string
+          description: Any unique name for this function tool
+          example: "transfer_call_support"
+        key:
+          type: string
+          enum:
+            - transfer_call
+          default: transfer_call
+        description:
+          type: string
+          description: Use this tool to transfer the call
+          example: Use this tool to transfer the call
+        parameters:
+          type: object
+          properties:
+            type:
+              type: string
+              example: "object"  # Example value for the "type" property
+            properties:
+              type: object
+              properties:
+                call_sid:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "string"
+                    description:
+                      type: string
+                      description: "unique call id"
+                      example: "unique call id"
+            required:
+              type: array
+              items:
+                type: string
+                enum:
+                  - call_sid
+              example:
+                - - call_sid
+
+    ConversationConfig:
+      properties:
+        hangup_after_silence:
+          anyOf:
+          - type: integer
+          title: Hangup After Silence
+          description: Time to wait in seconds before hanging up in case user doesn't speak a thing
+          default: 10
+          example: 10
+        incremental_delay:
+          anyOf:
+          - type: integer
+          title: Incremental Delay
+          description: Since we work with interim results, this will dictate the linear delay to add before speaking everytime we get a partial transcript from ASR
+          default: 400
+          example: 400
+        number_of_words_for_interruption:
+          anyOf:
+          - type: integer
+          title: Number Of Words For Interruption
+          description: To avoid accidental interruption, how many words should we wait for before interrupting
+          default: 2
+          example: 2
+        hangup_after_LLMCall:
+          type: boolean
+          title: Hangup After Llmcall
+          description: Weather to use LLM prompt to hang up or not. Pretty soon this will be replaced by predefined function
+          default: false
+          example: false
+        call_cancellation_prompt:
+          anyOf:
+          - type: string
+          title: Call Cancellation Prompt
+          example: null
+        backchanneling:
+          anyOf:
+          - type: boolean
+          title: Backchanneling
+          description: This will enable agent to acknowledge when user is speaking long sentences
+          default: false
+          example: false
+        backchanneling_message_gap:
+          anyOf:
+          - type: integer
+          title: Backchanneling Message Gap
+          description: Gap between every successive acknowledgement. We will also add a random jitter to this value to make it more random 
+          default: 5
+          example: 5
+        backchanneling_start_delay:
+          anyOf:
+          - type: integer
+          title: Backchanneling Start Delay
+          description: Basic delay after which we should start with backchanneling
+          default: 5
+          example: 5
+        ambient_noise_track:
+          type: string
+          title: Ambient Noise Track
+          description: ID of the ambient noise track to play during calls. Use a preset track ID (e.g. `coffee-shop`, `office-ambience`, `call-center`) or the ID of a custom track uploaded via `POST /ambient-sounds/custom`. Set to `null` to disable ambient noise. Only supported with Plivo and Vobiz telephony providers.
+          default: null
+          example: coffee-shop
+        call_terminate:
+          anyOf:
+          - type: integer
+          title: Terminate a call after specified number of seconds
+          description: The call automatically disconnects reaching this limit
+          default: 90
+          example: 90
+        voicemail:
+          type: boolean
+          default: false
+          description: Enable voicemail detection. Agent will automatically disconnect the call if voicemail is detected
+        inbound_limit:
+          type: integer
+          default: -1
+          description: Set the number of times each phone number is allowed to call. Put `-1` to allow unlimited calls.
+        whitelist_phone_numbers:
+          type: array
+          example: null
+          items:
+            type: string
+            format: uuid
+          description: Add phone numbers here that should never be restricted by the call limits (ideal for internal or testing numbers). Phone number should have acountry code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        disallow_unknown_numbers:
+          type: boolean
+          default: false
+          description: Only allow incoming calls from the numbers you've sourced using IngestSourceConfig.
+
+      type: object
+      title: ConversationConfig
+
+    LlmAgent:
+      properties:
+        model:
+          type: string
+          default: gpt-4.1-mini
+          example: gpt-4.1-mini
+        max_tokens:
+          type: integer
+          default: 350
+        agent_flow_type:
+          type: string
+          enum:
+            - streaming
+            - preprocessed
+          default: streaming
+        family:
+          type: string
+          default: openai
+          example: openai
+        provider:
+          type: string
+          default: "openai"
+          example: "openai"
+        base_url:
+          type: string
+          default: null
+          example: "https://api.openai.com/v1"
+        temperature:
+          type: number
+          default: 0.1
+          example: 0.3
+        request_json:
+          type: boolean
+          default: false
+        routes:
+          type: object
+          $ref: '#/components/schemas/Routes'
+          description: Semantic routing layer
+      type: object
+
+    LlmAgentV2:
+      properties:
+        agent_type:
+          type: string
+          enum:
+            - simple_llm_agent
+            - knowledgebase_agent
+          default: simple_llm_agent
+        agent_flow_type:
+          type: string
+          enum:
+            - streaming
+          default: streaming
+        routes:
+          type: object
+          $ref: '#/components/schemas/Routes'
+          description: Semantic routing layer
+        llm_config:
+          oneOf:
+            - $ref: '#/components/schemas/SimpleLlmAgent'
+            - $ref: '#/components/schemas/KnowledgebaseAgent'
+          description: LLM configuration
+      type: object
+
+    SimpleLlmAgent:
+      title: "SimpleLlmAgent"
+      properties:
+        agent_flow_type:
+          type: string
+          enum:
+            - streaming
+          default: streaming
+        provider:
+          type: string
+          default: "openai"
+          example: "openai"
+        family:
+          type: string
+          default: openai
+          example: openai
+        model:
+          type: string
+          default: gpt-4.1-mini
+          example: gpt-4.1-mini
+        summarization_details:
+          type: string
+          default: null
+          example: null
+          nullable: true
+        extraction_details:
+          type: string
+          default: null
+          example: null
+          nullable: true
+        max_tokens:
+          type: integer
+          default: 100
+          example: 150
+        presence_penalty:
+          type: number
+          format: float
+          default: 0.0
+          example: 0.0
+        frequency_penalty:
+          type: number
+          format: float
+          default: 0.0
+          example: 0.0
+        base_url:
+          type: string
+          default: "https://api.openai.com/v1"
+          example: "https://api.openai.com/v1"
+        top_p:
+          type: number
+          format: float
+          default: 0.9
+          example: 0.9
+        min_p:
+          type: number
+          format: float
+          default: 0.1
+          example: 0.1
+        top_k:
+          type: number
+          format: integer
+          default: 0
+          example: 0
+        temperature:
+          type: number
+          format: float
+          default: 0.1
+          example: 0.1
+        request_json:
+          type: boolean
+          default: false
+      type: object
+
+    KnowledgebaseAgent:
+      title: "KnowledgebaseAgent"
+      allOf:
+        - type: object
+          properties:
+            vector_store:
+              type: object
+              $ref: '#/components/schemas/VectorStore'
+              description: Vector Store for knowledgebase. Use [Knowledgebase APIs](/knowledgebase/create) to upload PDFs or URLs. You can select multiple knowledgebases using `vector_ids`.
+        - $ref: '#/components/schemas/SimpleLlmAgent'
+
+    VectorStore:
+      properties:
+        provider:
+          type: string
+          enum:
+            - lancedb
+          default: lancedb
+          description: Provider vector store database
+        provider_config:
+          type: object
+          $ref: '#/components/schemas/LanceDbConfig'
+          description: Configuration of the vector store database
+      type: object
+      title: VectorStore
+
+    LanceDbConfig:
+      properties:
+        vector_id:
+          type: string
+          format: uuid
+          description: Vector id of a single knowledgebase (legacy, use `vector_ids` for multiple)
+        vector_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Array of vector ids to use multiple knowledgebases simultaneously
+          example: ["3c90c3cc-0d44-4b50-8822-8dd25736052a", "4d91c4dd-1e55-5c61-9933-9ee36847163b"]
+      type: object
+      title: LanceDbConfig
+
+    Routes:
+      properties:
+        embedding_model:
+          type: string
+          title: Embedding Model
+          default: snowflake/snowflake-arctic-embed-m
+          example: snowflake/snowflake-arctic-embed-m
+          description: Since we use fastembed all models supported by fastembed are supported by us
+        routes:
+          items:
+            $ref: "#/components/schemas/Route"
+          type: array
+          title: route
+          description: These are predefined routes that can be used to answer FAQs, or set basic guardrails, or do a static function call.
+      type: object
+      title: Routes
+
+    Route:
+      properties:
+        route_name:
+          type: string
+          title: Route Name
+          example: politics
+        utterances:
+          items:
+            type: string
+          type: array
+          title: Utterances
+          example:
+            - 'Who do you think will win the elections?'
+            - 'Whom would you vote for?'
+          description: This is an array of utterances which when spoken you want to send a static response
+        response:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: string
+          example: Hey, thanks but I do not have opinions on politics
+          title: Response
+          description: It can be a stand alone string or array of responses. If it's an array the length should be same as number of utterances and a particular index will be matched before returning
+        score_threshold:
+          description: Similarity score threshold 
+          type: number
+          title: Score Threshold
+          default: 0.85
+          example: 0.90
+      type: object
+      required:
+      - route_name
+      - utterances
+      - response
+      title: Route
+
+    Synthesizer:
+      properties:
+        provider:
+          type: string
+          enum:
+            - polly
+            - elevenlabs
+            - deepgram
+            - styletts
+          example: elevenlabs
+        provider_config:
+          oneOf:
+            - $ref: '#/components/schemas/ElevenLabsConfig'
+            - $ref: '#/components/schemas/PollyConfig'
+            - $ref: '#/components/schemas/DeepgramConfig'
+        stream:
+          type: boolean
+          default: true
+        buffer_size:
+          type: integer
+          default: 250
+          example: 250
+        audio_format:
+          type: string
+          default: wav
+          enum:
+            - wav
+      type: object
+      required:
+        - provider
+        - provider_config
+
+    Transcriber:
+      oneOf:
+        - $ref: '#/components/schemas/DeepgramTranscriberConfig'
+        - $ref: '#/components/schemas/BodhiTranscriberConfig'
+      type: object
+
+    InputOutput:
+      properties:
+        provider:
+          type: string
+          default: plivo
+          enum:
+            - twilio
+            - plivo
+            - exotel
+        format:
+          type: string
+          default: wav
+          enum:
+            - wav
+      type: object
+      required:
+        - provider
+        - format
+
+    Toolchain:
+      properties:
+        execution:
+          type: string
+          enum:
+            - parallel
+            - sequential
+        pipelines:
+          type: array
+          items:
+            type: string
+            enum:
+              - transcriber
+              - llm
+              - synthesizer
+          example:
+            - - transcriber
+              - llm
+              - synthesizer
+      type: object
+      required:
+        - execution
+        - pipelines
+
+    PollyConfig:
+      title: "Polly"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+          enum:
+            - Matthew
+        engine:
+          type: string
+          description: Engine of voice
+          enum:
+            - generative
+        sampling_rate:
+          type: string
+          description: Sampling rate of voice
+          default: "8000"
+          enum:
+            - "8000"
+            - "16000"
+        language:
+          type: string
+          description: Language of voice
+          enum:
+            - "en-US"
+      required:
+        - voice
+        - engine
+        - language
+
+    ElevenLabsConfig:
+      title: "ElevenLabs"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+          enum:
+            - Nila
+        voice_id:
+          type: string
+          description: Unique voice id
+          enum:
+            - V9LCAAi4tTlqe9JadbCo
+        model:
+          type: string
+          description: Model to be used
+          enum:
+            - eleven_turbo_v2_5
+            - eleven_flash_v2_5
+          example: eleven_turbo_v2_5
+      required:
+        - voice
+        - voice_id
+        - model
+
+    OpenAIConfig:
+      title: "OpenAI"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+        model:
+          type: string
+          description: Engine of voice
+        sampling_rate:
+          type: string
+          description: Sampling rate of voice
+          default: "24000"
+      required:
+        - voice
+        - model
+
+    DeepgramConfig:
+      title: "Deepgram"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+          enum:
+            - Asteria
+        model:
+          type: string
+          description: Model of voice
+          example: aura-asteria-en
+        sampling_rate:
+          type: string
+          description: Sampling rate of voice
+          default: "24000"
+      required:
+        - voice
+        - model
+
+
+    DeepgramTranscriberConfig:
+      title: "Deepgram"
+      properties:
+        provider:
+          type: string
+          description: Identification provider for Deepgram
+          enum:
+            - deepgram
+        model:
+          enum:
+            - nova-3
+            - nova-2
+            - nova-2-meeting
+            - nova-2-phonecall
+            - nova-2-finance
+            - nova-2-conversationalai
+            - nova-2-medical
+            - nova-2-drivethru
+            - nova-2-automotive
+          example: nova-3
+        language:
+          enum:
+            - en
+            - hi
+            - es
+            - fr
+          example: hi
+        stream:
+          type: boolean
+          default: true
+        sampling_rate:
+          type: integer
+          default: 16000
+          example: 16000
+        encoding:
+          type: string
+          default: "linear16"
+          enum:
+            - "linear16"
+        endpointing:
+          type: integer
+          default: 250
+          example: 250
+      required:
+        - provider
+        - model
+        - language
+
+    BodhiTranscriberConfig:
+      title: "Bodhi"
+      properties:
+        provider:
+          type: string
+          description: Identification provider for Bodhi
+          enum:
+            - bodhi
+        model:
+          enum:
+            - hi-general-v2-8khz
+            - kn-general-v2-8khz
+            - mr-general-v2-8khz
+            - ta-general-v2-8khz
+            - bn-general-v2-8khz
+          example: hi-general-v2-8khz
+        stream:
+          type: boolean
+          default: true
+        sampling_rate:
+          type: integer
+          default: 16000
+          example: 16000
+        encoding:
+          type: string
+          default: "linear16"
+          enum:
+            - "linear16"
+        endpointing:
+          type: integer
+          default: 100
+          example: 100
+        language:
+          enum:
+            - hi
+            - kn
+            - mr
+            - ta
+            - bn
+          example: hi
+      required:
+        - provider
+        - model
+
+    StyleTtsConfig:
+      title: "Style TTS"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+        sampling_rate:
+          type: string
+          description: Sampling rate of voice
+          default: "24000"
+      required:
+        - voice
+
+    AgentCreateStatus:
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - created
+          example: created
+      type: object
+      title: agentstatus
+
+    AgentUpdateStatus:
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - updated
+          example: updated
+      type: object
+      title: agentstatus
+
+    BatchList:
+      items:
+        $ref: '#/components/schemas/Batch'
+      type: array
+      title: Items
+
+    Batch:
+      properties:
+        batch_id:
+          type: string
+          pattern: ^[0-9a-fA-F]{32}$
+          example: 3c90c3cc0d444b5088888dd25736052a
+          description: The ID of the batch
+        humanized_created_at:
+          type: string
+          example: 5 minutes ago
+          description: Human-readable relative time since batch creation
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T05:14:37Z'
+          description: Created timestamp of batch
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-02-29T04:22:89Z'
+          description: Last updated timestamp of batch
+        status:
+          type: string
+          enum:
+            - scheduled
+            - created
+            - queued
+            - executed
+          example: scheduled
+          description: Current status of the batch
+        scheduled_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T08:30:00Z'
+          description: The scheduled batch timestamp in UTC
+        from_phone_number:
+          type: string
+          deprecated: true
+          description: "**Deprecated.** Use `from_phone_numbers` instead. Phone number of the sender along with country code (in [E.164](https://en.wikipedia.org/wiki/E.164) format)."
+          example: "+19876543007"
+        from_phone_numbers:
+          type: array
+          items:
+            type: string
+          description: List of phone numbers from which the batch calls are made. Each number includes the country code in [E.164](https://en.wikipedia.org/wiki/E.164) format.
+          example: ["+19876543007", "+19876543007"]
+        file_name:
+          type: string
+          description: Name of the CSV batch file uploaded
+          example: "customers.csv"
+        valid_contacts:
+          type: integer
+          format: int32
+          description: Count of all valid contacts found in the CSV file
+          example: 7
+        total_contacts:
+          type: integer
+          format: int32
+          description: Count of all contacts mentioned in the CSV file
+          example: 11
+        execution_status:
+          type: object
+          description: Provides a count-wise breakdown of executions based on their current status. [View all possible statuses](/list-phone-call-status)
+          additionalProperties:
+            type: integer
+            description: The count of users for a specific execution status.
+          example:
+            completed: 1
+            ringing: 10
+            in-progress: 15
+      type: object
+
+    AgentExecutionLogList:
+      properties:
+        status:
+          type: string
+          example: success
+          description: Status of the API response
+        data:
+          items:
+            $ref: '#/components/schemas/AgentExecutionLog'
+          type: array
+      title: Items
+
+    AgentExecutionLog:
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T05:14:37Z'
+          description: Created timestamp of the log
+        type:
+          type: string
+          enum:
+            - request
+            - response
+          description: The log direction
+        component:
+          type: string
+          description: type of component
+          example: synthesizer
+        provider:
+          type: string
+          example: openai
+          description: The provider name
+        data:
+          type: string
+          example: 'Hello world'
+          description: The log content or message
+        reasoning_content:
+          type: string
+          description: >-
+            Optional model reasoning or thinking summary for this log entry.
+            Present only when `component` is `llm`, `type` is `response`, and the provider returned traceable reasoning (e.g. OpenAI reasoning summaries or Gemini thoughts). Omitted when not available.
+          example: '**Defining the topic**\n\nPlanning a short, conversational reply...'
+      type: object
+
+
+    KnowledgebaseList:
+      items:
+        $ref: '#/components/schemas/Knowledgebase'
+      type: array
+      title: Items
+
+    Knowledgebase:
+      properties:
+        rag_id:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          example: f265b06a-7fa7-4fbf-8923-55d5ae9c4ba2
+          description: The ID of the knowledgebase
+        file_name:
+          type: string
+          description: File name of the document
+          example: sample-rag.pdf
+        humanized_created_at:
+          type: string
+          example: 5 minutes ago
+          description: Human-readable relative time since knowledgebase creation
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T05:14:37Z'
+          description: Created timestamp of knowledgebase
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-02-29T04:22:89Z'
+          description: Last updated timestamp of knowledgebase
+        vector_id:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          example: 77a3473c-c78f-4695-ba56-95b1f4f9e80b
+          description: Unique vector ID of the knowledgebase
+        status:
+          type: string
+          enum:
+            - processing
+            - processed
+          example: processed
+          description: Current status of the knowledgebase
+        chunk_size:
+          type: integer
+          description: Chunk size for embedding model
+          default: 512
+          example: 512
+        similarity_top_k:
+          type: integer
+          description: Number of top similar nodes to return.
+          default: 15
+          example: 15
+        overlapping:
+          type: integer
+          description: Number of characters which overlap in between neighboring nodes.
+          default: 128
+          example: 128
+        language_support:
+          type: string
+          description: Language support mode of the knowledgebase. `multilingual` if enabled, `null` otherwise.
+          nullable: true
+          enum:
+            - multilingual
+          example: null
+
+      type: object
+
+    PhoneNumbersList:
+      items:
+        $ref: '#/components/schemas/PhoneNumber'
+      type: array
+      title: Items
+
+    PhoneNumber:
+      properties:
+        id:
+          type: string
+          pattern: ^[0-9a-fA-F]{32}$
+          example: 3c90c3cc0d444b5088888dd25736052a
+          description: The ID of the phone number
+        humanized_created_at:
+          type: string
+          example: 5 minutes ago
+          description: Human-readable relative time since the phone number creation
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-23T05:14:37Z'
+          description: Created timestamp of phone number
+        humanized_updated_at:
+          type: string
+          example: 5 minutes ago
+          description: Human-readable relative time since the phone number last update
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-02-29T04:22:89Z'
+          description: Last updated timestamp of phone number
+        renewal_at:
+          type: string
+          example: '17th Dec, 2024'
+          description: Human readable renewal date for the phone number
+        phone_number:
+          type: string
+          format: string
+          example: '+19876543210'
+          description: Phone number in (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        agent_id:
+          type: string
+          format: uuid
+          description: Agent `id` associated with the phone number
+        price:
+          type: string
+          description: Monthly rental price of the phone number
+          example: '$5.0'
+        telephony_provider:
+          type: string
+          enum:
+            - twilio
+            - plivo
+            - vonage
+          example: twilio
+          description: Telephony provider of the phone number
+        rented:
+          type: boolean
+          description: If the phone number was bought from Bolna
+          example: true
+      type: object
+
+
+    AvailablePhoneNumbersList:
+      items:
+        $ref: '#/components/schemas/AvailablePhoneNumber'
+      type: array
+      title: Items
+
+    AvailablePhoneNumber:
+      properties:
+        region:
+          type: string
+          pattern: '^[A-Za-z ]+$'
+          example: San Francisco
+          description: Name of the geographic region associated with the phone number.
+
+        friendly_name:
+          type: string
+          nullable: true
+          pattern: '^.*$'
+          example: null
+          description: A user-assigned friendly label for the number; may be null if not set.
+
+        locality:
+          type: string
+          nullable: true
+          pattern: '^.*$'
+          example: null
+          description: Name of the locality or area; may be null if not available.
+
+        phone_number:
+          type: string
+          pattern: '^\+[1-9][0-9]{7,14}$'
+          example: "+19876543210"
+          description: E.164 formatted phone number, including country code.
+
+        provider:
+          type: string
+          enum:
+            - twilio
+            - plivo
+            - vobiz
+          description: The telephony provider for the phone number.
+
+        price:
+          type: number
+          format: float
+          pattern: '^[0-9]+(\.[0-9]{1,2})?$'
+          example: 5
+          description: Price of the number in USD.
+      type: object
+
+
+    PurchasePhoneNumberRequest:
+      properties:
+        country:
+          type: "string"
+          enum:
+            - US
+            - IN
+          description: The country code for the phone number.
+
+        phone_number:
+          type: string
+          pattern: '^\+[1-9][0-9]{7,14}$'
+          example: "+19876543210"
+          description: E.164 formatted phone number, including country code.
+
+        provider:
+          type: "string"
+          enum:
+            - twilio
+            - plivo
+            - vobiz
+          description: The telephony provider for the phone number.
+
+      type: object
+      required:
+        - country
+        - phone_number
+
+    PurchasePhoneNumberResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "133b9a7d-59b1-49c4-b62a-c4924503e38b"
+          description: Unique identifier for the purchased phone number record.
+        agent_id:
+          type: string
+          format: uuid
+          nullable: true
+          example: null
+          description: Identifier of the agent associated with the number, if applicable.
+        bolna_owned:
+          type: boolean
+          example: true
+          description: Indicates if the number is owned by Bolna.
+        deleted:
+          type: boolean
+          example: false
+          description: Indicates whether the number record is deleted.
+        renewal:
+          type: boolean
+          example: true
+          description: Indicates if the phone number subscription will auto-renew.
+        payment_uuid:
+          type: string
+          format: uuid
+          example: "de36c363-6a2d-4e83-ba5b-fbb8d0ac8c32"
+          description: Unique identifier for the payment transaction.
+        phone_number:
+          type: string
+          pattern: '^\+[1-9][0-9]{7,14}$'
+          example: "+19876543210"
+          description: E.164 formatted purchased phone number.
+        price:
+          type: number
+          format: float
+          example: 500.0
+          description: Price for the phone number in cents.
+        telephony_provider:
+          type: string
+          enum:
+            - twilio
+            - plivo
+            - vonage
+            - telnyx
+          description: Name of the telephony provider for the number.
+        telephony_sid:
+          type: string
+          example: "19876543210"
+          description: Unique identifier or SID for the phone number within the telephony provider.
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-07-27T20:51:49.468787"
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-07-27T20:51:49.468796"
+          description: Timestamp when the record was last updated.
+
+      type: object
+      title: purchase phone number status
+
+    ProviderList:
+      items:
+        $ref: '#/components/schemas/Provider'
+      type: array
+      title: Items
+
+    Provider:
+      type: object
+      properties:
+        provider_id:
+          type: string
+          description: Unique provider identifier
+          format: uuid
+        provider_name:
+          type: string
+          description: Name of the provider
+          example: OPENAI_API_KEY
+        provider_value:
+          type: string
+          description: Masked secret value/key associated with the provider
+          example: xxxxxxxaz
+        humanized_created_at:
+          type: string
+          description: Human readable relative timestamp of provider addition
+          example: 7 hours ago
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-29T12:44:12Z'
+          description: Timestamp of provider addition
+
+    InboundUnlinkAgentResponse:
+      properties:
+        url:
+          type: string
+          description: Message displaying the voice URL. This will be `null` if the unlinking is successful.
+          example: null
+        phone_number:
+          type: string
+          format: string
+          example: '+19876543210'
+          description: Phone number in (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        id:
+          type: string
+          pattern: ^[0-9a-fA-F]{32}$
+          example: 3c90c3cc0d444b5088888dd25736052a
+          description: The ID of the phone number
+      type: object
+      title: unlinkinboundagent
+
+    InboundAgentResponse:
+      properties:
+        url:
+          type: string
+          description: Message displaying the voice URL
+          example: "https://api.bolna.ai/inbound_call?agent_id=3c90c3cc-0d44-4b50-8888-8dd25736052a&user_id=28f9c34b-8eb0-4af5-8689-c2f6c4daec22"
+        phone_number:
+          type: string
+          format: string
+          example: '+19876543210'
+          description: Phone number in (in [E.164](https://en.wikipedia.org/wiki/E.164) format)
+        id:
+          type: string
+          pattern: ^[0-9a-fA-F]{32}$
+          example: 3c90c3cc0d444b5088888dd25736052a
+          description: The ID of the phone number
+      type: object
+      title: inboundagent
+
+    ProviderRequest:
+      type: object
+      properties:
+        provider_name:
+          type: string
+          description: Name of the provider
+          example: OPENAI_API_KEY
+        provider_value:
+          type: string
+          description: Secret value/key associated with the provider
+          example: sk-0123456789az
+      required:
+        - provider_name
+        - provider_value
+
+    MakeCallStatus:
+      properties:
+        message:
+          type: string
+          example: done
+          description: Response message for the call initiated
+        status:
+          type: string
+          enum:
+            - queued
+          example: queued
+          description: Status of the call.
+        execution_id:
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+          type: string
+          example: '123e4567-e89b-12d3-a456-426614174000'
+          description: Unique `execution_id` or `call_id` identifier of the call.
+      type: object
+
+    ProviderAddedStatus:
+      properties:
+        message:
+          type: string
+          enum:
+            - successful
+        status:
+          type: string
+          enum:
+            - added
+          example: added
+      type: object
+
+    ProviderRemoveStatus:
+      properties:
+        message:
+          type: string
+          enum:
+            - successful
+        status:
+          type: string
+          enum:
+            - removed
+          example: removed
+      type: object
+
+    VoiceList:
+      items:
+        $ref: '#/components/schemas/Voice'
+      type: array
+      title: Items
+
+    Voice:
+      properties:
+        id:
+          description: Unique identifier for the voice
+          type: string
+          format: uuid
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
+        voice_id:
+          type: string
+          description: Provider specific unique identifier
+          example: aBcDeFgHiJkLmN
+        provider:
+          description: Voice provider
+          type: string
+          example: elevenlabs
+          enum:
+            - polly
+            - cartesia
+            - elevenlabs
+            - deepgram
+            - sarvam
+            - smallest
+            - azuretts
+        name:
+          description: Human friendly name of the voice
+          type: string
+          example: Matthew
+        model:
+          type: string
+          description: Voice model. Different providers have their own speific voice models
+          example: eleven_turbo_v2_5
+        accent:
+          type: string
+          description: Accent of the voice
+          example: United States (English) female
+      type: object
+
+    TtsGenerateRequest:
+      properties:
+        text:
+          description: String that needs to be converted to audio
+          type: string
+          example: The Answer to the Ultimate Question of Life, the Universe, and Everything is 42.
+        provider:
+          description: Voice provider
+          type: string
+          enum:
+            - polly
+            - elevenlabs
+            - deepgram
+        provider_config:
+          description: Voice provider options
+          oneOf:
+            - $ref: '#/components/schemas/PollyGenerateRequest'
+            - $ref: '#/components/schemas/ElevenLabsGenerateRequest'
+            - $ref: '#/components/schemas/DeepgramGenerateRequest'
+      type: object
+      required:
+        - text
+        - provider
+        - provider_config
+
+    PollyGenerateRequest:
+      title: "Polly"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+          example: Kajal
+        engine:
+          type: string
+          description: Engine of voice
+          example: neural
+        language:
+          type: string
+          description: Language of voice
+          example: en-US
+      required:
+        - voice
+        - engine
+        - language
+
+    ElevenLabsGenerateRequest:
+      title: "ElevenLabs"
+      properties:
+        voice_id:
+          type: string
+          description: Unique identifier for the voice
+          example: elaPKhzKoWZo7xP9iPov
+        voice:
+          type: string
+          description: Name of voice
+          example: Charles
+        model:
+          type: string
+          description: Engine of voice
+          example: eleven_turbo_v2_5
+      required:
+        - voice
+        - voice_id
+        - model
+
+    DeepgramGenerateRequest:
+      title: "Deepgram"
+      properties:
+        voice:
+          type: string
+          description: Name of voice
+          example: Orpheus
+        model:
+          type: string
+          description: Engine of voice
+          example: aura-orpheus-en
+      required:
+        - voice
+        - model
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique `id` for your user associated with Bolna
+        name:
+          type: string
+          description: Name of the user
+          examples:
+            - Bruce Wayne
+        email:
+          type: string
+          format: email
+          description: Email address of the user
+        wallet:
+          type: number
+          format: float
+          description: Current wallet balance of the user
+          examples:
+            - 42.42
+        concurrency:
+          type: object
+          properties:
+            max:
+              type: integer
+              format: int32
+              description: Maximum concurrency limit for the user account
+              examples:
+                - 10
+            current:
+              type: integer
+              format: int32
+              description: Current concurrent calls from the user account
+              examples:
+                - 7
+
+    SubAccountList:
+      items:
+        $ref: '#/components/schemas/SubAccount'
+      type: array
+      title: Items
+
+
+    SubAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique `id` for the associated sub-account
+        name:
+          type: string
+          description: Name of the sub-account
+          example: alpha-007
+        organization_id:
+          type: string
+          format: uuid
+          description: Organization ID the sub-account belongs to
+        api_key:
+          type: string
+          pattern: "^sa-[a-f0-9]{32}$"
+          example: sa-b33f4fbf011d4661a273a46b11d185f8
+          description: Sub-account API Key used to interact with sub-account resources like agents, executions, batches, etc.
+        multi_tenant:
+          type: boolean
+          description: Whether the sub-account is being stored in a separate database
+          example: false
+        allow_concurrent_calls:
+          type: integer
+          description: The number of concurrent calls that can be made with the sub-account
+          example: 10
+
+
+    SubAccountRequest:
+      properties:
+        name:
+          type: string
+          description: Name of the sub-account
+          example: alpha-007
+        allow_concurrent_calls:
+          type: integer
+          description: The number of concurrent calls that can be made with the sub-account
+          example: 10
+        multi_tenant:
+          type: boolean
+          default: false
+          description: The sub-account is stored in a separate database
+        db_host:
+          type: string
+          default: null
+          example: prod-alpha-007-db-east-1.my-database.com
+          description: Database host for `multi_tenant` sub-account
+        db_name:
+          type: string
+          default: null
+          example: alpha-007_db
+          description: Database name for `multi_tenant` sub-account
+        db_port:
+          type: string
+          default: null
+          example: 5432
+          description: Database port for `multi_tenant` sub-account
+        db_user:
+          type: string
+          default: null
+          example: alpha-007_user
+          description: Database root user for `multi_tenant` sub-account
+        db_password:
+          type: string
+          default: null
+          example: alpha-007_password
+          description: Database root password for `multi_tenant` sub-account
+      type: object
+      required:
+        - name
+        - allow_concurrent_calls
+
+    SubAccountResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unque identifier for the created sub-account
+        name:
+          type: string
+          description: Name of the sub-account
+          example: alpha-007
+        user_id:
+          type: string
+          format: uuid
+          description: ID of the user who created the sub-account
+        organization_id:
+          type: string
+          format: uuid
+          description: Organization ID the sub-account belongs to
+        api_key:
+          type: string
+          pattern: "^sa-[a-f0-9]{32}$"
+          example: sa-b33f4fbf011d4661a273a46b11d185f8
+          description: Sub-account API Key used to interact with sub-account resources like agents, executions, batches, etc.
+        multi_tenant:
+          type: boolean
+          description: Whether the sub-account is being stored in a separate database
+          example: false
+        db_host:
+          type: string
+          description: Database host if the sub-account is `multi_tenant:true`
+          example: null
+        db_name:
+          type: string
+          description: Database name if the sub-account is `multi_tenant:true`
+          example: null
+        db_port:
+          type: string
+          description: Database port if the sub-account is `multi_tenant:true`
+          example: null
+        db_user:
+          type: string
+          description: Database root user if the sub-account is `multi_tenant:true`
+          example: null
+        db_password:
+          type: string
+          description: Database root password if the sub-account is `multi_tenant:true`
+          example: null
+        allow_concurrent_calls:
+          type: integer
+          description: The number of concurrent calls that can be made with the sub-account
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+          example: '2025-01-23T01:14:37Z'
+          description: Timestamp of sub-account creation
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-01-23T01:14:37Z'
+          description: Timestamp of sub-account updation
+      type: object
+      title: Sub-account status
+
+    SubAccountPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the sub-account
+          example: alpha-007
+        allow_concurrent_calls:
+          type: integer
+          description: The number of concurrent calls that can be made with the sub-account
+          example: 10
+
+    SubAccountUsage:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date
+          example: "2025-06-25"
+          description: The starting timestamp (in ISO 8601 UTC format) to calculate usage
+        to:
+          type: string
+          format: date-time
+          example: "2025-06-27T23:59:59.999999"
+          description: The ending timestamp (in ISO 8601 UTC format) to calculate usage
+        total_records:
+          type: integer
+          example: 12
+          description: Total numbers of executions
+        total_duration:
+          type: number
+          format: float
+          description: Total duration in seconds
+          example: 151.0
+        total_cost:
+          type: number
+          format: float
+          example: 31.754
+          description: Total cumulative cost of executions **in cents**
+        total_platform_cost:
+          type: number
+          format: float
+          example: 22.0
+          description: Total cumulative platform cost of executions **in cents**
+        total_telephony_cost:
+          type: number
+          format: float
+          example: 2.673
+          description: Total cumulative telephony cost of executions **in cents**
+        status_map:
+          type: object
+          description: |
+            A map of call status with their counts. Valid status keys include:
+            - scheduled
+            - queued
+            - rescheduled
+            - initiated
+            - ringing
+            - in-progress
+            - call-disconnected
+            - completed
+            - balance-low
+            - busy
+            - no-answer
+            - canceled
+            - failed
+            - stopped
+            - error
+          additionalProperties:
+            type: integer
+          example:
+            completed: 11
+            no-answer: 1
+        synthesizer_cost_map:
+          type: object
+          example:
+            elevenlabs:
+              eleven_turbo_v2_5:
+                characters: 577.0
+                cost: 5.77
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                characters:
+                  type: number
+                  example: 577.0
+                cost:
+                  type: number
+                  example: 5.77
+        transcriber_cost_map:
+          type: object
+          example:
+            deepgram:
+              nova-2:
+                duration: 125.5993724
+                cost: 1.233
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                duration:
+                  type: number
+                  example: 125.5993724
+                cost:
+                  type: number
+                  example: 1.233
+        llm_cost_map:
+          type: object
+          properties:
+            cost:
+              type: number
+              example: 0.078
+            tokens:
+              type: object
+              example:
+                gpt-4o-mini:
+                  input: 2698
+                  output: 605
+              additionalProperties:
+                type: object
+                properties:
+                  input:
+                    type: integer
+                    example: 2698
+                  output:
+                    type: integer
+                    example: 605
+      title: Sub-account usage details
+
+    AllSubAccountUsage:
+      type: array
+      description: A list of usage data objects, with each object providing a breakdown for a single sub-account.
+      items:
+        type: object
+        title: Sub-account usage details
+        properties:
+          from:
+            type: string
+            format: date
+            description: The starting timestamp (in ISO 8601 UTC format) to calculate usage.
+          to:
+            type: string
+            format: date-time
+            description: The ending timestamp (in ISO 8601 UTC format) to calculate usage.
+          total_records:
+            type: integer
+            description: Total numbers of executions.
+          total_duration:
+            type: number
+            format: float
+            description: Total duration in seconds.
+          total_cost:
+            type: number
+            format: float
+            description: Total cumulative cost of executions **in cents**.
+          total_platform_cost:
+            type: number
+            format: float
+            description: Total cumulative platform cost of executions **in cents**.
+          total_telephony_cost:
+            type: number
+            format: float
+            description: Total cumulative telephony cost of executions **in cents**.
+          status_map:
+            type: object
+            description: |
+              A map of call status with their counts.
+            additionalProperties:
+              type: integer
+          synthesizer_cost_map:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  characters:
+                    type: number
+                  cost:
+                    type: number
+          transcriber_cost_map:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  duration:
+                    type: number
+                  cost:
+                    type: number
+          llm_cost_map:
+            type: object
+            properties:
+              cost:
+                type: number
+              tokens:
+                type: object
+          sub_account_id:
+            type: string
+            format: uuid
+            description: Unique identifier for the sub-account.
+          sub_account_name:
+            type: string
+            description: Human-readable name of the sub-account.
+      example:
+        - from: "2025-09-01T00:00:00"
+          to: "2025-09-25T23:59:59.999999"
+          total_records: 0
+          total_duration: 0.0
+          total_cost: 0.0
+          total_platform_cost: 0.0
+          total_telephony_cost: 0.0
+          status_map: {}
+          synthesizer_cost_map: {}
+          transcriber_cost_map: {}
+          llm_cost_map:
+            cost: 0.0
+            tokens: {}
+          sub_account_id: "5416892b-9052-47d6-92e3-85ac51426903"
+          sub_account_name: "test-one"          
+        - from: "2025-09-01T00:00:00"
+          to: "2025-09-25T23:59:59.999999"
+          total_records: 7
+          total_duration: 22.0
+          total_cost: 4.864
+          total_platform_cost: 4.0
+          total_telephony_cost: 0.826
+          status_map:
+            busy: 5
+            completed: 2
+          synthesizer_cost_map:
+            elevenlabs:
+              eleven_turbo_v2_5:
+                characters: 129.0
+                cost: 0.0
+          transcriber_cost_map:
+            deepgram:
+              nova-2:
+                duration: 15.199938
+                cost: 0.0
+          llm_cost_map:
+            cost: 0.038
+            tokens:
+              gpt-4o-mini:
+                input: 17
+                output: 127
+          sub_account_id: "33204bca-0902-4b90-b6d2-6ee0b65e7ef9"
+          sub_account_name: "test-2"
+    Error:
+      required:
+        - error
+        - message
+      type: object
+      properties:
+        error:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+    AddModelResponse:
+      properties:
+        message:
+          type: string
+          example: model added successfully
+          description: Success message for adding the custom model
+        status:
+          type: string
+          enum:
+            - added
+          example: added
+          description: status for the model sent in the request to be added
+      type: object
+      title: addmodelstatus
+
+    AccessDenied:
+      required:
+        - error
+        - message
+      type: object
+      properties:
+        error:
+          type: integer
+          format: int32
+          example: 401
+        message:
+          type: string
+          example: Access denied
+
+    SIPTrunkGateway:
+      type: object
+      required:
+        - gateway_address
+      properties:
+        gateway_address:
+          type: string
+          description: Hostname or IP of the SIP gateway
+          example: "sip.zadarma.com"
+        port:
+          type: integer
+          default: 5060
+          description: SIP port
+          example: 5060
+        priority:
+          type: integer
+          default: 1
+          description: Gateway priority (lower = higher priority)
+          example: 1
+
+    SIPTrunkIPIdentifier:
+      type: object
+      required:
+        - ip_address
+      properties:
+        ip_address:
+          type: string
+          description: IP address or CIDR range for IP-based authentication
+          example: "15.207.90.192/31"
+
+    SIPTrunkCreateRequest:
+      type: object
+      required:
+        - name
+        - provider
+        - auth_type
+        - gateways
+      properties:
+        name:
+          type: string
+          description: Human-readable label. Must be unique per account.
+          example: "Zadarma Production"
+        provider:
+          type: string
+          description: SIP provider name (e.g. twilio, plivo, zadarma, telnyx, vonage, custom)
+          example: "zadarma"
+        description:
+          type: string
+          description: Optional description for internal reference
+        auth_type:
+          type: string
+          enum: [userpass, ip-based]
+          description: Authentication method
+          example: "userpass"
+        auth_username:
+          type: string
+          description: SIP username. Required when auth_type is userpass.
+        auth_password:
+          type: string
+          description: SIP password. Required when auth_type is userpass.
+        gateways:
+          type: array
+          items:
+            $ref: '#/components/schemas/SIPTrunkGateway'
+          description: At least one gateway is required
+        ip_identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SIPTrunkIPIdentifier'
+          description: Required when auth_type is ip-based
+        allow:
+          type: string
+          default: "ulaw,alaw"
+          description: Comma-separated codecs to allow
+        disallow:
+          type: string
+          default: "all"
+          description: Comma-separated codecs to disallow
+        transport:
+          type: string
+          enum: [transport-udp, transport-tcp, transport-tls]
+          default: "transport-udp"
+          description: SIP transport protocol.
+        direct_media:
+          type: boolean
+          default: false
+          description: RTP directly between caller and callee. Keep false.
+        rtp_symmetric:
+          type: boolean
+          default: true
+          description: Symmetric RTP. Required for NAT.
+        force_rport:
+          type: boolean
+          default: true
+          description: Force responses to source port. Required for NAT.
+        media_encryption:
+          type: string
+          enum: [no, sdes]
+          default: "no"
+          description: RTP encryption. Use "sdes" for SRTP. Requires transport=transport-tls.
+        media_encryption_optimistic:
+          type: boolean
+          default: false
+          description: When media_encryption=sdes, fall back to clear RTP if the carrier does not offer crypto in its SDP.
+        qualify_frequency:
+          type: integer
+          default: 60
+          description: SIP OPTIONS ping interval in seconds. 0 to disable.
+        inbound_enabled:
+          type: boolean
+          default: false
+          description: Set true to receive inbound calls on this trunk
+        outbound_leading_plus_enabled:
+          type: boolean
+          default: true
+          description: Prepend + to outbound dialed numbers
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SIPTrunkPhoneNumberRequest'
+          description: Optional phone numbers to add at creation time
+
+    SIPTrunkUpdateRequest:
+      type: object
+      description: Fields to update on an existing SIP trunk. Only provided fields are changed.
+      properties:
+        name:
+          type: string
+          description: Updated human-readable trunk name.
+        description:
+          type: string
+          description: Updated trunk description for internal reference.
+        auth_username:
+          type: string
+          description: Updated SIP username (used only when the trunk uses userpass authentication).
+        auth_password:
+          type: string
+          description: Updated SIP password (used only when the trunk uses userpass authentication).
+        gateways:
+          type: array
+          description: Replaces existing gateways when provided.
+          items:
+            $ref: '#/components/schemas/SIPTrunkGateway'
+        ip_identifiers:
+          type: array
+          description: Replaces existing IP identifiers when provided.
+          items:
+            $ref: '#/components/schemas/SIPTrunkIPIdentifier'
+        allow:
+          type: string
+          description: Comma-separated codecs to allow (e.g., "ulaw,alaw").
+        disallow:
+          type: string
+          description: Comma-separated codecs to disallow (typically "all").
+        inbound_enabled:
+          type: boolean
+          description: Enable or disable inbound calling on this trunk.
+        outbound_leading_plus_enabled:
+          type: boolean
+          description: Whether to prepend a leading + to outbound dialed numbers.
+        is_active:
+          type: boolean
+          description: Activate or deactivate the trunk. When false, calls will not be placed.
+        qualify_frequency:
+          type: integer
+          description: SIP OPTIONS ping interval in seconds. Use 0 to disable.
+        transport:
+          type: string
+          enum: [transport-udp, transport-tcp, transport-tls]
+          description: SIP transport protocol.
+        media_encryption:
+          type: string
+          enum: [no, sdes]
+          description: RTP encryption. "sdes" requires transport=transport-tls.
+        media_encryption_optimistic:
+          type: boolean
+          description: When media_encryption=sdes, fall back to clear RTP if the carrier does not offer crypto in its SDP.
+
+    SIPTrunkResponse:
+      type: object
+      description: SIP trunk object returned by the API.
+      properties:
+        id:
+          type: string
+          description: Unique SIP trunk identifier.
+        name:
+          type: string
+          description: Human-readable trunk name.
+        provider:
+          type: string
+          description: SIP provider name (e.g., twilio, plivo, zadarma, telnyx, vonage, custom).
+        description:
+          type: string
+          description: Optional trunk description for internal reference.
+        auth_type:
+          type: string
+          enum: [userpass, ip-based]
+          description: Authentication method used for this trunk.
+        auth_username:
+          type: string
+          description: SIP username (present only for userpass trunks).
+        gateways:
+          type: array
+          description: Ordered list of SIP gateways used for registration and call routing.
+          items:
+            $ref: '#/components/schemas/SIPTrunkGateway'
+        ip_identifiers:
+          type: array
+          description: IP ranges associated with this trunk (used only for ip-based authentication).
+          items:
+            $ref: '#/components/schemas/SIPTrunkIPIdentifier'
+        phone_numbers:
+          type: array
+          description: Phone numbers (DIDs) registered on this trunk.
+          items:
+            $ref: '#/components/schemas/SIPTrunkPhoneNumberResponse'
+        allow:
+          type: string
+          description: Comma-separated codecs to allow.
+        disallow:
+          type: string
+          description: Comma-separated codecs to disallow.
+        transport:
+          type: string
+          enum: [transport-udp, transport-tcp, transport-tls]
+          description: SIP transport used by the trunk.
+        direct_media:
+          type: boolean
+          description: Whether RTP is routed directly between endpoints (typically false).
+        rtp_symmetric:
+          type: boolean
+          description: Enables symmetric RTP to handle NAT.
+        force_rport:
+          type: boolean
+          description: Forces responses to the source port to handle NAT.
+        media_encryption:
+          type: string
+          enum: [no, sdes]
+          description: RTP encryption mode. "no" for plain RTP, "sdes" for SRTP via SDES (TLS trunks only).
+        media_encryption_optimistic:
+          type: boolean
+          description: When media_encryption=sdes, whether to fall back to clear RTP if the carrier does not offer crypto.
+        qualify_frequency:
+          type: integer
+          description: SIP OPTIONS ping interval in seconds.
+        inbound_enabled:
+          type: boolean
+          description: Whether inbound calling is enabled.
+        outbound_leading_plus_enabled:
+          type: boolean
+          description: Whether to prepend a leading + to outbound dialed numbers.
+        is_active:
+          type: boolean
+          description: Whether the trunk is active.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the trunk was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the trunk was last updated.
+
+    SIPTrunkPhoneNumberRequest:
+      type: object
+      required:
+        - phone_number
+      properties:
+        phone_number:
+          type: string
+          description: The DID phone number to register
+          example: "919876543210"
+        name:
+          type: string
+          description: Optional human-readable label for the number
+          example: "Mumbai Support Line"
+        e164_check_enabled:
+          type: boolean
+          default: false
+          description: Whether to enforce E.164 format validation
+
+    SIPTrunkPhoneNumberResponse:
+      type: object
+      description: Phone number (DID) registered on a SIP trunk.
+      properties:
+        id:
+          type: string
+          description: Unique phone number identifier.
+        phone_number:
+          type: string
+          description: The DID phone number stored on the trunk.
+        name:
+          type: string
+          description: Optional label for the phone number.
+        byot_trunk_id:
+          type: string
+          description: The SIP trunk ID that this phone number belongs to.
+        telephony_provider:
+          type: string
+          description: Provider type for BYOT numbers.
+          example: "sip-trunk"
+        deleted:
+          type: boolean
+          description: Whether the phone number is deleted.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the phone number was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the phone number was last updated.
+
+    Violation:
+      type: object
+      description: A violation record associated with a call.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the violation.
+          example: "ce23f363-131a-47fc-8a33-258141a575b0"
+        from_phone_number:
+          type: string
+          description: The phone number that initiated the call (in E.164 format).
+          example: "+918035739196"
+        to_phone_number:
+          type: string
+          description: The phone number that received the call (in E.164 format).
+          example: "+919845866566"
+        date_of_call:
+          type: string
+          format: date-time
+          description: The date of the call associated with the violation.
+          example: "2026-01-05T00:00:00+00:00"
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - rejected
+            - submitted
+          description: Current status of the violation.
+          example: "submitted"
+        created_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the violation was created.
+          example: "2026-03-06T08:25:53.514276+00:00"
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the violation was last updated.
+          example: "2026-03-09T07:10:29.135591+00:00"
+        user_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the user associated with the violation.
+          example: "9082f423-9c6c-4f19-a131-24f4cc99209a"
+        agent_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the agent associated with the violation.
+          example: "af4f2c34-4750-4d7c-97a3-4e2e27a643a2"
+        execution_id:
+          type: string
+          format: uuid
+          description: The unique identifier of the call execution linked to this violation.
+          example: "137f88ef-701e-42b6-a26a-7bc1103df5aa"
+        image_url:
+          type: string
+          nullable: true
+          description: Path to the violation evidence image, if available.
+          example: "73b9ed7c-c255-486b-b2eb-6c21e41a8ca1/violations/ce23f363-131a-47fc-8a33-258141a575b0/9845866566.png"
+        email:
+          type: string
+          format: email
+          description: Email address associated with the violation.
+          example: "user@example.com"
+
+    ViolationList:
+      type: object
+      description: Paginated list of violations.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Violation'
+          description: Array of violation objects.
+        total:
+          type: integer
+          description: Total number of violations matching the filter.
+          example: 9
+        limit:
+          type: integer
+          description: Number of results returned per page.
+          example: 5
+        offset:
+          type: integer
+          description: The offset of the current page in the result set.
+          example: 5
+        has_more:
+          type: boolean
+          description: Whether there are more results available beyond the current page.
+          example: false
+
+    ExtractionTemplate:
+      type: object
+      description: An extraction template for structured data extraction from call transcripts.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the extraction template.
+          example: "3c90c3cc0d444b5088228dd25736052a"
+        name:
+          type: string
+          description: Name of the extraction template.
+          example: "Lead Qualification"
+        json_schema:
+          type: object
+          description: JSON schema defining the structure of extracted data.
+          example:
+            type: object
+            properties:
+              lead_quality:
+                type: string
+                enum: ["hot", "warm", "cold"]
+              budget_range:
+                type: string
+              timeline:
+                type: string
+        instructions:
+          type: string
+          nullable: true
+          description: Optional instructions for the extraction model.
+          example: "Extract the lead quality, budget, and timeline from the conversation."
+        model:
+          type: string
+          description: The LLM model used for extraction.
+          default: "gpt-4.1-mini"
+          example: "gpt-4.1-mini"
+        inputs:
+          type: object
+          nullable: true
+          description: Input configuration for the template.
+        keys:
+          type: object
+          nullable: true
+          description: Key mappings for the template.
+        display:
+          type: boolean
+          description: Whether this template should be displayed in the UI.
+          default: true
+        supports_custom_questions:
+          type: boolean
+          description: Whether this template supports custom questions.
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the template was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the template was last updated.
+
+    ExtractionTemplateCreate:
+      type: object
+      required:
+        - name
+        - json_schema
+      description: Request body for creating an extraction template.
+      properties:
+        name:
+          type: string
+          description: Name of the extraction template.
+          example: "Lead Qualification"
+        json_schema:
+          type: object
+          description: JSON schema defining the structure of extracted data.
+          example:
+            type: object
+            properties:
+              lead_quality:
+                type: string
+                enum: ["hot", "warm", "cold"]
+              budget_range:
+                type: string
+              timeline:
+                type: string
+        instructions:
+          type: string
+          nullable: true
+          description: Optional instructions for the extraction model.
+          example: "Extract the lead quality, budget, and timeline from the conversation."
+        model:
+          type: string
+          description: The LLM model used for extraction.
+          default: "gpt-4.1-mini"
+          example: "gpt-4.1-mini"
+        inputs:
+          type: object
+          nullable: true
+          description: Input configuration for the template.
+        keys:
+          type: object
+          nullable: true
+          description: Key mappings for the template.
+        display:
+          type: boolean
+          description: Whether this template should be displayed in the UI.
+          default: true
+        supports_custom_questions:
+          type: boolean
+          description: Whether this template supports custom questions.
+          default: false
+
+    ExtractionTemplateUpdate:
+      type: object
+      description: Request body for updating an extraction template. All fields are optional.
+      properties:
+        name:
+          type: string
+          description: Name of the extraction template.
+          example: "Lead Qualification"
+        json_schema:
+          type: object
+          description: JSON schema defining the structure of extracted data.
+        instructions:
+          type: string
+          nullable: true
+          description: Optional instructions for the extraction model.
+        model:
+          type: string
+          description: The LLM model used for extraction.
+          example: "gpt-4.1-mini"
+        inputs:
+          type: object
+          nullable: true
+          description: Input configuration for the template.
+        keys:
+          type: object
+          nullable: true
+          description: Key mappings for the template.
+        display:
+          type: boolean
+          description: Whether this template should be displayed in the UI.
+        supports_custom_questions:
+          type: boolean
+          description: Whether this template supports custom questions.
+
+    ObjectiveOption:
+      type: object
+      description: A pre-defined option for an objective disposition. Supports recursive `sub_options` for hierarchical classifications.
+      required:
+        - value
+        - condition
+      properties:
+        value:
+          type: string
+          description: The value returned when this option is selected.
+          example: interested
+        condition:
+          type: string
+          description: Natural-language condition describing when this option should be selected.
+          example: Customer expressed genuine interest and agreed to a next step
+        sub_options:
+          type: array
+          description: Optional nested options for hierarchical classifications. Each item has the same structure as `ObjectiveOption`.
+          items:
+            $ref: '#/components/schemas/ObjectiveOption'
+
+    SubjectiveTypeConfig:
+      type: object
+      description: Configuration for the `regex` subjective type. Required when `subjective_type` is `regex`.
+      required:
+        - pattern
+      properties:
+        pattern:
+          type: string
+          description: The regular expression the free-text response must match.
+          example: "^\\d{10}$"
+        description:
+          type: string
+          description: Optional human-readable description of the expected format.
+          example: 10-digit phone number
+
+    Disposition:
+      type: object
+      description: An LLM-powered post-call classifier that labels call outcomes from transcripts.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the disposition.
+          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        name:
+          type: string
+          description: Display name shown in results.
+          example: Call Outcome
+        question:
+          type: string
+          description: The prompt sent to the LLM to evaluate the transcript.
+          example: What was the outcome of the call?
+        system_prompt:
+          type: string
+          nullable: true
+          description: Optional system context for the LLM.
+          example: You are analyzing a sales call transcript.
+        category:
+          type: string
+          description: Grouping label for the disposition.
+          default: General
+          example: Lead Quality
+        model:
+          type: string
+          description: LLM model used for evaluation.
+          default: gpt-4.1-mini
+          example: gpt-4.1-mini
+        is_subjective:
+          type: boolean
+          description: Enables free-text response.
+          default: false
+          example: true
+        is_objective:
+          type: boolean
+          description: Enables pre-defined value selection.
+          default: false
+          example: true
+        subjective_type:
+          type: string
+          description: Format constraint for free-text responses. Only allowed when `is_subjective` is `true`.
+          enum:
+            - text
+            - timestamp
+            - numeric
+            - boolean
+            - email
+            - regex
+          default: text
+        subjective_type_config:
+          allOf:
+            - $ref: '#/components/schemas/SubjectiveTypeConfig'
+          nullable: true
+          description: Configuration for the `regex` subjective type. Required when `subjective_type` is `regex`.
+        objective_options:
+          type: array
+          nullable: true
+          description: Pre-defined options. Required when `is_objective` is `true`.
+          items:
+            $ref: '#/components/schemas/ObjectiveOption'
+        agent_ids:
+          type: array
+          description: List of agent IDs this disposition is linked to.
+          items:
+            type: string
+          example: ["agt_abc123"]
+        created_by:
+          type: string
+          description: ID of the user who created this disposition.
+          example: user_abc123
+        created_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the disposition was created.
+          example: "2026-03-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO timestamp when the disposition was last updated.
+          example: "2026-03-15T14:30:00Z"
+
+    DispositionCreate:
+      type: object
+      description: |
+        Request body for creating a disposition.
+
+        At least one of `is_subjective` or `is_objective` must be `true`. When `is_objective` is `true`, `objective_options` is required and must be non-empty. When `subjective_type` is `regex`, `subjective_type_config` with a `pattern` is required.
+      required:
+        - name
+        - question
+      properties:
+        name:
+          type: string
+          description: Display name shown in results.
+          example: Call Outcome
+        question:
+          type: string
+          description: The prompt sent to the LLM to evaluate the transcript.
+          example: What was the final outcome of this call?
+        category:
+          type: string
+          description: Grouping label for the disposition.
+          default: General
+          example: Lead Quality
+        agent_id:
+          type: string
+          format: uuid
+          description: If provided, links the disposition to this agent on creation.
+        system_prompt:
+          type: string
+          description: Optional system context for the LLM.
+        model:
+          type: string
+          description: LLM model to use for evaluation.
+          default: gpt-4.1-mini
+          example: gpt-4.1-mini
+        is_subjective:
+          type: boolean
+          description: Enable free-text response.
+          default: false
+          example: true
+        is_objective:
+          type: boolean
+          description: Enable pre-defined value selection.
+          default: false
+          example: true
+        subjective_type:
+          type: string
+          description: Format constraint for free-text responses. Only allowed when `is_subjective` is `true`.
+          enum:
+            - text
+            - timestamp
+            - numeric
+            - boolean
+            - email
+            - regex
+          default: text
+        subjective_type_config:
+          allOf:
+            - $ref: '#/components/schemas/SubjectiveTypeConfig'
+          nullable: true
+          description: Required when `subjective_type` is `regex`.
+        objective_options:
+          type: array
+          description: Required when `is_objective` is `true`. Must be non-empty.
+          items:
+            $ref: '#/components/schemas/ObjectiveOption'
+          example:
+            - value: interested
+              condition: Customer expressed genuine interest and agreed to a next step
+            - value: not_interested
+              condition: Customer declined or was unresponsive to all proposals
+            - value: follow_up
+              condition: Customer asked to be contacted again at a later time
+
+    DispositionUpdate:
+      type: object
+      description: Request body for updating a disposition. All fields are optional — only included fields are changed.
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          description: If provided, enables scoped (copy-on-write) mode.
+        name:
+          type: string
+          description: New display name.
+          example: Next Step Agreed
+        question:
+          type: string
+          description: Updated LLM evaluation prompt.
+        category:
+          type: string
+          description: New category label.
+          example: Conversion
+        system_prompt:
+          type: string
+          description: Updated LLM system context.
+        model:
+          type: string
+          description: Updated LLM model.
+          example: gpt-4.1-mini
+        is_subjective:
+          type: boolean
+          description: Enable or disable free-text response.
+        is_objective:
+          type: boolean
+          description: Enable or disable pre-defined value selection.
+        subjective_type:
+          type: string
+          description: Format constraint for free-text responses.
+          enum:
+            - text
+            - timestamp
+            - numeric
+            - boolean
+            - email
+            - regex
+        subjective_type_config:
+          allOf:
+            - $ref: '#/components/schemas/SubjectiveTypeConfig'
+          nullable: true
+          description: Configuration for the `regex` subjective type.
+        objective_options:
+          type: array
+          description: Updated list of pre-defined options.
+          items:
+            $ref: '#/components/schemas/ObjectiveOption'
+
+    DispositionBulkCreateItem:
+      type: object
+      description: A single disposition entry in a bulk-create request.
+      required:
+        - name
+        - question
+      properties:
+        name:
+          type: string
+          description: Display name shown in results.
+          example: Agent Handover Needed
+        question:
+          type: string
+          description: LLM evaluation prompt.
+          example: Did the customer explicitly ask to speak with a human agent?
+        category:
+          type: string
+          description: Grouping label.
+          default: General
+          example: Escalation
+        system_prompt:
+          type: string
+          description: Optional system context for the LLM.
+        model:
+          type: string
+          description: LLM model to use for evaluation.
+          default: gpt-4.1-mini
+          example: gpt-4.1-mini
+        is_subjective:
+          type: boolean
+          description: Enable free-text response.
+          default: false
+        is_objective:
+          type: boolean
+          description: Enable pre-defined value selection.
+          default: false
+        subjective_type:
+          type: string
+          description: Format constraint for free-text responses. Only allowed when `is_subjective` is `true`.
+          enum:
+            - text
+            - timestamp
+            - numeric
+            - boolean
+            - email
+            - regex
+          default: text
+        subjective_type_config:
+          allOf:
+            - $ref: '#/components/schemas/SubjectiveTypeConfig'
+          nullable: true
+          description: Required when `subjective_type` is `regex`.
+        objective_options:
+          type: array
+          description: Required when `is_objective` is `true`.
+          items:
+            $ref: '#/components/schemas/ObjectiveOption'
+
+    DispositionBulkCreate:
+      type: object
+      description: Request body for atomically creating multiple dispositions linked to an agent.
+      required:
+        - agent_id
+        - dispositions
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          description: The agent all dispositions will be linked to.
+        dispositions:
+          type: array
+          minItems: 1
+          description: Non-empty array of disposition objects to create.
+          items:
+            $ref: '#/components/schemas/DispositionBulkCreateItem'
+
+    DispositionCreateResponse:
+      type: object
+      description: Standard response for create/update/delete operations on a single disposition.
+      properties:
+        message:
+          type: string
+          example: Disposition created successfully
+        id:
+          type: string
+          format: uuid
+          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+
+    DispositionBulkCreateResponse:
+      type: object
+      description: Response returned after a successful bulk-create. The `ids` array preserves the input order.
+      properties:
+        message:
+          type: string
+          example: Dispositions created successfully
+        ids:
+          type: array
+          description: IDs of the newly created dispositions, in the same order as the input `dispositions` array.
+          items:
+            type: string
+            format: uuid
+          example:
+            - "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            - "7cb91a23-1234-4321-b2fc-1c963f11bde4"
+
+    DispositionTestRequest:
+      type: object
+      description: Request body for testing an agent's dispositions against a transcript.
+      required:
+        - transcript
+      properties:
+        transcript:
+          type: string
+          maxLength: 50000
+          description: The call transcript to run dispositions against.
+          example: "Agent: Hi, how can I help you today? Customer: I am interested in your enterprise plan and would like to know more about pricing."
+        call_date:
+          type: string
+          format: date-time
+          description: Optional ISO 8601 date/datetime string for temporal context.
+          example: "2026-04-01T10:00:00Z"
+
+    DispositionTestResponse:
+      type: object
+      description: Grouped disposition results in the same format as post-call execution data.
+      properties:
+        extracted_data:
+          type: object
+          description: Results grouped by category and disposition name. Each leaf contains `subjective` (free-text) and/or `objective` (pre-defined value) fields.
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                subjective:
+                  type: string
+                objective:
+                  type: string
+          example:
+            Lead Quality:
+              Call Outcome:
+                subjective: "Customer expressed strong interest and asked about enterprise pricing."
+                objective: interested
+            Escalation:
+              Agent Handover Needed:
+                subjective: ""
+                objective: "No"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
