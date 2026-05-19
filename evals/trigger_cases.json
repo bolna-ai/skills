@@ -1,0 +1,50 @@
+[
+  {
+    "skill": "setup-api-key",
+    "queries": [
+      "Set up my Bolna API key",
+      "Bolna is returning 401",
+      "Verify BOLNA_API_KEY"
+    ]
+  },
+  {
+    "skill": "create-agent",
+    "queries": [
+      "Create a Hindi Bolna voice agent",
+      "Build a Bolna support bot with ElevenLabs and Deepgram",
+      "Spin up a new Bolna agent with a welcome message"
+    ]
+  },
+  {
+    "skill": "make-call",
+    "queries": [
+      "Call this customer using my Bolna agent",
+      "Schedule a Bolna callback tomorrow",
+      "Pass customer_name in user_data for an outbound call"
+    ]
+  },
+  {
+    "skill": "create-batch",
+    "queries": [
+      "Upload a CSV and run a Bolna campaign",
+      "Create a batch calling job",
+      "Schedule bulk outbound calls with retries"
+    ]
+  },
+  {
+    "skill": "create-disposition",
+    "queries": [
+      "Extract lead quality from every Bolna call",
+      "Create a post-call disposition",
+      "Test dispositions against this transcript"
+    ]
+  },
+  {
+    "skill": "debug-bolna-calls",
+    "queries": [
+      "My Bolna call has long pauses",
+      "Why did this execution fail?",
+      "The webhook didn't arrive after a call"
+    ]
+  }
+]

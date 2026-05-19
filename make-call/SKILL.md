@@ -23,6 +23,7 @@ license: MIT
 - `scheduled_at`: ISO 8601 datetime with timezone, for example `2026-05-19T18:30:00+05:30`.
 - `user_data`: dynamic variables referenced in prompts or welcome messages, for example `{customer_name}`.
 - `agent_data.voice_id`: override voice within the same configured TTS provider only.
+- `bypass_call_guardrails`: when true, skip agent calling window checks for this call. Use only for testing, emergencies, or explicitly approved priority calls.
 - `retry_config`: retry failed calls for no answer, busy, failed, error, or voicemail cases.
 
 ## Immediate call
@@ -60,11 +61,16 @@ Always save `execution_id`; it is the join key for webhooks and execution lookup
 {
   "agent_id": "123e4567-e89b-12d3-a456-426655440000",
   "recipient_phone_number": "+919876543210",
-  "scheduled_at": "2026-05-19T18:30:00+05:30"
+  "scheduled_at": "2026-05-19T18:30:00+05:30",
+  "bypass_call_guardrails": false
 }
 ```
 
 Avoid timezone-less datetime strings.
+
+## Guardrails
+
+If the agent has `calling_guardrails.call_start_hour` and `call_end_hour`, Bolna evaluates those against the recipient's local timezone. Outside the allowed window, the call can be rescheduled instead of placed immediately. Use `bypass_call_guardrails: true` only when the user explicitly wants to ignore that time window.
 
 ## Retry config
 

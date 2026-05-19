@@ -21,12 +21,13 @@ license: MIT
 The CSV must include recipient phone numbers and any variables referenced by the agent prompt.
 
 ```csv
-phone_number,customer_name,plan
+contact_number,customer_name,plan
 +919876543210,Amitesh,Pro
 +918765432109,Riya,Starter
 ```
 
 If the agent prompt says `{customer_name}` or `{plan}`, the CSV needs matching columns.
+Use `contact_number` for the recipient number header. Bolna validates that column and passes the other columns through as custom variables.
 
 ## Create batch
 
@@ -61,7 +62,8 @@ Expected response:
 ```bash
 curl --location "https://api.bolna.ai/batches/$BATCH_ID/schedule" \
   --header "Authorization: Bearer $BOLNA_API_KEY" \
-  --form 'scheduled_at="2026-05-19T18:30:00+05:30"'
+  --form 'scheduled_at="2026-05-19T18:30:00+05:30"' \
+  --form 'bypass_call_guardrails=false'
 ```
 
 Always include timezone in `scheduled_at`.
