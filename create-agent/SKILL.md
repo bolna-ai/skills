@@ -206,7 +206,7 @@ When you want **one agent** to take a call that may switch between languages mid
 | `handoff_message` supports placeholders `{agent_name}` and `{language}`. | Played when the agent switches languages mid-call. |
 | `switch_tool_description` is the **Language Switching Instructions** field in the dashboard. | This is the rule the LLM follows to decide whether to flip languages. Be explicit: "Respond in the language the user is currently using. Default to Hindi." |
 | `active_language` decides which language the call opens in. | Pick the highest-confidence default; let `switch_tool_description` handle the rest. |
-| `agent_welcome_message` and `task_config.call_hangup_message` can be **dicts** keyed by language code (`{"en": "...", "hi": "..."}`) for multilingual welcome / hangup lines. | Without the dict form, the same string plays in every language. |
+| `task_config.call_hangup_message` and `task_config.check_user_online_message` can be **dicts** keyed by language code (`{"en": "...", "hi": "..."}`). `agent_welcome_message` is `str` only — write it in the `active_language`. | For a per-language welcome, rely on each language's `system_prompt` opening and the per-language `handoff_message` for switches. |
 | `agent_name` and `handoff_message` ship to callers verbatim. | Set real values — empty or garbage strings (`"qwegf iqghyf"`) reach production. |
 
 For the full worked example (Snabbit-style, three languages, per-language STT/TTS), see `references/multilingual-config.md`.
