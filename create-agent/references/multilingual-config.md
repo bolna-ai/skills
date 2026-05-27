@@ -75,23 +75,31 @@ You are **not** locked to one STT/TTS pair. Pick the best per language:
 | Dutch / Nordic | Azure | ElevenLabs |
 | Arabic | Azure | ElevenLabs multilingual_v2 |
 
-## Welcome and hangup messages
+## Welcome, hangup, and "are you there?" messages
 
-`agent_welcome_message` and `task_config.call_hangup_message` accept **either** a string (same in every language) or a **dict** keyed by language code:
+Bolna treats these three differently on `POST /v2/agent`:
+
+| Field | Accepted shape | Notes |
+|---|---|---|
+| `agent_welcome_message` | **`str` only** | Write it in the `active_language`. There is no dict form on POST. |
+| `task_config.call_hangup_message` | `str` **or** dict keyed by language code | Dict form: `{"hi": "...", "en": "...", "nl": "..."}`. |
+| `task_config.check_user_online_message` | `str` **or** dict keyed by language code | Same dict shape. |
 
 ```jsonc
-// String form — plays the same line regardless of active_language
+// agent_welcome_message — string only
 "agent_welcome_message": "नमस्ते दीदी, मैं Snabbit से Vidya बोल रही हूँ"
 
-// Dict form — Bolna picks based on active_language
-"agent_welcome_message": {
-  "hi": "नमस्ते, मैं Snabbit से Vidya बोल रही हूँ",
-  "en": "Hello, I'm Vidya calling from Snabbit",
-  "nl": "Hallo, ik ben Vidya van Snabbit"
+// call_hangup_message — dict form is accepted
+"task_config": {
+  "call_hangup_message": {
+    "hi": "Call disconnect हो रही है। धन्यवाद।",
+    "en": "The call will now disconnect. Goodbye!",
+    "nl": "De oproep wordt nu verbroken. Tot ziens!"
+  }
 }
 ```
 
-`task_config.check_user_online_message` ("Are you still there?") also supports the dict form.
+For language-aware **welcome lines**, rely on each language's `system_prompt` opening line and the per-language `handoff_message` (which fires on language switch). The `agent_welcome_message` itself plays once at call start in whichever language you wrote it in.
 
 ## Worked example (3 languages, mixed providers)
 

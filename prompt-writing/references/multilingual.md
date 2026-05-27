@@ -98,12 +98,15 @@ Treat these as scripted lines: no exclamation marks, no symbols, numbers as word
 
 ## Welcome and hangup messages
 
-`agent_welcome_message` and `task_config.call_hangup_message` can be either:
+These three fields have different shapes on `POST /v2/agent`:
 
-- A plain string (the same line plays in every language), or
-- A dict keyed by ISO language code: `{"hi": "...", "en": "...", "nl": "..."}`.
+| Field | Accepted shape |
+|---|---|
+| `agent_welcome_message` | **string only** — write it in the `active_language` |
+| `task_config.call_hangup_message` | string **or** dict keyed by language code |
+| `task_config.check_user_online_message` | string **or** dict keyed by language code |
 
-For multilingual agents, prefer the dict form so the welcome and hangup land in the right language. The same applies to `task_config.check_user_online_message` (the "Are you still there?" probe).
+For per-language welcome behaviour, rely on the opening line of each `languages.<code>.system_prompt` and on the per-language `handoff_message` (which plays on language switch). The `agent_welcome_message` itself is a single string that plays once at call start.
 
 ## Picking STT and TTS per language
 
