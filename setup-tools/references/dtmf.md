@@ -119,4 +119,4 @@ The LLM does the substitution automatically — there's no special syntax needed
 
 - `setup-inbound` — for IVR menu setups (different feature, no LLM per turn).
 - `setup-tools/references/tool-schemas.md` — for piping DTMF input into a custom API tool.
-- `write-bolna-prompts` — for the procedural prompt language that makes DTMF feel natural.
+- `prompt-writing` — for the procedural prompt language that makes DTMF feel natural.

@@ -123,4 +123,4 @@ Pre-tool messages support multiple languages (configure via the **+ Add** button
 
 - `setup-tools/references/tool-schemas.md` — for the underlying custom-function schema.
 - `bolna-graph-agents` — for using Cal.com tools inside a graph-agent node.
-- `write-bolna-prompts` — for crafting the procedural appointment flow.
+- `prompt-writing` — for crafting the procedural appointment flow.

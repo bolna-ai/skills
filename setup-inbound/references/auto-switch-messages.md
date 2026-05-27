@@ -146,5 +146,5 @@ The pre-call message during the tool API call auto-switches based on the languag
 ## See also
 
 - `customizations/multilingual-languages-support.mdx` in Bolna docs — full multilingual agent setup.
-- `write-bolna-prompts` — native-script prompt patterns.
+- `prompt-writing` — native-script prompt patterns.
 - `setup-tools/references/cal-com.md` — multilingual pre-call messages for built-in tools.

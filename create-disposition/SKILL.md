@@ -266,6 +266,41 @@ If you store disposition IDs in your own database, update the stored ID when you
 | `scripts/bulk_create_dispositions.py` | Wraps `POST /dispositions/bulk` from a JSON file. |
 | `scripts/test_dispositions.py` | Wraps `POST /v2/agent/{id}/dispositions/test` for sample transcripts. |
 
+## Legacy: `gpt_assistants.custom_questions`
+
+Older agents (and some agents migrated from the v1 dashboard) carry their post-call extraction logic inline on the agent itself, **not** as separate disposition objects. You'll see this when `GET /v2/agent/{id}` returns:
+
+```jsonc
+{
+  "dispositions": null,
+  "gpt_assistants": [
+    {
+      "assistant_id": "asst_f4sCpG4zASXIls0FMl7PkMMt",
+      "custom_questions": "1. interested:\n[- What to Extract: User interest in becoming an expert\n- Expected Response: Yes or No]\n\n2. reason_not_interested:\n[- What to Extract: Reason stated by the user...\n- Expected Response: Short reason]\n\n3. full_name:\n..."
+    }
+  ]
+}
+```
+
+| Aspect | Legacy `gpt_assistants` | Modern `dispositions` |
+|---|---|---|
+| Where it lives | Inline on the agent, single free-text string | Separate disposition objects linked via `agent_ids` |
+| Format | Numbered list, free-text "what to extract" + "expected response" hint | Structured: `name`, `question`, `objective_options[]`, `subjective_type` |
+| Validation | None — the LLM returns whatever it interprets | Typed (`timestamp`, `email`, `regex`, etc.) with `validation.is_valid` flag |
+| Confidence | No | Yes — `confidence` + `confidence_label` |
+| Reusable across agents | No — copied per agent | Yes — one disposition can link to N agents |
+| Where the result lands | Same `extracted_data` field on the execution | Same `extracted_data` field on the execution |
+
+**Both systems coexist.** If `dispositions` is set, it runs. If `dispositions` is null but `gpt_assistants[0].custom_questions` has content, that runs instead. The output structure on the execution is the same shape either way.
+
+**Migration:** when you ask the user to "add dispositions" to a legacy agent, you typically:
+
+1. Parse the existing `custom_questions` string — one numbered item per intended disposition.
+2. Convert each item into a structured disposition (`POST /dispositions/`).
+3. Optionally clear `gpt_assistants` once the new dispositions are linked, so it's unambiguous which system is producing the output.
+
+You don't need to migrate to use modern features — but you can't get confidence scores, typed validation, or shared dispositions without it.
+
 ## Common gotchas
 
 - **Vague questions yield low confidence.** "How was the call?" → noisy. "Did the customer agree to a follow-up meeting? If yes, on what date?" → clear.
