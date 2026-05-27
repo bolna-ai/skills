@@ -255,3 +255,4 @@ Read `references/transcript-workflow.md`. The short version:
 - `references/reusable-modules.md` — name, phone-number, email, and numeric-expression collection patterns drawn from production prompts.
 - `references/reusable-flows.md` — the date/time callback scheduling block (used identically across CureFoods, upGrad, Porter), the scored-interview evaluation pattern (CureFoods), and the "Answering User Questions" gateway pattern (ADDA, Porter).
 - `references/transcript-workflow.md` — how to diagnose a transcript and map failures back to prompt sections.
+- `references/multilingual.md` — authoring prompts for `multilingual_config` agents (one agent, multiple language entries each with its own STT/TTS and full Section 1..N prompt).

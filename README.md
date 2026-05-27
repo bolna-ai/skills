@@ -57,7 +57,7 @@ The right skill loads automatically based on what you ask.
 | `add-provider` | Bring your own OpenAI, Anthropic, Azure, ElevenLabs, Cartesia, Sarvam, Deepgram, Twilio, Plivo, Vobiz, or Exotel credentials. |
 | `create-agent` | Create a voice agent end-to-end: LLM + voice + transcriber + telephony, with knowledge bases, function tools, and semantic routes. |
 | `manage-agents` | List, update, delete, or stop queued calls for an agent. |
-| `write-bolna-prompts` | Write production voice prompts. Includes vertical templates (sales, support, appointment, BFSI reminder, recruitment) and a full multilingual native-script guide. |
+| `prompt-writing` | Author production voice prompts — sectioned structure, Hindi-first/English-second scripted lines, FAQ in YAML, multilingual entries with per-language STT/TTS. |
 
 ### Make calls
 

@@ -152,7 +152,101 @@ Key choices:
 - **Native Devanagari** in the system prompt — never phonetic English.
 - `endpointing: 700` accommodates the longer pauses common in Hindi calls.
 
-See `../write-bolna-prompts/references/multilingual.md` for the full multilingual playbook.
+See `../prompt-writing/references/multilingual.md` for the full multilingual playbook.
+
+## Multilingual agents (one agent, many languages on one call)
+
+When you want **one agent** to take a call that may switch between languages mid-conversation — not one agent per language — enable `multilingual_config`. Bolna routes each user turn through the right STT/TTS based on which language is being spoken.
+
+```jsonc
+{
+  "tools_config": {
+    "llm_agent": { /* shared LLM across languages */ },
+    "synthesizer": { /* default TTS — used when no per-language override fires */ },
+    "transcriber": { /* default STT */ },
+    "multilingual_config": {
+      "enabled": true,
+      "active_language": "hi",                          // language the call OPENS in
+      "switch_tool_description": "Respond in the language the user is currently speaking. Default to Hindi.",
+      "languages": {
+        "hi": {
+          "agent_name": "Vidya",                        // optional, advanced
+          "system_prompt": "आप विद्या हैं... <full Hindi prompt>",
+          "synthesizer": {
+            "provider": "sarvam",
+            "buffer_size": 220,
+            "provider_config": { "model": "bulbul:v3", "voice": "Ashutosh", "voice_id": "ashutosh" }
+          },
+          "transcriber": { "provider": "elevenlabs", "model": "scribe_v2_realtime", "language": "hi" },
+          "handoff_message": "एक मिनट, मैं {agent_name} से connect करती हूँ जो {language} बोलती हैं।"
+        },
+        "en": {
+          "agent_name": "Vidya (English)",
+          "system_prompt": "You are Vidya, a calm, warm voice agent... <full English prompt>",
+          "synthesizer": {
+            "provider": "cartesia",
+            "buffer_size": 40,
+            "provider_config": { "model": "sonic-3.5", "voice": "Callie - Encourager", "voice_id": "00a77add-48d5-4ef6-8157-71e5437b282d" }
+          },
+          "transcriber": { "provider": "deepgram", "model": "nova-3", "language": "en" },
+          "handoff_message": "One moment, connecting you with {agent_name} who speaks {language}."
+        }
+      }
+    }
+  }
+}
+```
+
+**Non-obvious rules:**
+
+| Rule | Why |
+|---|---|
+| `languages.<code>.system_prompt` is a **complete prompt**, not a translation. | Each language can have its own persona, objection table, and persuasion logic. |
+| You can **mix providers across languages** — Deepgram+Cartesia for `en`, ElevenLabs+Sarvam for `hi`, Azure+ElevenLabs for `nl`. | One STT/TTS pair per agent is the wrong mental model. Pick the best per language. |
+| `handoff_message` supports placeholders `{agent_name}` and `{language}`. | Played when the agent switches languages mid-call. |
+| `switch_tool_description` is the **Language Switching Instructions** field in the dashboard. | This is the rule the LLM follows to decide whether to flip languages. Be explicit: "Respond in the language the user is currently using. Default to Hindi." |
+| `active_language` decides which language the call opens in. | Pick the highest-confidence default; let `switch_tool_description` handle the rest. |
+| `agent_welcome_message` and `task_config.call_hangup_message` can be **dicts** keyed by language code (`{"en": "...", "hi": "..."}`) for multilingual welcome / hangup lines. | Without the dict form, the same string plays in every language. |
+| `agent_name` and `handoff_message` ship to callers verbatim. | Set real values — empty or garbage strings (`"qwegf iqghyf"`) reach production. |
+
+For the full worked example (Snabbit-style, three languages, per-language STT/TTS), see `references/multilingual-config.md`.
+
+## Second task: post-call extraction (`summarization`)
+
+The `tasks[]` array can carry a second task that runs **after the call ends**, against the transcript. This is the underlying mechanism behind `create-disposition`.
+
+```jsonc
+{
+  "tasks": [
+    { "task_type": "conversation", /* the live call */ },
+    {
+      "task_type": "summarization",
+      "toolchain": { "execution": "parallel", "pipelines": [["llm"]] },
+      "tools_config": {
+        "llm_agent": {
+          "agent_type": "simple_llm_agent",
+          "llm_config": {
+            "provider": "openai",
+            "model": "gpt-4o-mini",
+            "max_tokens": 100,
+            "temperature": 0.1,
+            "request_json": true     // emit structured JSON instead of free text
+          }
+        }
+      },
+      "task_config": { "call_terminate": 90 }
+    }
+  ]
+}
+```
+
+`request_json: true` is the flag that produces structured `extracted_data` for the webhook / `GET /executions/{id}`. Dispositions (`create-disposition`) and legacy `gpt_assistants.custom_questions` both ride on this task.
+
+## All the task_config knobs
+
+The `task_config` block has ~25 fields covering latency, interruption, voicemail, silence handling, inbound limits, and noise suppression. Most defaults are sensible. Tune deliberately.
+
+Full reference: `references/task-config-fields.md`.
 
 ## Knowledge-base agent (RAG)
 
@@ -214,9 +308,11 @@ Routes fire **before** the LLM runs. Use for FAQs, hard refusals (pricing, compe
 ## See also
 
 - `references/agent-config-fields.md` — full field reference.
+- `references/multilingual-config.md` — one agent, many languages, full worked example.
+- `references/task-config-fields.md` — every `task_config` knob with default and use case.
 - `make-call` — how to actually dial after creation.
 - `bolna-graph-agents` — switch from a single prompt to a node-based flow.
 - `setup-tools` — add `transfer_call`, custom HTTP, Cal.com booking.
 - `create-knowledgebase` — generate the `vector_id` used by knowledgebase agents.
 - `../references/providers-matrix.md` — picking LLM × STT × TTS × telephony combos.
-- `../write-bolna-prompts` — how to write the `system_prompt`.
+- `../prompt-writing` — how to write the `system_prompt`.
