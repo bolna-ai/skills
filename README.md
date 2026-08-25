@@ -76,6 +76,7 @@ The right skill loads automatically based on what you ask.
 | `get-executions` | Pull transcripts, recordings, costs, hangup codes, and raw logs from any call. |
 | `setup-webhook` | Stream call updates to your backend in real time for CRM sync and dashboards. |
 | `create-disposition` | Extract structured data from every transcript: lead quality, appointment times, sentiment, consent captured. |
+| `bolna-extraction-designer` | Design the actual extraction prompt and condition text for a disposition — categories, a 7-part prompt skeleton, naming conventions, archetypes, and anti-patterns. Pairs with `create-disposition`, which covers the API/field mechanics. |
 | `manage-violations` | List compliance flags and submit evidence files for review. |
 | `debug-bolna-calls` | Symptom-to-fix runbook for slow responses, robot voice, interruptions, missed webhooks, SIP no-audio, batch failures, and more. |
 
