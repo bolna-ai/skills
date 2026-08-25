@@ -40,6 +40,14 @@
     ]
   },
   {
+    "skill": "bolna-extraction-designer",
+    "queries": [
+      "Design an extraction for whether the customer agreed to a demo",
+      "I need a disposition prompt for lead sentiment with proper edge cases",
+      "Write the condition prompts for an objection-type extraction"
+    ]
+  },
+  {
     "skill": "debug-bolna-calls",
     "queries": [
       "My Bolna call has long pauses",
