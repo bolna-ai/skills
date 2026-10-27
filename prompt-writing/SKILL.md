@@ -1,5 +1,5 @@
 ---
-name: bolna-voice-prompt
+name: prompt-writing
 description: Author production-grade prompts for Bolna outbound and inbound voice agents (Hindi/English/Hinglish), and diagnose-and-fix existing prompts from call transcripts. Use this skill whenever the user describes a calling-bot or voice-agent use case (e.g. lead qualification, recruitment screening, appointment booking, onboarding calls, renewal/collection calls, NPS, surveys), pastes a Bolna or voice-agent transcript and asks for improvements, asks for an Indian-language calling script, or mentions Bolna, GPT-4.1 mini voice agents, IVR scripts, telecaller bots, or similar — even if they do not name "Bolna" explicitly. This skill produces output in a very specific structure (numbered sections, Hindi-first/English-second scripted lines, paragraph-prose instructions, YAML FAQs, JSON context blocks) and that structure is non-negotiable, so always consult this skill before drafting any voice-agent prompt.
 ---
 
