@@ -163,4 +163,4 @@ Sometimes `time_to_first_audio` is bigger than `transcriber + llm + synthesizer`
 
 - `references/raw-logs.md` — pairing latency data with the actual prompts and responses.
 - `setup-sip-trunk/SKILL.md` — telephony-side latency causes.
-- `../../references/providers-matrix.md` — latency rules-of-thumb per provider.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/providers-matrix.md` — latency rules-of-thumb per provider.

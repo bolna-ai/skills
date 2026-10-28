@@ -81,7 +81,7 @@ Add this to your server's firewall allow-list. Reject anything else if your endp
 
 ## Payload shape
 
-The webhook body is identical to `GET /executions/{execution_id}`. See `../references/execution-payload.md` for the full field list, and `../references/call-statuses.md` for the order in which statuses fire.
+The webhook body is identical to `GET /executions/{execution_id}`. See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md` for the full field list, and `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` for the order in which statuses fire.
 
 ## Idempotency
 
@@ -89,7 +89,7 @@ The same execution can produce multiple webhook deliveries as `status` transitio
 
 ## See also
 
-- `../references/execution-payload.md` — every field in the payload.
-- `../references/call-statuses.md` — status order, terminal-status filter.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md` — every field in the payload.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` — status order, terminal-status filter.
 - `get-executions` — pull historical data for executions where the webhook failed.
 - `debug-bolna-calls` — diagnose missed deliveries.

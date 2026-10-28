@@ -90,8 +90,8 @@ python3 get-executions/scripts/fetch_executions_paginated.py --agent-id $AGENT_I
 
 ## See also
 
-- `../references/execution-payload.md` — every field on the execution object, in one place.
-- `../references/call-statuses.md` — full lifecycle and terminal-status patterns.
-- `../references/hangup-codes.md` — `hangup_by` + `hangup_code` + `hangup_reason` interpretation.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md` — every field on the execution object, in one place.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` — full lifecycle and terminal-status patterns.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/hangup-codes.md` — `hangup_by` + `hangup_code` + `hangup_reason` interpretation.
 - `setup-webhook` — same payload shape, pushed in real time.
 - `debug-bolna-calls` — symptom-to-fix table built on top of execution + raw logs.

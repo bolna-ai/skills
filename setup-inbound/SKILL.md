@@ -297,4 +297,4 @@ The number remains owned (in your provider / SIP trunk / Bolna inventory). Only 
 - `setup-sip-trunk` — wiring BYOT numbers into Bolna.
 - `create-agent` — `task_config` (spam controls) and `ingest_source_config` live in the agent body.
 - `setup-tools/references/dtmf.md` — keypad input *inside* a call (different from IVR menu routing).
-- `../references/india-compliance.md` — DLT / 140 / 160-series rules if you're using regulated Indian numbers.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` — DLT / 140 / 160-series rules if you're using regulated Indian numbers.

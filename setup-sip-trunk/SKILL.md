@@ -308,4 +308,4 @@ Deleting a trunk removes its gateways, IP identifiers, and number mappings in ca
 - `setup-inbound` — DID-to-agent mapping (covers Bolna-hosted and SIP-trunk DIDs the same way).
 - `make-call` — outbound API; works identically once `telephony_provider` is `sip-trunk`.
 - `manage-phone-numbers` — Bolna-hosted DIDs (alternative to BYOT).
-- `../references/india-compliance.md` — DLT requirements still apply to your numbers, even on your own trunk.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` — DLT requirements still apply to your numbers, even on your own trunk.

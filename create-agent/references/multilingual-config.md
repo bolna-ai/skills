@@ -236,4 +236,4 @@ This is a sanitized version of a real production multilingual agent.
 - `../../prompt-writing/references/multilingual.md` — how to author the per-language prompts.
 - `../../prompt-writing/references/section-templates.md` — Section 1..N structure used by every Bolna prompt.
 - `../../prompt-writing/references/reusable-modules.md` — name, phone, email, and numeric expression patterns to translate per language.
-- `../../references/providers-matrix.md` — picking STT/TTS per language.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/providers-matrix.md` — picking STT/TTS per language.

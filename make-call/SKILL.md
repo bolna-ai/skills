@@ -131,5 +131,5 @@ python3 make-call/scripts/bulk_make_calls.py \
 - `create-batch` — proper CSV-based campaigns with monitoring, retry, and stop endpoints.
 - `get-executions` — fetch the result of a queued call via the returned `execution_id`.
 - `setup-webhook` — receive call updates in real time instead of polling.
-- `../references/call-statuses.md` — interpreting status transitions.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` — interpreting status transitions.
 - `bolna-graph-agents/scripts/inject_event.py` — for graph agents, push real-time events into a live call.

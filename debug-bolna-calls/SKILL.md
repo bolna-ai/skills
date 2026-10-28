@@ -91,7 +91,7 @@ Two likely settings:
 - Pick a higher-quality voice: ElevenLabs turbo_v2_5 / multilingual_v2; Sarvam for Indian languages.
 - Enable backchanneling **only if it fits** (`task_config.backchanneling: true`) — "mhm" between user phrases. Excellent for support calls, weird in IVR-style flows.
 - Lower `temperature` to `0.2-0.3` — long-tail creativity isn't worth the inconsistency.
-- For Indian languages: write the prompt in **native script** (Devanagari), not phonetic English. See `../references/prompting-tips.md`.
+- For Indian languages: write the prompt in **native script** (Devanagari), not phonetic English. See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/prompting-tips.md`.
 
 ### "Call stays in `queued` forever"
 
@@ -153,7 +153,7 @@ Walk these in order:
 5. Deduping by `execution_id` + `status`? Bolna POSTs on every status transition — multiple events per call is normal.
 6. Receiver doesn't timeout (~10s)? If it does, return `2xx` immediately and process async.
 
-See `../references/execution-payload.md` for the shape.
+See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md` for the shape.
 
 ### "Caller context (`{customer_name}` etc.) is wrong"
 
@@ -193,7 +193,7 @@ Likely UDP fragmentation on large SIP headers. Switch `transport: "transport-tcp
 
 ### Indian numbers: 140 / 160-series rejected
 
-Compliance: the DLT registration, header registration, or template registration is incomplete. See `../references/india-compliance.md`. **Not a Bolna API failure** — the carrier rejects before Bolna can dial.
+Compliance: the DLT registration, header registration, or template registration is incomplete. See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md`. **Not a Bolna API failure** — the carrier rejects before Bolna can dial.
 
 ## Inspecting raw logs
 
@@ -227,7 +227,7 @@ The raw logs are the most powerful debugging tool Bolna provides. Use them befor
 ## See also
 
 - `get-executions` — full `/executions/{id}` and `/executions/{id}/log` reference.
-- `../references/call-statuses.md` — what each status means.
-- `../references/hangup-codes.md` — interpreting `hangup_by` + `hangup_code` + `hangup_reason`.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` — what each status means.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/hangup-codes.md` — interpreting `hangup_by` + `hangup_code` + `hangup_reason`.
 - `setup-tools/references/tool-schemas.md` — debugging tool-trigger problems.
 - `bolna-graph-agents/references/debugging.md` — routing-log debugging for graph agents specifically.

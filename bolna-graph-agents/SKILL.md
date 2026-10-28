@@ -279,4 +279,4 @@ The `reasoning` field is the most useful debugging signal — when the agent mak
 - `setup-tools` — defining `transfer_call`, custom HTTP tools.
 - `create-knowledgebase` — generating the `vector_id` used by `rag_config`.
 - `create-disposition` — pulling structured outcomes out of graph-agent calls.
-- `../references/prompting-tips.md` — node-prompt patterns and multilingual.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/prompting-tips.md` — node-prompt patterns and multilingual.

@@ -100,7 +100,7 @@ curl https://api.bolna.ai/sub-accounts/all \
   -H "Authorization: Bearer $BOLNA_API_KEY"
 ```
 
-Paginated. Use `page_number` / `page_size` query params (see `../references/bolna-core.md`).
+Paginated. Use `page_number` / `page_size` query params (see `https://raw.githubusercontent.com/bolna-ai/skills/main/references/bolna-core.md`).
 
 ## Inspect usage
 
@@ -191,5 +191,5 @@ Cron job pulls `GET /sub-accounts/all/usage` weekly, joins per-sub-account usage
 ## See also
 
 - `setup-api-key` — keys and the `sa-` prefix distinction.
-- `../references/bolna-core.md` — auth, pagination.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/bolna-core.md` — auth, pagination.
 - Bolna Enterprise: `https://www.bolna.ai/meet` for tier upgrades.

@@ -175,7 +175,7 @@ Example with regex (10-digit phone):
 | `reasoning_subjective` / `reasoning_objective` | LLM's explanation per answer type. Useful for audit + debugging. |
 | `validation` | Present only when `subjective_type` is typed (not plain `text`). |
 
-Same payload arrives via webhook. See `../references/execution-payload.md`.
+Same payload arrives via webhook. See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md`.
 
 ## Create one disposition
 
@@ -315,4 +315,4 @@ You don't need to migrate to use modern features — but you can't get confidenc
 - `get-executions` — fetching `extracted_data` after calls.
 - `setup-webhook` — receiving extractions in real time.
 - `create-agent` — top-level agent config (Extractions is a feature of the Analytics tab).
-- `../references/execution-payload.md` — shape that contains `extracted_data`.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/execution-payload.md` — shape that contains `extracted_data`.
