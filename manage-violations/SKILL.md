@@ -109,7 +109,7 @@ Response confirms acceptance; status moves to `under_review`.
 | `calling_hours` | Set `calling_guardrails.call_start_hour` / `call_end_hour` correctly (recipient's TZ, not yours). |
 | `dnc_breach` | Scrub against DNC registry before adding to batch CSV. |
 | `content_policy` | Rewrite agent prompt removing prohibited content. Re-save to re-validate. |
-| `dlt_mismatch` | Complete DLT / Header / Template registration (`../references/india-compliance.md`). |
+| `dlt_mismatch` | Complete DLT / Header / Template registration (`https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md`). |
 | `consent_missing` | Capture explicit opt-in before placing calls; store the record. |
 | `fraud_signal` | Reach out to support proactively — Bolna will want context on the legitimate use case. |
 
@@ -130,6 +130,6 @@ Response confirms acceptance; status moves to `under_review`.
 ## See also
 
 - `get-executions` — pull the offending call's transcript and raw logs for context before submitting.
-- `../references/india-compliance.md` — DLT prerequisites that prevent `dlt_mismatch` flags.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` — DLT prerequisites that prevent `dlt_mismatch` flags.
 - `create-agent` — `calling_guardrails` to prevent `calling_hours` flags.
 - `setup-inbound` — `whitelist_phone_numbers` to prevent inbound spam flags.

@@ -314,5 +314,5 @@ Routes fire **before** the LLM runs. Use for FAQs, hard refusals (pricing, compe
 - `bolna-graph-agents` — switch from a single prompt to a node-based flow.
 - `setup-tools` — add `transfer_call`, custom HTTP, Cal.com booking.
 - `create-knowledgebase` — generate the `vector_id` used by knowledgebase agents.
-- `../references/providers-matrix.md` — picking LLM × STT × TTS × telephony combos.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/providers-matrix.md` — picking LLM × STT × TTS × telephony combos.
 - `../prompt-writing` — how to write the `system_prompt`.

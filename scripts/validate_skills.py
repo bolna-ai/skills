@@ -16,6 +16,8 @@ except ImportError:  # PyYAML is optional locally; CI installs it.
 ROOT = Path(__file__).resolve().parents[1]
 NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
 DEPRECATED_AGENT_RE = re.compile(r"https://api\.bolna\.ai/agent(?!/v2|\{)")
+# The top-level references/ folder is not copied on install, so skills must link to it by URL.
+SHARED_REFERENCES_RE = re.compile(r"(?:\.\./)+references/")
 
 
 def parse_frontmatter(path: Path) -> dict[str, str]:
@@ -87,6 +89,15 @@ def main() -> int:
         text = skill_md.read_text(encoding="utf-8")
         if DEPRECATED_AGENT_RE.search(text):
             failures.append(f"{skill_md}: avoid deprecated https://api.bolna.ai/agent paths")
+
+        for md in sorted(skill_md.parent.rglob("*.md")):
+            for lineno, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
+                if SHARED_REFERENCES_RE.search(line):
+                    failures.append(
+                        f"{md}:{lineno}: link shared docs as "
+                        "https://raw.githubusercontent.com/bolna-ai/skills/main/references/..., "
+                        "not a relative path (top-level references/ is not installed)"
+                    )
 
     if failures:
         for failure in failures:

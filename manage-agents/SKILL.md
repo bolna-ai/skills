@@ -105,4 +105,4 @@ curl --request DELETE \
 - `create-agent` — initial creation; same shape `PUT` expects.
 - `make-call` — `POST /v2/agent/{id}/stop` cancels queued calls for one agent without deleting it.
 - `bolna-graph-agents` — for editing `llm_agent.nodes` and edge structures.
-- `../references/bolna-core.md` — auth, headers, pagination defaults.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/bolna-core.md` — auth, headers, pagination defaults.

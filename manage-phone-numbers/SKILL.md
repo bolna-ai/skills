@@ -140,7 +140,7 @@ These are **not** ordinary numbers. Selling commercial calls in India requires:
 | 140-series | Promotional / telemarketing | DLT registration via TATA Teleservices portal, KYC, ₹5,900 payment, PE ID, TM ID |
 | 160-series | Transactional / service (BFSI, alerts) | DLT + Header registration (RBI/SEBI cert) + Template registration |
 
-Plan **2-4 weeks** to go live. Full process in `../references/india-compliance.md`.
+Plan **2-4 weeks** to go live. Full process in `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md`.
 
 You **cannot** buy 140/160 numbers through `/phone-numbers/buy` without completing compliance first — the carrier rejects the allocation. Surface this prerequisite up front when a user asks for Indian regulated numbers.
 
@@ -175,7 +175,7 @@ For each, the `setup-inbound` flow is the same once a `phone_number_id` exists.
 | `scripts/search_numbers.py` | Wraps `GET /phone-numbers/search` with country/region/pattern flags. |
 | `scripts/buy_number.py` | Wraps `POST /phone-numbers/buy`. |
 | `scripts/list_numbers.py` | Wraps `GET /phone-numbers/all`. |
-| `../references/india-compliance.md` | Full DLT process for 140 / 160-series. |
+| `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` | Full DLT process for 140 / 160-series. |
 
 ## See also
 

@@ -102,4 +102,4 @@ Bolna runs a safety check on every agent save. Prompts mentioning:
 
 - `references/latency-metrics.md` — `latency_data` fields with thresholds.
 - `references/raw-logs.md` — reading per-component logs.
-- `../../references/hangup-codes.md` — interpreting `hangup_by` + `hangup_code`.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/hangup-codes.md` — interpreting `hangup_by` + `hangup_code`.

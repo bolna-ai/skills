@@ -84,5 +84,5 @@ python3 setup-api-key/scripts/verify_key.py
 
 ## See also
 
-- `../references/bolna-core.md` — base URL, headers, pagination, rate limits in one place.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/bolna-core.md` — base URL, headers, pagination, rate limits in one place.
 - `manage-subaccounts` — the `sa-` prefix and the difference between parent vs sub-account keys.

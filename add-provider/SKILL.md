@@ -101,10 +101,10 @@ Confirm removal first. Existing agents may fail if their configured provider key
 | Exotel | `EXOTEL_API_KEY`, `EXOTEL_API_TOKEN`, `EXOTEL_ACCOUNT_SID`, `EXOTEL_DOMAIN`, `EXOTEL_PHONE_NUMBER`, `EXOTEL_OUTBOUND_APP_ID`, `EXOTEL_INBOUND_APP_ID` |
 | Custom LLM | Use `provider: "custom"` in the agent's `llm_agent` with an OpenAI-compatible `base_url`, then `POST /user/model/custom` to register the model name. |
 
-Full per-provider matrix (including which language/use case each suits) is in `../references/providers-matrix.md`.
+Full per-provider matrix (including which language/use case each suits) is in `https://raw.githubusercontent.com/bolna-ai/skills/main/references/providers-matrix.md`.
 
 ## See also
 
-- `../references/providers-matrix.md` — latency rules-of-thumb, language coverage, common pairings.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/providers-matrix.md` — latency rules-of-thumb, language coverage, common pairings.
 - `setup-sip-trunk` — SIP trunk providers (different endpoints, not the credential vault).
 - `create-agent` — wiring provider names into `llm_agent`, `synthesizer`, `transcriber`.

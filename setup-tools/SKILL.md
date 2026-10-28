@@ -261,5 +261,5 @@ For IVR-style **menu routing** ("press 1 for sales, 2 for support"), use Bolna's
 
 - `create-agent` — where `tools_config.api_tools` slots into the agent config.
 - `bolna-graph-agents` — using tools with `function_call` on a node for graph flows.
-- `../references/prompting-tips.md` — when to ask the caller vs use auto-injected variables.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/prompting-tips.md` — when to ask the caller vs use auto-injected variables.
 - `get-executions` — inspect raw logs to see exactly what the tool received and returned.

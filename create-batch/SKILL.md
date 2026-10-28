@@ -117,5 +117,5 @@ Per-call `retry_config` shares the same concurrency tier as the batch itself. If
 
 - `make-call` — single-call interface; shares the `retry_config` shape.
 - `get-executions` — `GET /batches/{batch_id}/executions` paginates per-call results.
-- `../references/call-statuses.md` — terminal-status filter for batch summary.
-- `../references/india-compliance.md` — DLT prerequisites for Indian recipient batches.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/call-statuses.md` — terminal-status filter for batch summary.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` — DLT prerequisites for Indian recipient batches.

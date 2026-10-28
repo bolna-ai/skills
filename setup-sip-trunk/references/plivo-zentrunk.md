@@ -93,7 +93,7 @@ Inbound mapping + agent outbound patching are identical to the Twilio flow — s
 ## Plivo-specific notes
 
 - **Number format**: Plivo Zentrunk typically uses numbers **without** leading `+`. Set `outbound_leading_plus_enabled: false` if outbound dials fail with "invalid number" on Plivo.
-- **India 160-series numbers**: provisioned via Plivo. Plivo Zentrunk + Bolna is the standard path for transactional / service calls in India. See `../../references/india-compliance.md` for the DLT process.
+- **India 160-series numbers**: provisioned via Plivo. Plivo Zentrunk + Bolna is the standard path for transactional / service calls in India. See `https://raw.githubusercontent.com/bolna-ai/skills/main/references/india-compliance.md` for the DLT process.
 - **Ambient noise** (`task_config.ambient_noise_track`): supported on Plivo for the *hosted* telephony path, but if you're routing via your own Zentrunk it depends on the call path — test in a lower environment first.
 - **Voicemail detection**: works on Plivo-hosted calls. Behaviour with Zentrunk + Bolna is the same as IP carriers — test in staging.
 

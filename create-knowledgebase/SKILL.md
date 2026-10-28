@@ -127,4 +127,4 @@ python3 create-knowledgebase/scripts/create_knowledgebase.py \
 
 - `create-agent` — `knowledgebase_agent` example with vector wiring.
 - `bolna-graph-agents` — per-node RAG via `rag_config`.
-- `../references/prompting-tips.md` — anti-hallucination guidance when answering from retrieved chunks.
+- `https://raw.githubusercontent.com/bolna-ai/skills/main/references/prompting-tips.md` — anti-hallucination guidance when answering from retrieved chunks.
