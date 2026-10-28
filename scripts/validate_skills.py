@@ -7,6 +7,11 @@ import re
 import sys
 from pathlib import Path
 
+try:
+    import yaml
+except ImportError:  # PyYAML is optional locally; CI installs it.
+    yaml = None
+
 
 ROOT = Path(__file__).resolve().parents[1]
 NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,63}$")
@@ -20,6 +25,13 @@ def parse_frontmatter(path: Path) -> dict[str, str]:
     end = text.find("\n---\n", 4)
     if end == -1:
         raise ValueError("missing closing frontmatter marker")
+    # Installers such as `npx skills` skip a skill whose frontmatter is not valid YAML
+    # (e.g. an unquoted ": " inside the description), so check it with a real parser.
+    if yaml is not None:
+        try:
+            yaml.safe_load(text[4:end])
+        except yaml.YAMLError as exc:
+            raise ValueError(f"frontmatter is not valid YAML: {exc}".replace("\n", " ")) from exc
     data: dict[str, str] = {}
     for line in text[4:end].splitlines():
         if not line.strip() or line.strip().startswith("#"):

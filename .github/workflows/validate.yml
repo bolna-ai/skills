@@ -1,0 +1,25 @@
+name: Validate skills
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # PyYAML lets validate_skills.py parse frontmatter the way installers do.
+      - run: pip install pyyaml
+
+      # Runs scripts/validate_skills.py plus trigger-case and invariant checks.
+      - run: python evals/run_all.py
