@@ -66,6 +66,8 @@ To confirm the keys sent today, read `context_details.recipient_data` on two or 
 | `scheduled_at` | A start field `scheduled_at` of type `timestamp`, and a `time` node with `"at": {"var": "entry.scheduled_at"}` before the agent node |
 | Picking the agent by a variable | Start-node cases on `entry.<variable>`, one agent node per agent |
 
+Declare a `user_data` key whose value is an object or array as `"type": "json"`: a `string` field rejects it, and the run returns `422`. The agent receives a `json` value as a JSON string.
+
 Status names differ: `/call` uses `no-answer`, while the workflow's `call.status` uses `no_answer`. All `call.status` values are `completed`, `busy`, `no_answer`, `failed`, `voicemail`, `cancelled`, `rejected`, `timeout` and `error`.
 
 Limits: 50 declared start fields, 200 nodes, 25 cases per node, 10 retry attempts. Field names match `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$`. `reference_id`, `mobile_number`, `name` and `email` are built-in fields and need no declaring. If the integration sends more than 50 `user_data` keys, stop and tell the user.
