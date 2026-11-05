@@ -79,7 +79,7 @@ Field types are `string`, `number`, `boolean`, `timestamp`, `phone`, `email`, `u
 
 Limits: 250 declared start fields, 200 nodes, 25 cases per node, 10 retry attempts. Field names match `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$`. If the integration sends more than 250 `user_data` keys, stop and tell the user.
 
-`assets/example-definition.json` is a complete definition that passes publish validation once its placeholder agent ids are replaced with real ones (until then validation reports `unknown_agent`). It routes on a start field to one of two agents, and retries each on unanswered calls. Replace the agent ids, fields and values with the inventory's.
+`assets/example-definition.json` is a complete definition that passes publish validation once its placeholder agent ids are replaced with real ones (until then validation reports `unknown_agent`). It routes on a start field to one of two agents, maps every `user_data` key on both agent nodes, and retries each on unanswered calls. Replace the agent ids, fields and values with the inventory's.
 
 Shape rules that trip people up:
 
@@ -113,7 +113,7 @@ Show the user the routes in plain words: who gets called, with which agent, when
 curl -s -X POST "https://api.bolna.ai/workflows/$WORKFLOW_ID/publish" "${H[@]}"
 ```
 
-The response carries the new `version` and any `warnings`. Publishing consumes the draft, so `GET .../draft` returns `404` until the next save. To change a published workflow, save with `expected_revision: 0`, which starts a new draft from the published version, then publish again. Runs always use the latest published version.
+The response carries the new `version` and any `warnings`. Publishing consumes the draft, so `GET .../draft` returns `404` until the next save. To change a published workflow, save the full edited definition with `expected_revision: 0`, then publish again. Runs always use the latest published version.
 
 With the Bolna MCP server connected, the same steps are `create_workflow`, `get_workflow_draft`, `save_workflow_draft`, `validate_workflow` and `publish_workflow`.
 
@@ -148,7 +148,7 @@ requests.post("https://api.bolna.ai/call", headers=headers, json={
 requests.post(f"https://api.bolna.ai/workflows/{WORKFLOW_ID}/run", headers=headers, json={
     "reference_id": run_reference,
     "mobile_number": phone,
-    "custom_fields": user_data,
+    "custom_fields": {**user_data, "call_type": call_type},  # plus the agent-picking value, if any
 })
 ```
 
@@ -160,13 +160,13 @@ await fetch("https://api.bolna.ai/call", { method: "POST", headers, body: JSON.s
 
 // after
 await fetch(`https://api.bolna.ai/workflows/${WORKFLOW_ID}/run`, { method: "POST", headers, body: JSON.stringify({
-  reference_id: runReference, mobile_number: phone, custom_fields: userData,
+  reference_id: runReference, mobile_number: phone, custom_fields: { ...userData, call_type: callType },
 }) });
 ```
 
 - Put `WORKFLOW_ID` in config, next to where the agent id lives today.
-- `reference_id` identifies one run of one published version. Build it from ids the user's system already has, for example `<order_id>-<purpose>`. If the calling function has none, add a parameter and ask the user what to pass. Always set it: when omitted, it is derived from the row's content, so two identical requests collide.
-- Sending the same `reference_id` again returns `409` with `{"detail": {"code": "duplicate_run", "execution_id": "..."}}`. Treat that as success and use the `execution_id`, which makes retrying the HTTP request safe. Contacting the same person again for a separate reason needs a new value.
+- `reference_id` identifies one run. Build it from ids the user's system already has, for example `<order_id>-<purpose>`. If the calling function has none, add a parameter and ask the user what to pass. Always set it: when omitted, it is derived from the row's content, so two identical requests collide.
+- Sending the same `reference_id` again returns `409` with `{"detail": {"code": "duplicate_run", "execution_id": "..."}}`. Treat that as success and use the `execution_id`, which makes retrying the HTTP request safe. The check is per published version: a retry that lands after a new publish starts a second run and places a second call, so don't publish while requests may still be retried. Contacting the same person again for a separate reason needs a new value.
 - If `user_data` contains `name` or `email`, those are built-in fields and go at the top level, not under `custom_fields`.
 - A `422 unknown_field` means a key isn't declared on the start node. Declare and map it, or stop sending it.
 - The `201` response is `{"execution_id", "campaign_id", "workflow_version", "status"}`, returned as soon as the execution is created. Store this `execution_id` where the call's id was stored. A function that used to block until a call ended, polling and re-dialing, now returns this id instead, and the outcome arrives through Step 7. That changes what its callers get back, so tell the user.
@@ -175,7 +175,7 @@ await fetch(`https://api.bolna.ai/workflows/${WORKFLOW_ID}/run`, { method: "POST
 ## Step 7: Results and webhooks
 
 - **Call webhook:** the agent's webhook fires for every call the workflow places, with the same payload as before. A retried contact now produces one webhook per attempt, each with its own execution id. Handlers that read `recipient_data` keep working as long as every key they read is mapped on the agent node.
-- **Execution webhook (optional):** one POST per contact when the workflow finishes, with `execution_id`, `reference_id`, `status`, `outcome`, `termination_reason` and the full `trail`. Turn it on with `PATCH https://api.bolna.ai/workflows/$WORKFLOW_ID` and body `{"settings": {"webhook": {"url": "https://..."}}}`, then send a sample with `POST https://api.bolna.ai/workflows/$WORKFLOW_ID/webhook:test`. Join on `reference_id`.
+- **Execution webhook (optional):** one POST per contact when the workflow finishes, with `execution_id`, `reference_id`, `status`, `outcome`, `termination_reason` and the full `trail` (the same list the poll calls `nodes`). Turn it on with `PATCH https://api.bolna.ai/workflows/$WORKFLOW_ID` and body `{"settings": {"webhook": {"url": "https://..."}}}`, then send a sample with `POST https://api.bolna.ai/workflows/$WORKFLOW_ID/webhook:test`. Join on `reference_id`.
 - **Polling:** replace `GET /executions/{execution_id}` with `GET /workflow-executions/{execution_id}`. Its `status` is `pending` or `running` while in progress, then `completed`, `failed`, `cancelled` or `aborted`. `completed` means it reached an `end` node: read `outcome` (`success`, `failure`, `neutral`) and `termination_reason` (the end node's label) for the result. For a call's transcript or recording, read `call.execution_id` from the agent node's `outputs` in `nodes`, then `GET /executions/{that id}`.
 
 ## Checklist before switching production traffic

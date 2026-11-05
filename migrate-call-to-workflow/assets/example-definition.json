@@ -67,7 +67,8 @@
       "config": {
         "agent_id": "22222222-2222-4222-8222-222222222222",
         "variables": {
-          "candidate_name": { "value": { "var": "entry.candidate_name" } }
+          "candidate_name": { "value": { "var": "entry.candidate_name" } },
+          "job_role": { "value": { "var": "entry.job_role" } }
         }
       },
       "cases": [
