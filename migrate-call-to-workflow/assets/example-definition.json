@@ -1,0 +1,99 @@
+{
+  "entry_node_id": "n_start",
+  "on_no_match": "n_end_unhandled",
+  "nodes": [
+    {
+      "id": "n_start",
+      "type": "start",
+      "name": "Contact",
+      "config": {
+        "trigger": { "kind": "manual" },
+        "fields": [
+          { "name": "mobile_number", "type": "phone", "required": true },
+          { "name": "candidate_name", "type": "string" },
+          { "name": "job_role", "type": "string" },
+          { "name": "call_type", "type": "string", "required": true }
+        ]
+      },
+      "cases": [
+        {
+          "when": { "cmp": "==", "left": { "var": "entry.call_type" }, "right": { "const": "reminder" } },
+          "then": { "to": "n_call_reminder" }
+        },
+        { "when": { "always": true }, "then": { "to": "n_call_screening" } }
+      ]
+    },
+    {
+      "id": "n_call_screening",
+      "type": "agent",
+      "name": "Screening agent",
+      "config": {
+        "agent_id": "11111111-1111-4111-8111-111111111111",
+        "variables": {
+          "candidate_name": { "value": { "var": "entry.candidate_name" } },
+          "job_role": { "value": { "var": "entry.job_role" } }
+        }
+      },
+      "cases": [
+        {
+          "when": { "cmp": "==", "left": { "var": "call.status" }, "right": { "const": "completed" } },
+          "then": { "to": "n_end_reached" }
+        },
+        {
+          "when": { "cmp": "in", "left": { "var": "call.status" }, "right": { "const": ["busy", "no_answer", "failed"] } },
+          "then": { "to": "n_retry_screening" }
+        }
+      ],
+      "on_no_match": "n_end_not_reached"
+    },
+    {
+      "id": "n_retry_screening",
+      "type": "retry",
+      "name": "Retry screening",
+      "config": {
+        "target_node_id": "n_call_screening",
+        "attempts": [
+          { "delay": { "minutes": 30 } },
+          { "delay": { "minutes": 60 } },
+          { "delay": { "minutes": 120 } }
+        ]
+      },
+      "cases": [ { "when": { "always": true }, "then": { "to": "n_end_not_reached" } } ]
+    },
+    {
+      "id": "n_call_reminder",
+      "type": "agent",
+      "name": "Reminder agent",
+      "config": {
+        "agent_id": "22222222-2222-4222-8222-222222222222",
+        "variables": {
+          "candidate_name": { "value": { "var": "entry.candidate_name" } }
+        }
+      },
+      "cases": [
+        {
+          "when": { "cmp": "==", "left": { "var": "call.status" }, "right": { "const": "completed" } },
+          "then": { "to": "n_end_reached" }
+        },
+        {
+          "when": { "cmp": "in", "left": { "var": "call.status" }, "right": { "const": ["busy", "no_answer"] } },
+          "then": { "to": "n_retry_reminder" }
+        }
+      ],
+      "on_no_match": "n_end_not_reached"
+    },
+    {
+      "id": "n_retry_reminder",
+      "type": "retry",
+      "name": "Retry reminder",
+      "config": {
+        "target_node_id": "n_call_reminder",
+        "attempts": [ { "delay": { "minutes": 15 } } ]
+      },
+      "cases": [ { "when": { "always": true }, "then": { "to": "n_end_not_reached" } } ]
+    },
+    { "id": "n_end_reached", "type": "end", "config": { "label": "reached", "outcome": "success" } },
+    { "id": "n_end_not_reached", "type": "end", "config": { "label": "not_reached", "outcome": "failure" } },
+    { "id": "n_end_unhandled", "type": "end", "config": { "label": "unhandled", "outcome": "neutral" } }
+  ]
+}

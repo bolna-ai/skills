@@ -65,6 +65,7 @@ The right skill loads automatically based on what you ask.
 |---|---|
 | `make-call` | Place a single outbound call — immediate or scheduled, with dynamic variables, voice overrides, and auto-retry. |
 | `create-batch` | Run CSV-driven outbound campaigns at scale. Schedule, monitor, stop. |
+| `migrate-call-to-workflow` | Move an existing `/call` integration onto a workflow: retries, routing and scheduling move into Bolna, and the code switches to the run endpoint. |
 | `setup-inbound` | Wire phone numbers to agents. Includes IVR menus, caller identification, and multilingual auto-switching. |
 | `manage-phone-numbers` | Search and buy US (Twilio) or India (Plivo, Vobiz) numbers. |
 | `setup-sip-trunk` | Bring your own SIP trunk — Twilio Elastic, Plivo Zentrunk, Telnyx, Vonage, and any standards-compliant carrier. |
