@@ -70,7 +70,7 @@ Declare a `user_data` key whose value is an object or array as `"type": "json"`:
 
 Status names differ: `/call` uses `no-answer`, while the workflow's `call.status` uses `no_answer`. All `call.status` values are `completed`, `busy`, `no_answer`, `failed`, `voicemail`, `cancelled`, `rejected`, `timeout` and `error`.
 
-Limits: 50 declared start fields, 200 nodes, 25 cases per node, 10 retry attempts. Field names match `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$`. `reference_id`, `mobile_number`, `name` and `email` are built-in fields and need no declaring. If the integration sends more than 50 `user_data` keys, stop and tell the user.
+Limits: 250 declared start fields, 200 nodes, 25 cases per node, 10 retry attempts. Field names match `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$`. `reference_id`, `mobile_number`, `name` and `email` are built-in fields and need no declaring. If the integration sends more than 250 `user_data` keys, stop and tell the user.
 
 `assets/example-definition.json` is a complete definition that passes publish validation. It routes on a start field to one of two agents, and retries each on unanswered calls. Replace the agent ids, fields and values with the inventory's.
 
