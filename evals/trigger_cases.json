@@ -24,6 +24,14 @@
     ]
   },
   {
+    "skill": "migrate-call-to-workflow",
+    "queries": [
+      "Migrate our Bolna /call integration to a workflow",
+      "Move our retry logic for Bolna calls into a workflow",
+      "Switch from the call API to workflows"
+    ]
+  },
+  {
     "skill": "create-batch",
     "queries": [
       "Upload a CSV and run a Bolna campaign",

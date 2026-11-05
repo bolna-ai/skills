@@ -128,6 +128,7 @@ python3 make-call/scripts/bulk_make_calls.py \
 
 ## See also
 
+- `migrate-call-to-workflow`: move an existing `/call` integration onto a workflow when retries, routing on a variable, or multi-call follow-ups belong in Bolna instead of your code.
 - `create-batch` — proper CSV-based campaigns with monitoring, retry, and stop endpoints.
 - `get-executions` — fetch the result of a queued call via the returned `execution_id`.
 - `setup-webhook` — receive call updates in real time instead of polling.
