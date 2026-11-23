@@ -80,6 +80,7 @@ The right skill loads automatically based on what you ask.
 | `bolna-extraction-designer` | Design the actual extraction prompt and condition text for a disposition — categories, a 7-part prompt skeleton, naming conventions, archetypes, and anti-patterns. Pairs with `create-disposition`, which covers the API/field mechanics. |
 | `manage-violations` | List compliance flags and submit evidence files for review. |
 | `debug-bolna-calls` | Symptom-to-fix runbook for slow responses, robot voice, interruptions, missed webhooks, SIP no-audio, batch failures, and more. |
+| `raise-support-ticket` | Diagnose first, check for an open ticket, then draft and file a support ticket with the Bolna team after you confirm. Needs the Bolna MCP server. |
 
 ### Advanced
 

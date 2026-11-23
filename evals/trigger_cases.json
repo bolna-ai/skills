@@ -62,5 +62,13 @@
       "Why did this execution fail?",
       "The webhook didn't arrive after a call"
     ]
+  },
+  {
+    "skill": "raise-support-ticket",
+    "queries": [
+      "Raise a support ticket with Bolna",
+      "Escalate this call failure to the Bolna team",
+      "What's the status of my support ticket?"
+    ]
   }
 ]
