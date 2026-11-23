@@ -15,6 +15,10 @@ metadata:
 
 Most "contact support" requests can be answered without a ticket. File one only when the problem needs the Bolna team, and make the ticket good enough that nobody has to ask for the basics again.
 
+## Checking a ticket the user already has
+
+If the user only asks about a ticket ("what's the status of my ticket?", "did support reply?"), don't start a new one. Call `list_support_tickets`, find the matching ticket (ask which one if several fit), then `get_support_ticket` and report its status (open, in progress or resolved) and the latest reply from the support team. Offer `reply_support_ticket` if they want to add something; if it's resolved but the problem is back, go to step 2.
+
 ## 1. Try to solve it first
 
 | The user says | Do this first |
